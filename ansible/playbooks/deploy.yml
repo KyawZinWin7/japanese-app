@@ -88,7 +88,7 @@
 
     - name: Upload production environment file
       ansible.builtin.copy:
-        src: .env.production
+        src: "{{ playbook_dir }}/../../.env.production"
         dest: "{{ app_dir }}/shared/.env"
         owner: "{{ deploy_user }}"
         group: "{{ deploy_user }}"
@@ -200,3 +200,4 @@
       ansible.builtin.service:
         name: nginx
         state: reloaded
+
