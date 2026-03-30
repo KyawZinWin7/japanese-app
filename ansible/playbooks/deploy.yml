@@ -20,6 +20,16 @@
       - storage/framework/sessions
       - storage/framework/views
       - storage/logs
+    system_packages:
+      - ca-certificates
+      - gnupg
+      - unzip
+      - git
+      - curl
+      - python3-pymysql
+      - nginx
+      - mysql-server
+      - composer
     php_packages:
       - php8.2
       - php8.2-cli
@@ -31,17 +41,23 @@
       - php8.2-sqlite3
       - php8.2-xml
       - php8.2-zip
-      - unzip
-      - git
-      - curl
-      - python3-pymysql
-      - nginx
-      - mysql-server
 
   tasks:
-    - name: Install system packages
+    - name: Install base system packages
       ansible.builtin.apt:
-        name: "{{ php_packages + ['nodejs', 'npm', 'composer'] }}"
+        name: "{{ system_packages + php_packages }}"
+        state: present
+        update_cache: true
+
+    - name: Configure NodeSource repository
+      ansible.builtin.shell: |
+        curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+      args:
+        creates: /etc/apt/sources.list.d/nodesource.list
+
+    - name: Install Node.js from NodeSource
+      ansible.builtin.apt:
+        name: nodejs
         state: present
         update_cache: true
 
@@ -194,7 +210,6 @@
         state: link
         force: true
 
-
     - name: Test Nginx configuration
       ansible.builtin.command: nginx -t
 
@@ -207,4 +222,3 @@
       ansible.builtin.service:
         name: nginx
         state: reloaded
-
