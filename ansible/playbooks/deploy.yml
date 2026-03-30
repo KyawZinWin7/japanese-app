@@ -50,10 +50,10 @@
       args:
         creates: /etc/apt/sources.list.d/nodesource.list
 
-    - name: Install Node.js from NodeSource
+    - name: Install latest Node.js from NodeSource
       ansible.builtin.apt:
         name: nodejs
-        state: present
+        state: latest
         update_cache: true
 
     - name: Ensure web services are enabled and started
@@ -124,6 +124,11 @@
         dest: "{{ release_path }}/storage"
         state: link
         force: true
+
+    - name: Remove node_modules before clean install
+      ansible.builtin.file:
+        path: "{{ release_path }}/node_modules"
+        state: absent
 
     - name: Install Composer dependencies
       ansible.builtin.command:
@@ -200,4 +205,3 @@
       ansible.builtin.service:
         name: nginx
         state: reloaded
-
