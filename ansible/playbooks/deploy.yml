@@ -10,10 +10,7 @@
     app_dir: "{{ app_dir | default('/var/www/html/japanese-app') }}"
     repo_url: "https://github.com/KyawZinWin7/japanese-app.git"
     release_ref: "{{ release_ref | default('main') }}"
-    db_name: "{{ db_name | default('japanese_app') }}"
-    db_user: "{{ db_user | default('japanese_user') }}"
-    db_password: "{{ db_password | default('change-me') }}"
-    mysql_socket: /var/run/mysqld/mysqld.sock
+    run_migrations: "{{ run_migrations | default(false) }}"
     shared_paths:
       - storage/app
       - storage/framework/cache
@@ -26,9 +23,7 @@
       - unzip
       - git
       - curl
-      - python3-pymysql
       - nginx
-      - mysql-server
       - composer
     php_packages:
       - php8.2
@@ -61,32 +56,14 @@
         state: present
         update_cache: true
 
-    - name: Ensure core services are enabled and started
+    - name: Ensure web services are enabled and started
       ansible.builtin.service:
         name: "{{ item }}"
         enabled: true
         state: started
       loop:
-        - mysql
         - php8.2-fpm
         - nginx
-
-    - name: Create application database
-      community.mysql.mysql_db:
-        name: "{{ db_name }}"
-        state: present
-        encoding: utf8mb4
-        collation: utf8mb4_unicode_ci
-        login_unix_socket: "{{ mysql_socket }}"
-
-    - name: Create application database user
-      community.mysql.mysql_user:
-        name: "{{ db_user }}"
-        password: "{{ db_password }}"
-        priv: "{{ db_name }}.*:ALL"
-        host: localhost
-        state: present
-        login_unix_socket: "{{ mysql_socket }}"
 
     - name: Create application base directories
       ansible.builtin.file:
@@ -166,11 +143,12 @@
         chdir: "{{ release_path }}"
       become_user: "{{ deploy_user }}"
 
-    - name: Run database migrations
+    - name: Run database migrations when enabled
       ansible.builtin.command:
         cmd: php artisan migrate --force
         chdir: "{{ release_path }}"
       become_user: "{{ deploy_user }}"
+      when: run_migrations | bool
 
     - name: Cache Laravel bootstrap files
       ansible.builtin.command:

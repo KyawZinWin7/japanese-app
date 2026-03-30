@@ -52,7 +52,4 @@ jobs:
             --extra-vars "deploy_host=${{ secrets.PROD_HOST }}" \
             --extra-vars "deploy_user=${{ secrets.PROD_USER }}" \
             --extra-vars "app_dir=${{ secrets.PROD_APP_DIR }}" \
-            --extra-vars "db_name=${{ secrets.PROD_DB_NAME }}" \
-            --extra-vars "db_user=${{ secrets.PROD_DB_USER }}" \
-            --extra-vars "db_password=${{ secrets.PROD_DB_PASSWORD }}" \
             --extra-vars "release_ref=${{ github.sha }}"
