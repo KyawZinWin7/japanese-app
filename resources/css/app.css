@@ -1,0 +1,200 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Instrument Sans', ui-sans-serif, system-ui,
+        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer base {
+    body {
+        @apply bg-[radial-gradient(circle_at_top,_#f0fdf4,_#f8fafc_35%,_#eef2ff)] text-slate-900 antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        @apply tracking-tight;
+    }
+
+    p {
+        @apply leading-7;
+    }
+
+    input,
+    select,
+    textarea {
+        @apply text-[15px];
+    }
+}
+
+@layer components {
+    .page-shell {
+        @apply mx-auto w-full max-w-6xl rounded-[1.5rem] border border-white/70 bg-white/90 p-4 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.35)] backdrop-blur sm:p-5 md:rounded-[2rem] md:p-8;
+    }
+
+    .auth-shell {
+        @apply min-h-screen px-4 py-10 md:px-6 md:py-16;
+    }
+
+    .auth-card {
+        @apply mx-auto w-full max-w-md rounded-[2rem] border border-white/70 bg-white/95 p-8 shadow-[0_24px_80px_-32px_rgba(15,23,42,0.35)] backdrop-blur md:p-10;
+    }
+
+    .section-card {
+        @apply rounded-3xl border border-slate-200/80 bg-slate-50/80 p-5;
+    }
+
+    .content-card {
+        @apply rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm;
+    }
+
+    .app-eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.32em] text-emerald-700;
+    }
+
+    .app-title {
+        @apply mt-3 text-2xl font-semibold text-slate-950 sm:text-3xl md:text-4xl;
+    }
+
+    .app-subtitle {
+        @apply mt-3 max-w-3xl text-sm leading-6 text-slate-600 sm:text-[15px] sm:leading-7;
+    }
+
+    .app-label {
+        @apply mb-2 block text-sm font-medium text-slate-700;
+    }
+
+    .app-input {
+        @apply w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100;
+    }
+
+    .app-help {
+        @apply mt-2 text-sm text-rose-600;
+    }
+
+    .app-btn {
+        @apply inline-flex items-center justify-center rounded-2xl bg-slate-900 px-3.5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 sm:px-4 sm:py-3;
+    }
+
+    .app-btn-secondary {
+        @apply inline-flex items-center justify-center rounded-2xl bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-700 ring-1 ring-slate-200 transition hover:bg-slate-100 sm:px-4 sm:py-3;
+    }
+
+    .app-btn-accent {
+        @apply inline-flex items-center justify-center rounded-2xl bg-emerald-600 px-3.5 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-500 sm:px-4 sm:py-3;
+    }
+
+    .app-link {
+        @apply text-sm font-medium text-slate-600 transition hover:text-slate-950;
+    }
+
+    .app-status {
+        @apply rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800 ring-1 ring-emerald-100;
+    }
+
+    .app-badge {
+        @apply rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700;
+    }
+
+    .app-empty {
+        @apply rounded-3xl border border-dashed border-slate-200 bg-slate-50/80 p-6 text-slate-600;
+    }
+
+    .app-nav-shell {
+        @apply sticky top-2 z-40 mx-auto mb-3 flex w-full max-w-6xl items-center justify-between gap-3 rounded-[1.5rem] border border-white/80 bg-white/97 px-3 py-3 shadow-[0_18px_50px_-36px_rgba(15,23,42,0.35)] backdrop-blur sm:top-3 sm:mb-4 sm:px-4 md:flex-nowrap md:gap-4 md:rounded-[1.75rem] md:px-5;
+    }
+
+    .app-brand {
+        @apply inline-flex min-w-0 items-center gap-2.5 text-slate-950 sm:gap-3;
+    }
+
+    .app-brand-logo {
+        @apply h-10 w-auto max-w-[9.5rem] object-contain sm:h-11 sm:max-w-[11rem];
+    }
+
+    .app-brand-mark {
+        @apply inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[radial-gradient(circle_at_top,_#fb7185,_#dc2626_48%,_#0f172a)] text-sm font-black tracking-[0.2em] text-white shadow-[0_12px_30px_-18px_rgba(15,23,42,0.6)];
+    }
+
+    .app-brand-text {
+        @apply flex min-w-0 flex-col;
+    }
+
+    .app-brand-name {
+        @apply text-xs font-semibold uppercase tracking-[0.18em] text-slate-950 sm:text-sm sm:tracking-[0.3em];
+    }
+
+    .app-brand-subtitle {
+        @apply hidden text-[10px] uppercase tracking-[0.22em] text-slate-500 sm:block;
+    }
+
+    .app-nav-links {
+        @apply hidden items-center gap-4 lg:flex;
+    }
+
+    .app-nav-link {
+        @apply text-sm font-medium text-slate-600 transition hover:text-slate-950;
+    }
+
+    .app-nav-actions {
+        @apply hidden w-full items-center justify-end gap-2 sm:gap-3 md:w-auto lg:flex;
+    }
+
+    .app-mobile-menu {
+        @apply relative lg:hidden;
+    }
+
+    .app-mobile-menu-button {
+        @apply flex h-10 w-10 cursor-pointer list-none flex-col items-center justify-center gap-1.5 bg-slate-950 text-white shadow-[0_12px_30px_-18px_rgba(15,23,42,0.45)] transition hover:bg-slate-800 sm:h-11 sm:w-11;
+    }
+
+    .app-mobile-menu-button::-webkit-details-marker {
+        display: none;
+    }
+
+    .app-mobile-menu-button[aria-expanded='true'] {
+        @apply bg-slate-800;
+    }
+
+    .app-mobile-menu-button span {
+        @apply block h-0.5 w-4 rounded-full bg-white transition;
+    }
+
+    .app-mobile-menu-button[aria-expanded='true'] span:nth-child(1) {
+        transform: translateY(0.5rem) rotate(45deg);
+    }
+
+    .app-mobile-menu-button[aria-expanded='true'] span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .app-mobile-menu-button[aria-expanded='true'] span:nth-child(3) {
+        transform: translateY(-0.5rem) rotate(-45deg);
+    }
+
+    .app-mobile-menu-panel {
+        @apply absolute right-0 top-[calc(100%+0.75rem)] z-50 min-w-[14rem] rounded-[1.5rem] border border-slate-900 bg-slate-950 p-3 text-white shadow-[0_24px_60px_-32px_rgba(15,23,42,0.55)];
+    }
+
+    .app-mobile-menu-links {
+        @apply flex flex-col gap-1;
+    }
+
+    .app-mobile-menu-link {
+        @apply block rounded-2xl px-3 py-2 text-sm font-medium text-white transition hover:bg-white/10;
+    }
+
+    .app-mobile-menu-footer {
+        @apply mt-3 border-t border-white/10 pt-3;
+    }
+
+    .app-mobile-menu-logout {
+        @apply w-full rounded-xl px-3 py-2 text-xs;
+    }
+}
