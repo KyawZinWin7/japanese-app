@@ -11,6 +11,8 @@
     repo_url: "https://github.com/KyawZinWin7/japanese-app.git"
     release_ref: "{{ release_ref | default('main') }}"
     run_migrations: "{{ run_migrations | default(false) }}"
+    node_version: "22.12.0"
+    node_bin_dir: /usr/local/bin
     shared_paths:
       - storage/app
       - storage/framework/cache
@@ -44,17 +46,36 @@
         state: present
         update_cache: true
 
-    - name: Configure NodeSource repository
-      ansible.builtin.shell: |
-        curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
-      args:
-        creates: /etc/apt/sources.list.d/nodesource.list
 
-    - name: Install latest Node.js from NodeSource
-      ansible.builtin.apt:
-        name: nodejs
-        state: latest
-        update_cache: true
+    - name: Install Node version manager n
+      ansible.builtin.command:
+        cmd: /usr/bin/npm install -g n
+      environment:
+        PATH: "/usr/bin:/usr/local/bin:{{ ansible_env.PATH }}"
+
+    - name: Force install target Node.js version
+      ansible.builtin.command:
+        cmd: "{{ node_bin_dir }}/n {{ node_version }}"
+      environment:
+        PATH: "/usr/bin:/usr/local/bin:{{ ansible_env.PATH }}"
+
+    - name: Verify active Node.js version
+      ansible.builtin.command:
+        cmd: "{{ node_bin_dir }}/node --version"
+      register: node_version_check
+      changed_when: false
+
+    - name: Verify active npm version
+      ansible.builtin.command:
+        cmd: "{{ node_bin_dir }}/npm --version"
+      register: npm_version_check
+      changed_when: false
+
+    - name: Show Node.js version
+      ansible.builtin.debug:
+        msg:
+          - "Node: {{ node_version_check.stdout }}"
+          - "NPM: {{ npm_version_check.stdout }}"
 
     - name: Ensure web services are enabled and started
       ansible.builtin.service:
@@ -138,15 +159,19 @@
 
     - name: Install Node dependencies
       ansible.builtin.command:
-        cmd: npm ci
+        cmd: "{{ node_bin_dir }}/npm ci"
         chdir: "{{ release_path }}"
       become_user: "{{ deploy_user }}"
+      environment:
+        PATH: "{{ node_bin_dir }}:/usr/bin:{{ ansible_env.PATH }}"
 
     - name: Build frontend assets
       ansible.builtin.command:
-        cmd: npm run build
+        cmd: "{{ node_bin_dir }}/npm run build"
         chdir: "{{ release_path }}"
       become_user: "{{ deploy_user }}"
+      environment:
+        PATH: "{{ node_bin_dir }}:/usr/bin:{{ ansible_env.PATH }}"
 
     - name: Run database migrations when enabled
       ansible.builtin.command:
@@ -205,3 +230,4 @@
       ansible.builtin.service:
         name: nginx
         state: reloaded
+
