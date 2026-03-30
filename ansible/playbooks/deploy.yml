@@ -5,7 +5,6 @@
   vars:
     deploy_host: "{{ deploy_host | default(ansible_host) }}"
     deploy_user: "{{ deploy_user | default(ansible_user) }}"
-    server_name: "{{ server_name | default(deploy_host) }}"
     app_name: japanese-app
     app_dir: "{{ app_dir | default('/var/www/html/japanese-app') }}"
     repo_url: "https://github.com/KyawZinWin7/japanese-app.git"

@@ -1,6 +1,6 @@
 server {
     listen 8082;
-    server_name {{ server_name }};
+    server_name {{ deploy_host }};
     root {{ app_dir }}/current/public;
 
     index index.php index.html;
@@ -28,5 +28,3 @@ server {
         deny all;
     }
 }
-
-
