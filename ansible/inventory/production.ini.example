@@ -1,0 +1,2 @@
+[app]
+production ansible_host=3.113.76.120 ansible_user=ubuntu

@@ -1,0 +1,58 @@
+name: Deploy Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Ansible
+        run: |
+          pip install ansible
+          ansible-galaxy collection install -r ansible/requirements.yml
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PROD_SSH_PRIVATE_KEY }}
+
+      - name: Add production host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${{ secrets.PROD_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Write deploy environment file
+        run: printf "%s" "${{ secrets.PROD_ENV_FILE }}" > .env.production
+
+      - name: Run Ansible deploy
+        env:
+          ANSIBLE_HOST_KEY_CHECKING: "True"
+        run: |
+          ansible-playbook ansible/playbooks/deploy.yml \
+            -i ansible/inventory/production.ini \
+            --extra-vars "deploy_host=${{ secrets.PROD_HOST }}" \
+            --extra-vars "deploy_user=${{ secrets.PROD_USER }}" \
+            --extra-vars "app_dir=${{ secrets.PROD_APP_DIR }}" \
+            --extra-vars "db_name=${{ secrets.PROD_DB_NAME }}" \
+            --extra-vars "db_user=${{ secrets.PROD_DB_USER }}" \
+            --extra-vars "db_password=${{ secrets.PROD_DB_PASSWORD }}" \
+            --extra-vars "release_ref=${{ github.sha }}"
