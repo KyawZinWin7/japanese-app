@@ -10,7 +10,6 @@
     app_dir: "{{ app_dir | default('/var/www/html/japanese-app') }}"
     repo_url: "https://github.com/KyawZinWin7/japanese-app.git"
     release_ref: "{{ release_ref | default('main') }}"
-    run_migrations: "{{ run_migrations | default(false) }}"
     node_version: "22.12.0"
     shared_paths:
       - storage/app
@@ -175,7 +174,7 @@
         cmd: php artisan migrate --force
         chdir: "{{ release_path }}"
       become_user: "{{ deploy_user }}"
-      when: run_migrations | bool
+      when: (run_migrations | default(false)) | bool
 
     - name: Cache Laravel bootstrap files
       ansible.builtin.command:
@@ -227,3 +226,4 @@
       ansible.builtin.service:
         name: nginx
         state: reloaded
+
