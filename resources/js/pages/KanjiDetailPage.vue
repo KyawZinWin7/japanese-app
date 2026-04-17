@@ -42,11 +42,17 @@
                         <div class="grid gap-2.5 content-start sm:gap-3">
                             <section class="section-card min-h-[5rem] !rounded-[1.05rem] !p-3 sm:min-h-[6.5rem] sm:!rounded-[1.3rem] sm:!p-4">
                                 <p class="text-sm font-semibold uppercase tracking-[0.26em] text-slate-500">{{ labels.onyomi }}</p>
-                                <p class="mt-1.5 text-lg text-slate-900 sm:mt-2 sm:text-xl">{{ item.onyomi || '-' }}</p>
+                                <div v-if="parsedOnyomi.length" class="mt-1.5 space-y-1.5 sm:mt-2">
+                                    <p v-for="reading in parsedOnyomi" :key="`on-${reading}`" class="text-lg text-slate-900 sm:text-xl">{{ reading }}</p>
+                                </div>
+                                <p v-else class="mt-1.5 text-lg text-slate-900 sm:mt-2 sm:text-xl">-</p>
                             </section>
                             <section class="section-card min-h-[5rem] !rounded-[1.05rem] !p-3 sm:min-h-[6.5rem] sm:!rounded-[1.3rem] sm:!p-4">
                                 <p class="text-sm font-semibold uppercase tracking-[0.26em] text-slate-500">{{ labels.kunyomi }}</p>
-                                <p class="mt-1.5 text-lg text-slate-900 sm:mt-2 sm:text-xl">{{ item.kunyomi || '-' }}</p>
+                                <div v-if="parsedKunyomi.length" class="mt-1.5 space-y-1.5 sm:mt-2">
+                                    <p v-for="reading in parsedKunyomi" :key="`kun-${reading}`" class="text-lg text-slate-900 sm:text-xl">{{ reading }}</p>
+                                </div>
+                                <p v-else class="mt-1.5 text-lg text-slate-900 sm:mt-2 sm:text-xl">-</p>
                             </section>
                             <section class="section-card !rounded-[1.05rem] !p-3 sm:!rounded-[1.3rem] sm:!p-4">
                                 <p class="text-sm font-semibold uppercase tracking-[0.26em] text-slate-500">{{ labels.exampleSentence }}</p>
@@ -132,8 +138,8 @@ const copy = {
         backToList: 'စာရင်းသို့ ပြန်မည်',
         chapter: 'အခန်း {value}',
         currentCard: 'လက်ရှိ Card',
-        onyomi: 'Onyomi',
-        kunyomi: 'Kunyomi',
+        onyomi: 'အွန်ယိုမိ',
+        kunyomi: 'ခုန်ယိုမိ',
         exampleSentence: 'ဥပမာဝါကျ',
         translation: 'ဘာသာပြန်',
         noSentence: 'ဥပမာဝါကျ မရှိသေးပါ။',
@@ -146,8 +152,21 @@ const copy = {
 
 const locale = computed(() => getLocale());
 const labels = computed(() => copy[locale.value] ?? copy.en);
+const parsedOnyomi = computed(() => splitReadings(props.item.onyomi));
+const parsedKunyomi = computed(() => splitReadings(props.item.kunyomi));
 
 function chapterLabel(value) {
     return labels.value.chapter.replace('{value}', String(value));
+}
+
+function splitReadings(value) {
+    if (!value) {
+        return [];
+    }
+
+    return String(value)
+        .split(/[\n,၊，]+/)
+        .map((item) => item.trim())
+        .filter(Boolean);
 }
 </script>

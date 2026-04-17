@@ -58,11 +58,17 @@
                         <div v-if="showBack" class="grid content-start gap-2.5 sm:gap-3">
                             <section class="section-card min-h-[5.25rem] !rounded-[1.1rem] !p-3 sm:min-h-[6.5rem] sm:!rounded-[1.4rem] sm:!p-4">
                                 <p class="hidden text-sm font-semibold uppercase tracking-[0.26em] text-slate-500 md:block">{{ t('flashcardStudy.onyomi') }}</p>
-                                <p class="text-xl text-slate-900 md:mt-2">{{ currentCard.onyomi || '-' }}</p>
+                                <div v-if="parsedOnyomi.length" class="space-y-1 md:mt-2">
+                                    <p v-for="reading in parsedOnyomi" :key="`flash-on-${reading}`" class="text-xl text-slate-900">{{ reading }}</p>
+                                </div>
+                                <p v-else class="text-xl text-slate-900 md:mt-2">-</p>
                             </section>
                             <section class="section-card min-h-[5.25rem] !rounded-[1.1rem] !p-3 sm:min-h-[6.5rem] sm:!rounded-[1.4rem] sm:!p-4">
                                 <p class="hidden text-sm font-semibold uppercase tracking-[0.26em] text-slate-500 md:block">{{ t('flashcardStudy.kunyomi') }}</p>
-                                <p class="text-xl text-slate-900 md:mt-2">{{ currentCard.kunyomi || '-' }}</p>
+                                <div v-if="parsedKunyomi.length" class="space-y-1 md:mt-2">
+                                    <p v-for="reading in parsedKunyomi" :key="`flash-kun-${reading}`" class="text-xl text-slate-900">{{ reading }}</p>
+                                </div>
+                                <p v-else class="text-xl text-slate-900 md:mt-2">-</p>
                             </section>
                         </div>
 
@@ -115,6 +121,8 @@ const studyStage = ref(null);
 
 const currentCard = computed(() => orderedCards.value[activeIndex.value] ?? {});
 const currentRelatedWords = computed(() => currentCard.value.related_words ?? []);
+const parsedOnyomi = computed(() => splitReadings(currentCard.value.onyomi));
+const parsedKunyomi = computed(() => splitReadings(currentCard.value.kunyomi));
 const selectedSourceName = computed(() => (props.sources ?? []).find((source) => source.slug === props.filters.source)?.name ?? props.filters.source);
 const selectedChapterLabel = computed(() => {
     if (!props.filters.chapter) {
@@ -172,5 +180,16 @@ async function scrollToStudyStage() {
         behavior: 'smooth',
         block: 'start',
     });
+}
+
+function splitReadings(value) {
+    if (!value) {
+        return [];
+    }
+
+    return String(value)
+        .split(/[\n,၊，]+/)
+        .map((item) => item.trim())
+        .filter(Boolean);
 }
 </script>

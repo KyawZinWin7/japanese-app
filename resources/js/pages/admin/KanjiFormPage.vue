@@ -17,6 +17,7 @@
         <KanjiForm
             :action="routes.action"
             :csrf-token="csrfToken"
+            :existing-kanji="existingKanji"
             :errors="errors"
             :index-url="routes.index"
             :item="item"
@@ -36,6 +37,7 @@ import KanjiForm from '../../components/kanji/KanjiForm.vue';
 defineProps({
     csrfToken: { type: String, required: true },
     errors: { type: Object, required: true },
+    existingKanji: { type: Array, default: () => [] },
     layout: { type: Object, required: true },
     item: { type: Object, required: true },
     levels: { type: Array, required: true },

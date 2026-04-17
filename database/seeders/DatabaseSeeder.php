@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             JlptLevelSeeder::class,
             SourceSeeder::class,
+            N5Chapter1Seeder::class,
         ]);
 
         User::updateOrCreate(

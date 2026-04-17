@@ -52,7 +52,7 @@ class AdminLayoutData
                     'active' => $active === 'kanji',
                 ],
                 [
-                    'label' => '1,2,3,4 Example Words',
+                    'label' => 'Example Words',
                     'href' => route('admin.example-words.index'),
                     'active' => $active === 'example-words',
                 ],
@@ -64,4 +64,5 @@ class AdminLayoutData
         ];
     }
 }
+
 
