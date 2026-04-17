@@ -51,5 +51,6 @@ jobs:
             -i ansible/inventory/production.ini \
             --extra-vars "deploy_host=${{ secrets.PROD_HOST }}" \
             --extra-vars "deploy_user=${{ secrets.PROD_USER }}" \
+            --extra-vars "site_domain=${{ secrets.PROD_DOMAIN }}" \
             --extra-vars "app_dir=${{ secrets.PROD_APP_DIR }}" \
             --extra-vars "release_ref=${{ github.sha }}"
