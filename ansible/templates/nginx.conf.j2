@@ -13,6 +13,10 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
+    location ^~ /.well-known/acme-challenge/ {
+        allow all;
+    }
+
     access_log /var/log/nginx/{{ app_name }}_access.log;
     error_log /var/log/nginx/{{ app_name }}_error.log;
 
@@ -27,4 +31,46 @@ server {
     location ~ /\.(?!well-known).* {
         deny all;
     }
+
+{% if ssl_enabled | default(false) %}
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name {{ site_domain }};
+    root {{ app_dir }}/current/public;
+
+    index index.php index.html;
+    charset utf-8;
+
+    ssl_certificate /etc/letsencrypt/live/{{ site_domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ site_domain }}/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    access_log /var/log/nginx/{{ app_name }}_ssl_access.log;
+    error_log /var/log/nginx/{{ app_name }}_ssl_error.log;
+
+    client_max_body_size 20M;
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    }
+
+    location ~ /\.(?!well-known).* {
+        deny all;
+    }
+{% endif %}
 }

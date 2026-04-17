@@ -5,6 +5,8 @@
   vars:
     deploy_host: "{{ deploy_host | default(ansible_host) }}"
     deploy_user: "{{ deploy_user | default(ansible_user) }}"
+    site_domain: "{{ site_domain | default(deploy_host) }}"
+    letsencrypt_email: "{{ letsencrypt_email | default('') }}"
     app_name: japanese-app
     app_dir: "{{ app_dir | default('/var/www/html/japanese-app') }}"
     repo_url: "https://github.com/KyawZinWin7/japanese-app.git"
@@ -23,6 +25,8 @@
       - git
       - curl
       - nginx
+      - certbot
+      - python3-certbot-nginx
       - composer
     php_packages:
       - php8.2
@@ -205,6 +209,8 @@
         src: ../templates/nginx.conf.j2
         dest: /etc/nginx/sites-available/{{ app_name }}.conf
         mode: "0644"
+      vars:
+        ssl_enabled: false
 
     - name: Enable Nginx site
       ansible.builtin.file:
@@ -214,6 +220,40 @@
         force: true
 
     - name: Test Nginx configuration
+      ansible.builtin.command: nginx -t
+
+    - name: Reload Nginx before issuing certificate
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+
+    - name: Ensure Let's Encrypt email is provided
+      ansible.builtin.assert:
+        that:
+          - letsencrypt_email | length > 0
+        fail_msg: "Provide letsencrypt_email to enable HTTPS certificate provisioning."
+
+    - name: Ensure Let's Encrypt certificate exists
+      ansible.builtin.command:
+        cmd: >-
+          certbot certonly --webroot -w {{ app_dir }}/current/public
+          -d {{ site_domain }}
+          --email {{ letsencrypt_email }}
+          --agree-tos
+          --non-interactive
+          --keep-until-expiring
+      register: certbot_result
+      changed_when: "'Certificate not yet due for renewal' not in certbot_result.stdout"
+
+    - name: Install Nginx site configuration with HTTPS
+      ansible.builtin.template:
+        src: ../templates/nginx.conf.j2
+        dest: /etc/nginx/sites-available/{{ app_name }}.conf
+        mode: "0644"
+      vars:
+        ssl_enabled: true
+
+    - name: Test Nginx configuration with HTTPS
       ansible.builtin.command: nginx -t
 
     - name: Reload PHP-FPM
