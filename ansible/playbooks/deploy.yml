@@ -111,8 +111,8 @@
         src: "{{ playbook_dir }}/../../.env.production"
         dest: "{{ app_dir }}/shared/.env"
         owner: "{{ deploy_user }}"
-        group: "{{ deploy_user }}"
-        mode: "0600"
+        group: www-data
+        mode: "0640"
 
     - name: Define release path
       ansible.builtin.set_fact:
