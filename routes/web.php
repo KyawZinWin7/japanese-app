@@ -142,6 +142,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/kanji/{kanji}/edit', [\App\Http\Controllers\Admin\KanjiController::class, 'edit'])->name('kanji.edit');
         Route::put('/kanji/{kanji}', [\App\Http\Controllers\Admin\KanjiController::class, 'update'])->name('kanji.update');
         Route::delete('/kanji/{kanji}', [\App\Http\Controllers\Admin\KanjiController::class, 'destroy'])->name('kanji.destroy');
+        Route::get('/kanji-quizzes', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'index'])->name('kanji-quizzes.index');
+        Route::get('/kanji-quizzes/create', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'create'])->name('kanji-quizzes.create');
+        Route::post('/kanji-quizzes', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'store'])->name('kanji-quizzes.store');
+        Route::get('/kanji-quizzes/{quiz}/edit', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'edit'])->name('kanji-quizzes.edit');
+        Route::put('/kanji-quizzes/{quiz}', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'update'])->name('kanji-quizzes.update');
+        Route::delete('/kanji-quizzes/{quiz}', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'destroy'])->name('kanji-quizzes.destroy');
         Route::get('/example-words', [\App\Http\Controllers\Admin\ExampleWordController::class, 'index'])->name('example-words.index');
         Route::get('/example-words/create', [\App\Http\Controllers\Admin\ExampleWordController::class, 'create'])->name('example-words.create');
         Route::post('/example-words', [\App\Http\Controllers\Admin\ExampleWordController::class, 'store'])->name('example-words.store');

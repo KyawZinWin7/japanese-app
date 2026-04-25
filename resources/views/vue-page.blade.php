@@ -34,13 +34,12 @@
             @endphp
         @endauth
 
-        <div class="mx-auto mb-3 flex w-full max-w-6xl justify-end sm:mb-4">
+        <div class="mx-auto mb-3 hidden w-full max-w-6xl justify-end sm:flex sm:mb-4">
             <form action="{{ route('locale.update') }}" method="POST" class="inline-flex items-center gap-1 rounded-2xl border border-white/70 bg-white/90 p-1 shadow-sm backdrop-blur">
                 @csrf
                 <input type="hidden" name="redirect_to" value="{{ url()->full() }}">
-                <span class="px-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{{ __('frontend.locale.label') }}</span>
-                <button type="submit" name="locale" value="en" class="rounded-xl px-3 py-2 text-sm font-semibold transition {{ app()->getLocale() === 'en' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100' }}">{{ __('frontend.locale.english') }}</button>
-                <button type="submit" name="locale" value="my" class="rounded-xl px-3 py-2 text-sm font-semibold transition {{ app()->getLocale() === 'my' ? 'bg-emerald-600 text-white' : 'text-slate-700 hover:bg-slate-100' }}">{{ __('frontend.locale.myanmar') }}</button>
+                <button type="submit" name="locale" value="en" class="rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition sm:text-sm {{ app()->getLocale() === 'en' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-100' }}">ENG</button>
+                <button type="submit" name="locale" value="my" class="rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition sm:text-sm {{ app()->getLocale() === 'my' ? 'bg-emerald-600 text-white' : 'text-slate-700 hover:bg-slate-100' }}">MYA</button>
             </form>
         </div>
 
@@ -97,6 +96,7 @@
                     </button>
 
                     <div id="mobile-nav-panel" class="app-mobile-menu-panel" data-mobile-menu-panel hidden>
+                        <div class="app-mobile-menu-section-title">Navigate</div>
                         <nav class="app-mobile-menu-links" aria-label="Mobile Primary">
                             <a href="{{ route('study.home') }}" class="app-mobile-menu-link">{{ __('frontend.nav.study') }}</a>
                             <a href="{{ route('lessons.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.lessons') }}</a>
@@ -106,10 +106,21 @@
                         </nav>
 
                         <div class="app-mobile-menu-footer">
+                            <div class="app-mobile-menu-section-title">Account</div>
                             <div class="app-mobile-menu-links">
                                 <a href="{{ $profileUrl }}" class="app-mobile-menu-link">{{ __('frontend.nav.profile') }}</a>
                                 <a href="{{ $changePasswordUrl }}" class="app-mobile-menu-link">{{ __('frontend.nav.changePassword') }}</a>
                             </div>
+                        </div>
+
+                        <div class="app-mobile-menu-section">
+                            <div class="app-mobile-menu-section-title">Language</div>
+                            <form action="{{ route('locale.update') }}" method="POST" class="app-mobile-language-toggle">
+                                @csrf
+                                <input type="hidden" name="redirect_to" value="{{ url()->full() }}">
+                                <button type="submit" name="locale" value="en" class="rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition {{ app()->getLocale() === 'en' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-white' }}">ENG</button>
+                                <button type="submit" name="locale" value="my" class="rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition {{ app()->getLocale() === 'my' ? 'bg-emerald-600 text-white' : 'text-slate-700 hover:bg-white' }}">MYA</button>
+                            </form>
                         </div>
 
                         <div class="app-mobile-menu-section">

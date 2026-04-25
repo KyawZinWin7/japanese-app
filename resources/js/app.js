@@ -35,6 +35,8 @@ import KanjiFlashcardsPage from './pages/KanjiFlashcardsPage.vue';
 import ExampleWordFlashcardsPage from './pages/ExampleWordFlashcardsPage.vue';
 import KanjiAdminPage from './pages/admin/KanjiAdminPage.vue';
 import KanjiFormPage from './pages/admin/KanjiFormPage.vue';
+import KanjiQuizzesAdminPage from './pages/admin/KanjiQuizzesAdminPage.vue';
+import KanjiQuizFormPage from './pages/admin/KanjiQuizFormPage.vue';
 import ExampleWordsAdminPage from './pages/admin/ExampleWordsAdminPage.vue';
 import ExampleWordFormPage from './pages/admin/ExampleWordFormPage.vue';
 import KanjiQuizzesPage from './pages/KanjiQuizzesPage.vue';
@@ -78,6 +80,8 @@ const pages = {
     'example-word-flashcards': ExampleWordFlashcardsPage,
     'admin-kanji': KanjiAdminPage,
     'admin-kanji-form': KanjiFormPage,
+    'admin-kanji-quizzes': KanjiQuizzesAdminPage,
+    'admin-kanji-quiz-form': KanjiQuizFormPage,
     'admin-example-words': ExampleWordsAdminPage,
     'admin-example-word-form': ExampleWordFormPage,
     'kanji-quizzes': KanjiQuizzesPage,

@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             JlptLevelSeeder::class,
             SourceSeeder::class,
             N5Chapter1Seeder::class,
+            N5KanjiQuizSeeder::class,
         ]);
 
         User::updateOrCreate(

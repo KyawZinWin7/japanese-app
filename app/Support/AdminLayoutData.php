@@ -52,6 +52,11 @@ class AdminLayoutData
                     'active' => $active === 'kanji',
                 ],
                 [
+                    'label' => 'Kanji Quizzes',
+                    'href' => route('admin.kanji-quizzes.index'),
+                    'active' => $active === 'kanji-quizzes',
+                ],
+                [
                     'label' => 'Example Words',
                     'href' => route('admin.example-words.index'),
                     'active' => $active === 'example-words',
