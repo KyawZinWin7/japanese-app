@@ -23,7 +23,10 @@
                         <button
                             type="button"
                             class="rounded-[1.3rem] border border-emerald-100 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.92),_rgba(236,253,245,0.88))] px-4 py-4 text-left shadow-[0_18px_40px_-34px_rgba(15,23,42,0.28)] transition hover:border-emerald-200 sm:rounded-[1.6rem] sm:px-6 sm:py-6"
-                            @click="showBack = !showBack"
+                            @click="handleCardClick"
+                            @touchstart="handleTouchStart"
+                            @touchend="handleTouchEnd"
+                            @touchcancel="resetTouchState"
                         >
                             <template v-if="!showBack">
                                 <div class="mt-1 flex min-h-[8.5rem] flex-col items-center justify-center text-center sm:mt-4 sm:min-h-[13rem]">
@@ -84,11 +87,11 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-2 rounded-[1.1rem] border border-slate-200 bg-white/90 px-2.5 py-2.5 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.28)] sm:gap-3 sm:rounded-[1.4rem] sm:px-4 sm:py-3">
-                    <button type="button" class="app-btn-secondary grow sm:grow-0" @click="previousCard" :disabled="activeIndex === 0">{{ t('common.prev') }}</button>
+                    <button type="button" class="app-btn-secondary hidden sm:inline-flex sm:grow-0" @click="previousCard" :disabled="activeIndex === 0">{{ t('common.prev') }}</button>
                     <button type="button" class="app-btn grow sm:grow-0" @click="showBack = !showBack">
                         {{ showBack ? t('flashcardStudy.showFront') : t('flashcardStudy.revealAnswer') }}
                     </button>
-                    <button type="button" class="app-btn-accent grow sm:grow-0" @click="nextCard" :disabled="activeIndex === orderedCards.length - 1">{{ t('common.next') }}</button>
+                    <button type="button" class="app-btn-accent hidden sm:inline-flex sm:grow-0" @click="nextCard" :disabled="activeIndex === orderedCards.length - 1">{{ t('common.next') }}</button>
                     <button type="button" class="app-btn-secondary grow sm:grow-0" @click="shuffleCards">{{ t('flashcardStudy.shuffle') }}</button>
                     <a :href="currentCard.detailUrl" class="app-link w-full text-center sm:w-auto">{{ t('flashcardStudy.openDetailPage') }}</a>
                 </div>
@@ -100,8 +103,9 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { t } from '../frontendI18n';
+import { saveStudyResume, trackStudyHistory } from '../studyHistory';
 
 const props = defineProps({
     cards: { type: Array, required: true },
@@ -109,6 +113,7 @@ const props = defineProps({
     levels: { type: Array, required: true },
     routes: { type: Object, required: true },
     sources: { type: Array, default: () => [] },
+    studyState: { type: Object, default: () => ({}) },
     viewer: { type: Object, required: true },
 });
 
@@ -118,6 +123,9 @@ const showBack = ref(false);
 const activeRelatedIndex = ref(0);
 const showRelatedBack = ref(false);
 const studyStage = ref(null);
+const touchStartX = ref(0);
+const touchStartY = ref(0);
+const suppressTap = ref(false);
 
 const currentCard = computed(() => orderedCards.value[activeIndex.value] ?? {});
 const currentRelatedWords = computed(() => currentCard.value.related_words ?? []);
@@ -150,6 +158,23 @@ watch(currentRelatedWords, (words) => {
     }
 });
 
+watch(activeIndex, syncStudyProgress);
+watch(showBack, syncStudyProgress);
+
+onMounted(() => {
+    restoreStudyProgress();
+    syncStudyProgress();
+});
+
+function handleCardClick() {
+    if (suppressTap.value) {
+        suppressTap.value = false;
+        return;
+    }
+
+    showBack.value = !showBack.value;
+}
+
 function previousCard() {
     if (activeIndex.value > 0) {
         activeIndex.value -= 1;
@@ -171,6 +196,75 @@ function shuffleCards() {
     activeIndex.value = 0;
     showBack.value = false;
     scrollToStudyStage();
+}
+
+function handleTouchStart(event) {
+    const touch = event.changedTouches?.[0];
+
+    if (!touch) {
+        return;
+    }
+
+    touchStartX.value = touch.clientX;
+    touchStartY.value = touch.clientY;
+    suppressTap.value = false;
+}
+
+function handleTouchEnd(event) {
+    const touch = event.changedTouches?.[0];
+
+    if (!touch) {
+        return;
+    }
+
+    const deltaX = touch.clientX - touchStartX.value;
+    const deltaY = touch.clientY - touchStartY.value;
+
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) <= Math.abs(deltaY)) {
+        return;
+    }
+
+    suppressTap.value = true;
+
+    if (deltaX < 0) {
+        nextCard();
+        return;
+    }
+
+    previousCard();
+}
+
+function resetTouchState() {
+    touchStartX.value = 0;
+    touchStartY.value = 0;
+    suppressTap.value = false;
+}
+
+function restoreStudyProgress() {
+    const savedIndex = Number(props.studyState?.activeIndex ?? 0);
+
+    if (Number.isInteger(savedIndex) && savedIndex >= 0 && savedIndex < orderedCards.value.length) {
+        activeIndex.value = savedIndex;
+    }
+
+    showBack.value = Boolean(props.studyState?.showBack);
+}
+
+function syncStudyProgress() {
+    const entry = {
+        id: `kanji-flashcards:${window.location.pathname}${window.location.search}`,
+        href: window.location.href,
+        title: t('study.kanji'),
+        subtitle: selectedLabel.value || t('study.flashcards'),
+        progressLabel: `${activeIndex.value + 1} / ${orderedCards.value.length}`,
+        state: {
+            activeIndex: activeIndex.value,
+            showBack: showBack.value,
+        },
+    };
+
+    trackStudyHistory(entry);
+    saveStudyResume(entry);
 }
 
 async function scrollToStudyStage() {

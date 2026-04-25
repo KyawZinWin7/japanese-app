@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\PendingApprovalController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\DashboardController;
@@ -12,6 +13,8 @@ use App\Http\Controllers\KanjiController;
 use App\Http\Controllers\KanjiQuizController;
 use App\Http\Controllers\Learner\StudyHomeController;
 use App\Http\Controllers\Learner\FlashcardLauncherController;
+use App\Http\Controllers\Learner\ProfileController;
+use App\Http\Controllers\Learner\StudyHistoryController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\VocabularyController;
@@ -65,10 +68,14 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+    Route::get('/password', [PasswordController::class, 'edit'])->name('password.edit');
+    Route::post('/password', [PasswordController::class, 'update'])->name('password.update');
+    Route::get('/profile', ProfileController::class)->name('profile.show');
     Route::get('/pending-approval', PendingApprovalController::class)->name('approval.pending');
 
     Route::middleware('approved')->group(function () {
         Route::get('/study', StudyHomeController::class)->name('study.home');
+        Route::post('/study-history/sync', [StudyHistoryController::class, 'store'])->name('study-history.sync');
         Route::get('/flashcards', FlashcardLauncherController::class)->name('flashcards.index');
         Route::get('/levels', [JlptLevelController::class, 'index'])->name('levels.index');
         Route::get('/lessons', [LessonController::class, 'index'])->name('lessons.index');

@@ -2,7 +2,9 @@ import './bootstrap';
 import { createApp, h } from 'vue';
 import LoginPage from './pages/auth/LoginPage.vue';
 import RegisterPage from './pages/auth/RegisterPage.vue';
+import ChangePasswordPage from './pages/auth/ChangePasswordPage.vue';
 import HomePage from './pages/HomePage.vue';
+import ProfilePage from './pages/ProfilePage.vue';
 import DashboardPage from './pages/DashboardPage.vue';
 import StudyHomePage from './pages/StudyHomePage.vue';
 import FlashcardsLauncherPage from './pages/FlashcardsLauncherPage.vue';
@@ -44,6 +46,8 @@ const pages = {
     home: HomePage,
     login: LoginPage,
     register: RegisterPage,
+    profile: ProfilePage,
+    'change-password': ChangePasswordPage,
     dashboard: DashboardPage,
     'study-home': StudyHomePage,
     'flashcards-launcher': FlashcardsLauncherPage,

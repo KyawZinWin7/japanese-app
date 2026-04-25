@@ -6,6 +6,7 @@ use App\Models\JlptLevel;
 use App\Models\Kanji;
 use App\Models\Source;
 use App\Services\ContentSourceService;
+use App\Support\StudyHistoryKey;
 use App\Support\StudyAccess;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -266,6 +267,9 @@ class KanjiController extends Controller
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'sources' => ContentSourceService::optionsForType(Source::CONTENT_TYPE_KANJI, $levelIds),
                 'cards' => $cards,
+                'studyState' => $request->user()->studyHistoryEntries()
+                    ->where('entry_key', StudyHistoryKey::fromPath($request, 'kanji-flashcards'))
+                    ->first()?->state ?? [],
                 'routes' => [
                     'dashboard' => route('study.home'),
                     'index' => route('kanji-flashcards.index'),

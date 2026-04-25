@@ -19,6 +19,21 @@
             ];
         @endphp
 
+        @auth
+            @php
+                $navHomeUrl = auth()->user()->is_admin ? route('admin.dashboard') : route('study.home');
+                $profileUrl = route('profile.show');
+                $changePasswordUrl = route('password.edit');
+                $userName = auth()->user()->name;
+                $nameParts = preg_split('/\s+/', trim($userName)) ?: [];
+                $userInitials = collect($nameParts)
+                    ->filter()
+                    ->take(2)
+                    ->map(fn (string $part) => mb_strtoupper(mb_substr($part, 0, 1)))
+                    ->implode('');
+            @endphp
+        @endauth
+
         <div class="mx-auto mb-3 flex w-full max-w-6xl justify-end sm:mb-4">
             <form action="{{ route('locale.update') }}" method="POST" class="inline-flex items-center gap-1 rounded-2xl border border-white/70 bg-white/90 p-1 shadow-sm backdrop-blur">
                 @csrf
@@ -31,7 +46,7 @@
 
         @auth
             <header class="app-nav-shell">
-                <a href="{{ auth()->user()->is_admin ? route('admin.dashboard') : route('study.home') }}" class="app-brand">
+                <a href="{{ $navHomeUrl }}" class="app-brand">
                     <img src="{{ asset('images/kmm.png') }}" alt="KMM JAPANESE logo" class="app-brand-logo">
                     <span class="app-brand-text">
                         <span class="app-brand-name">KMM JAPANESE</span>
@@ -41,7 +56,6 @@
 
                 <nav class="app-nav-links" aria-label="Primary">
                     <a href="{{ route('study.home') }}" class="app-nav-link">{{ __('frontend.nav.study') }}</a>
-                    <a href="{{ route('levels.index') }}" class="app-nav-link">{{ __('frontend.nav.levels') }}</a>
                     <a href="{{ route('lessons.index') }}" class="app-nav-link">{{ __('frontend.nav.lessons') }}</a>
                     <a href="{{ route('vocabulary.index') }}" class="app-nav-link">{{ __('frontend.nav.vocabulary') }}</a>
                     <a href="{{ route('kanji.index') }}" class="app-nav-link">{{ __('frontend.nav.kanji') }}</a>
@@ -50,10 +64,29 @@
 
                 <div class="app-nav-actions">
                     <a href="{{ route('study.home') }}" class="app-btn-secondary lg:hidden">{{ __('frontend.nav.study') }}</a>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="app-btn-secondary">{{ __('frontend.nav.logout') }}</button>
-                    </form>
+                    <div class="app-user-menu">
+                        <button
+                            type="button"
+                            class="app-user-menu-button"
+                            aria-label="{{ __('frontend.nav.openUserMenu') }}"
+                            aria-expanded="false"
+                            aria-controls="user-menu-panel"
+                            data-user-menu-toggle
+                        >
+                            <span class="app-user-menu-avatar">{{ $userInitials !== '' ? $userInitials : 'U' }}</span>
+                            <span class="app-user-menu-name">{{ $userName }}</span>
+                            <span class="app-user-menu-caret">▾</span>
+                        </button>
+
+                        <div id="user-menu-panel" class="app-user-menu-panel" data-user-menu-panel hidden>
+                            <a href="{{ $profileUrl }}" class="app-user-menu-link">{{ __('frontend.nav.profile') }}</a>
+                            <a href="{{ $changePasswordUrl }}" class="app-user-menu-link">{{ __('frontend.nav.changePassword') }}</a>
+                            <form action="{{ route('logout') }}" method="POST" class="app-user-menu-form">
+                                @csrf
+                                <button type="submit" class="app-btn-secondary app-user-menu-logout">{{ __('frontend.nav.logout') }}</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="app-mobile-menu">
@@ -66,7 +99,6 @@
                     <div id="mobile-nav-panel" class="app-mobile-menu-panel" data-mobile-menu-panel hidden>
                         <nav class="app-mobile-menu-links" aria-label="Mobile Primary">
                             <a href="{{ route('study.home') }}" class="app-mobile-menu-link">{{ __('frontend.nav.study') }}</a>
-                            <a href="{{ route('levels.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.levels') }}</a>
                             <a href="{{ route('lessons.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.lessons') }}</a>
                             <a href="{{ route('vocabulary.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.vocabulary') }}</a>
                             <a href="{{ route('kanji.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.kanji') }}</a>
@@ -74,6 +106,13 @@
                         </nav>
 
                         <div class="app-mobile-menu-footer">
+                            <div class="app-mobile-menu-links">
+                                <a href="{{ $profileUrl }}" class="app-mobile-menu-link">{{ __('frontend.nav.profile') }}</a>
+                                <a href="{{ $changePasswordUrl }}" class="app-mobile-menu-link">{{ __('frontend.nav.changePassword') }}</a>
+                            </div>
+                        </div>
+
+                        <div class="app-mobile-menu-section">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="app-btn-secondary app-mobile-menu-logout">{{ __('frontend.nav.logout') }}</button>
@@ -92,38 +131,74 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const toggle = document.querySelector('[data-mobile-menu-toggle]');
                 const panel = document.querySelector('[data-mobile-menu-panel]');
+                const userMenuToggle = document.querySelector('[data-user-menu-toggle]');
+                const userMenuPanel = document.querySelector('[data-user-menu-panel]');
 
-                if (!toggle || !panel) {
-                    return;
+                if (toggle && panel) {
+                    const closeMenu = () => {
+                        panel.hidden = true;
+                        toggle.setAttribute('aria-expanded', 'false');
+                    };
+
+                    const openMenu = () => {
+                        panel.hidden = false;
+                        toggle.setAttribute('aria-expanded', 'true');
+                    };
+
+                    toggle.addEventListener('click', () => {
+                        if (panel.hidden) {
+                            openMenu();
+                        } else {
+                            closeMenu();
+                        }
+                    });
+
+                    document.addEventListener('click', (event) => {
+                        if (!panel.hidden && !event.target.closest('.app-mobile-menu')) {
+                            closeMenu();
+                        }
+                    });
+
+                    panel.querySelectorAll('a, button').forEach((element) => {
+                        element.addEventListener('click', closeMenu);
+                    });
                 }
 
-                const closeMenu = () => {
-                    panel.hidden = true;
-                    toggle.setAttribute('aria-expanded', 'false');
-                };
+                if (userMenuToggle && userMenuPanel) {
+                    const closeUserMenu = () => {
+                        userMenuPanel.hidden = true;
+                        userMenuToggle.setAttribute('aria-expanded', 'false');
+                    };
 
-                const openMenu = () => {
-                    panel.hidden = false;
-                    toggle.setAttribute('aria-expanded', 'true');
-                };
+                    const openUserMenu = () => {
+                        userMenuPanel.hidden = false;
+                        userMenuToggle.setAttribute('aria-expanded', 'true');
+                    };
 
-                toggle.addEventListener('click', () => {
-                    if (panel.hidden) {
-                        openMenu();
-                    } else {
-                        closeMenu();
-                    }
-                });
+                    userMenuToggle.addEventListener('click', () => {
+                        if (userMenuPanel.hidden) {
+                            openUserMenu();
+                        } else {
+                            closeUserMenu();
+                        }
+                    });
 
-                document.addEventListener('click', (event) => {
-                    if (!panel.hidden && !event.target.closest('.app-mobile-menu')) {
-                        closeMenu();
-                    }
-                });
+                    document.addEventListener('click', (event) => {
+                        if (!userMenuPanel.hidden && !event.target.closest('.app-user-menu')) {
+                            closeUserMenu();
+                        }
+                    });
 
-                panel.querySelectorAll('a, button').forEach((element) => {
-                    element.addEventListener('click', closeMenu);
-                });
+                    document.addEventListener('keydown', (event) => {
+                        if (event.key === 'Escape') {
+                            closeUserMenu();
+                        }
+                    });
+
+                    userMenuPanel.querySelectorAll('a, button').forEach((element) => {
+                        element.addEventListener('click', closeUserMenu);
+                    });
+                }
             });
         </script>
     </body>

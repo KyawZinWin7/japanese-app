@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\KanjiQuizSubmitRequest;
 use App\Models\KanjiQuiz;
 use App\Models\KanjiQuizAttempt;
+use App\Support\StudyHistoryKey;
 use App\Support\StudyAccess;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,10 +15,25 @@ class KanjiQuizController extends Controller
     public function index(Request $request)
     {
         $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $levels = \App\Models\JlptLevel::query()
+            ->whereIn('id', $levelIds)
+            ->orderBy('sort_order')
+            ->get(['id', 'name', 'slug'])
+            ->map(fn ($level) => [
+                'id' => $level->id,
+                'name' => $level->name,
+                'slug' => $level->slug,
+            ])
+            ->values();
+
+        $selectedLevel = (string) $request->query('level', '');
+        $selectedLevelModel = $levels->firstWhere('slug', $selectedLevel);
+
         $quizzes = KanjiQuiz::query()
             ->with('jlptLevel:id,name,slug')
             ->where('is_published', true)
             ->whereIn('jlpt_level_id', $levelIds)
+            ->when($selectedLevelModel, fn ($query) => $query->where('jlpt_level_id', $selectedLevelModel['id']))
             ->orderBy('title')
             ->get();
 
@@ -25,6 +41,11 @@ class KanjiQuizController extends Controller
             'title' => 'Kanji Quizzes',
             'pageComponent' => 'kanji-quizzes',
             'pageProps' => [
+                'levels' => $levels->all(),
+                'selectedLevel' => $selectedLevelModel ? [
+                    'name' => $selectedLevelModel['name'],
+                    'slug' => $selectedLevelModel['slug'],
+                ] : null,
                 'items' => $quizzes->map(fn (KanjiQuiz $quiz) => [
                     'title' => $quiz->title,
                     'slug' => $quiz->slug,
@@ -43,6 +64,7 @@ class KanjiQuizController extends Controller
                 'routes' => [
                     'dashboard' => route('study.home'),
                     'kanji' => route('kanji.index'),
+                    'index' => route('kanji-quizzes.index'),
                 ],
             ],
         ]);
@@ -115,6 +137,9 @@ class KanjiQuizController extends Controller
                 ],
                 'errors' => session('errors')?->getBag('default')->toArray() ?? [],
                 'oldAnswers' => old('answers', []),
+                'studyState' => $request->user()->studyHistoryEntries()
+                    ->where('entry_key', StudyHistoryKey::quiz(route('kanji-quizzes.show', $quiz)))
+                    ->first()?->state ?? [],
                 'routes' => [
                     'detail' => route('kanji-quizzes.show', $quiz),
                 ],

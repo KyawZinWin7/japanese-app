@@ -6,6 +6,7 @@ use App\Models\JlptLevel;
 use App\Models\Source;
 use App\Models\Vocabulary;
 use App\Services\ContentSourceService;
+use App\Support\StudyHistoryKey;
 use App\Support\StudyAccess;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -205,6 +206,9 @@ class VocabularyController extends Controller
                 ],
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'cards' => $cards,
+                'studyState' => $request->user()->studyHistoryEntries()
+                    ->where('entry_key', StudyHistoryKey::fromPath($request, 'vocabulary-flashcards'))
+                    ->first()?->state ?? [],
                 'routes' => [
                     'dashboard' => route('study.home'),
                     'index' => route('vocabulary-flashcards.index'),

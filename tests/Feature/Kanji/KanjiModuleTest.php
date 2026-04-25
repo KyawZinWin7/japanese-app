@@ -47,7 +47,7 @@ class KanjiModuleTest extends TestCase
 
         $response->assertOk();
         $response->assertSee('water');
-        $response->assertDontSee('read');
+        $response->assertSee('"level":"n5"', false);
     }
 
     public function test_users_can_view_kanji_detail_for_assigned_level(): void

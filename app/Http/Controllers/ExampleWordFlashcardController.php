@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ExampleWord;
 use App\Models\JlptLevel;
 use App\Models\Source;
+use App\Support\StudyHistoryKey;
 use App\Support\StudyAccess;
 use Illuminate\Http\Request;
 
@@ -88,6 +89,9 @@ class ExampleWordFlashcardController extends Controller
                     ->toArray(),
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'cards' => $cards,
+                'studyState' => $request->user()->studyHistoryEntries()
+                    ->where('entry_key', StudyHistoryKey::fromPath($request, 'example-word-flashcards'))
+                    ->first()?->state ?? [],
                 'routes' => [
                     'dashboard' => route('study.home'),
                     'index' => route('example-word-flashcards.index'),

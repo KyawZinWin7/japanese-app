@@ -23,15 +23,31 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import BookmarkButton from '../components/bookmarks/BookmarkButton.vue';
 import CompletionButton from '../components/progress/CompletionButton.vue';
 import { t } from '../frontendI18n';
+import { saveStudyResume, trackStudyHistory } from '../studyHistory';
 
-defineProps({
+const props = defineProps({
     csrfToken: { type: String, required: true },
     lesson: { type: Object, required: true },
     routes: { type: Object, required: true },
     status: { type: String, default: null },
+    studyState: { type: Object, default: () => ({}) },
     viewer: { type: Object, required: true },
+});
+
+onMounted(() => {
+    const entry = {
+        id: `lesson:${window.location.pathname}`,
+        href: window.location.href,
+        title: props.lesson.title,
+        subtitle: `${props.lesson.level.name} ${t('study.read')}`,
+        progressLabel: t('study.ready'),
+    };
+
+    trackStudyHistory(entry);
+    saveStudyResume(entry);
 });
 </script>

@@ -39,10 +39,31 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { t } from '../frontendI18n';
+import { clearStudyResume, trackStudyHistory } from '../studyHistory';
 
-defineProps({
+const props = defineProps({
     result: { type: Object, required: true },
     routes: { type: Object, required: true },
+});
+
+onMounted(() => {
+    clearStudyResume({
+        id: `quiz:${props.routes.detail}`,
+        href: props.routes.detail,
+        title: props.result.quizTitle,
+        subtitle: t('study.quizzes'),
+        progressLabel: null,
+        state: {},
+    });
+
+    trackStudyHistory({
+        id: `quiz-result:${props.routes.detail}`,
+        href: window.location.href,
+        title: props.result.quizTitle,
+        subtitle: t('study.quizzes'),
+        progressLabel: `${props.result.score} / ${props.result.total}`,
+    });
 });
 </script>

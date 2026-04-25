@@ -33,7 +33,7 @@ class KanjiQuizModuleTest extends TestCase
         $detailResponse->assertRedirect('/login');
     }
 
-    public function test_users_can_view_quiz_list_and_detail_for_assigned_levels(): void
+    public function test_users_can_choose_level_then_view_quiz_list_and_detail_for_assigned_levels(): void
     {
         $user = User::factory()->create(['is_approved' => true]);
         $level = JlptLevel::create(['name' => 'N5', 'slug' => 'n5', 'sort_order' => 5, 'description' => 'Beginner']);
@@ -47,9 +47,11 @@ class KanjiQuizModuleTest extends TestCase
             'is_published' => true,
         ]);
 
-        $listResponse = $this->actingAs($user)->get('/kanji-quizzes');
+        $launcherResponse = $this->actingAs($user)->get('/kanji-quizzes');
+        $listResponse = $this->actingAs($user)->get('/kanji-quizzes?level=n5');
         $detailResponse = $this->actingAs($user)->get('/kanji-quizzes/'.$quiz->slug);
 
+        $launcherResponse->assertOk()->assertSee('"selectedLevel":null', false)->assertSee('"levels":[{"id":1,"name":"N5","slug":"n5"}]', false);
         $listResponse->assertOk()->assertSee('N5 Meaning Quiz');
         $detailResponse->assertOk()->assertSee('Basic kanji meanings');
     }

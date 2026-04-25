@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JlptLevel;
 use App\Models\Lesson;
+use App\Support\StudyHistoryKey;
 use App\Support\StudyAccess;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -126,6 +127,9 @@ class LessonController extends Controller
                 'routes' => [
                     'index' => route('lessons.index'),
                 ],
+                'studyState' => $request->user()->studyHistoryEntries()
+                    ->where('entry_key', StudyHistoryKey::fromPath($request, 'lesson', false))
+                    ->first()?->state ?? [],
             ],
         ]);
     }

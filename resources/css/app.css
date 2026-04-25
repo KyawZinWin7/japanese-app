@@ -146,6 +146,46 @@
         @apply hidden w-full items-center justify-end gap-2 sm:gap-3 md:w-auto lg:flex;
     }
 
+    .app-user-menu {
+        @apply relative hidden lg:block;
+    }
+
+    .app-user-menu-button {
+        @apply inline-flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800 shadow-sm transition hover:bg-slate-50;
+    }
+
+    .app-user-menu-avatar {
+        @apply inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-950 text-xs font-bold uppercase tracking-[0.18em] text-white;
+    }
+
+    .app-user-menu-name {
+        @apply max-w-[10rem] truncate text-left;
+    }
+
+    .app-user-menu-caret {
+        @apply text-xs text-slate-500 transition;
+    }
+
+    .app-user-menu-button[aria-expanded='true'] .app-user-menu-caret {
+        transform: rotate(180deg);
+    }
+
+    .app-user-menu-panel {
+        @apply absolute right-0 top-[calc(100%+0.75rem)] z-50 min-w-[13rem] rounded-[1.4rem] border border-slate-200 bg-white p-2 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.35)];
+    }
+
+    .app-user-menu-link {
+        @apply block rounded-2xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-950;
+    }
+
+    .app-user-menu-form {
+        @apply mt-1 border-t border-slate-100 pt-1;
+    }
+
+    .app-user-menu-logout {
+        @apply w-full justify-start rounded-2xl px-3 py-2.5 text-sm font-semibold text-rose-600 ring-0 hover:bg-rose-50 hover:text-rose-700;
+    }
+
     .app-mobile-menu {
         @apply relative lg:hidden;
     }
@@ -191,6 +231,10 @@
     }
 
     .app-mobile-menu-footer {
+        @apply mt-3 border-t border-white/10 pt-3;
+    }
+
+    .app-mobile-menu-section {
         @apply mt-3 border-t border-white/10 pt-3;
     }
 
