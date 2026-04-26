@@ -52,7 +52,7 @@ class AdminLayoutData
                     'active' => $active === 'kanji',
                 ],
                 [
-                    'label' => 'Kanji Quizzes',
+                    'label' => 'Quizzes',
                     'href' => route('admin.kanji-quizzes.index'),
                     'active' => $active === 'kanji-quizzes',
                 ],

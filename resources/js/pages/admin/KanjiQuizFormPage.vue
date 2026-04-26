@@ -10,8 +10,8 @@
         <main class="mx-auto max-w-6xl">
             <div class="mb-6">
                 <p class="app-eyebrow">Admin</p>
-                <h1 class="app-title">{{ mode === 'create' ? 'Create Kanji Quiz' : 'Edit Kanji Quiz' }}</h1>
-                <p class="app-subtitle">Choose a JLPT level, add kanji questions, and save the quiz.</p>
+                <h1 class="app-title">{{ mode === 'create' ? 'Create Quiz' : 'Edit Quiz' }}</h1>
+                <p class="app-subtitle">Choose a JLPT level, add quiz questions, and save the quiz.</p>
             </div>
 
             <KanjiQuizForm
@@ -20,11 +20,10 @@
                 :errors="errors"
                 :existing-quizzes="existingQuizzes"
                 :index-url="routes.index"
-                :kanji-options="kanjiOptions"
                 :levels="levels"
                 :method="method"
                 :quiz="quiz"
-                :submit-label="mode === 'create' ? 'Create Kanji Quiz' : 'Update Kanji Quiz'"
+                :submit-label="mode === 'create' ? 'Create Quiz' : 'Update Quiz'"
             />
         </main>
     </AdminLayout>
@@ -38,7 +37,6 @@ defineProps({
     csrfToken: { type: String, required: true },
     errors: { type: Object, required: true },
     existingQuizzes: { type: Array, default: () => [] },
-    kanjiOptions: { type: Array, required: true },
     layout: { type: Object, required: true },
     levels: { type: Array, required: true },
     method: { type: String, required: true },

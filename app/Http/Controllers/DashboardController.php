@@ -79,7 +79,7 @@ class DashboardController extends Controller
                         ->take(5)
                         ->map(fn ($attempt) => [
                             'id' => $attempt->id,
-                            'quizTitle' => $attempt->quiz?->title ?? 'Kanji Quiz',
+                            'quizTitle' => $attempt->quiz?->title ?? 'Quiz',
                             'level' => $attempt->quiz?->jlptLevel?->name ?? 'Mixed',
                             'score' => $attempt->score,
                             'totalQuestions' => $attempt->total_questions,

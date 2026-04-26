@@ -38,7 +38,7 @@ class KanjiQuizController extends Controller
             ->get();
 
         return view('vue-page', [
-            'title' => 'Kanji Quizzes',
+            'title' => 'Quizzes',
             'pageComponent' => 'kanji-quizzes',
             'pageProps' => [
                 'levels' => $levels->all(),
@@ -110,7 +110,7 @@ class KanjiQuizController extends Controller
     {
         abort_unless($quiz->is_published, 404);
         abort_unless(StudyAccess::canAccessLevel($request->user(), $quiz->jlpt_level_id), 403);
-        $quiz->load('jlptLevel:id,name,slug', 'questions.kanji');
+        $quiz->load('jlptLevel:id,name,slug', 'questions');
 
         return view('vue-page', [
             'title' => 'Take Quiz',
@@ -129,9 +129,9 @@ class KanjiQuizController extends Controller
                         ->values()
                         ->map(fn ($question) => [
                             'id' => $question->id,
-                            'prompt' => $question->prompt,
-                            'question_type' => $question->question_type,
-                            'kanji' => $question->kanji?->character,
+                            'quiz_type' => $question->quiz_type ?: 'kanji',
+                            'question' => $question->question ?: $question->prompt,
+                            'highlight_text' => $question->highlight_text,
                             'options' => $question->options,
                         ])->all(),
                 ],
@@ -167,9 +167,11 @@ class KanjiQuizController extends Controller
 
             $answers[] = [
                 'question_id' => $question->id,
-                'prompt' => $question->prompt,
+                'question' => $question->question ?: $question->prompt,
+                'quiz_type' => $question->quiz_type ?: 'kanji',
                 'selected' => $selected,
                 'correct' => $question->correct_answer,
+                'explanation' => $question->explanation,
                 'is_correct' => $isCorrect,
             ];
         }

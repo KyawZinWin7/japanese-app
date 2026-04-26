@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\KanjiQuizRequest;
 use App\Models\JlptLevel;
-use App\Models\Kanji;
 use App\Models\KanjiQuiz;
 use App\Models\KanjiQuizQuestion;
 use App\Support\AdminLayoutData;
@@ -31,7 +30,7 @@ class KanjiQuizController extends Controller
         $paginator = $query->paginate(10)->withQueryString();
 
         return view('vue-page', [
-            'title' => 'Manage Kanji Quizzes',
+            'title' => 'Manage Quizzes',
             'pageComponent' => 'admin-kanji-quizzes',
             'pageProps' => [
                 'csrfToken' => csrf_token(),
@@ -39,8 +38,8 @@ class KanjiQuizController extends Controller
                     'level' => $selectedLevel,
                 ],
                 'layout' => AdminLayoutData::make(
-                    'Manage Kanji Quizzes',
-                    'Create JLPT-based kanji quizzes and keep question sets organized.',
+                    'Manage Quizzes',
+                    'Create JLPT-based quizzes and keep question sets organized.',
                     'kanji-quizzes',
                 ),
                 'levels' => JlptLevel::query()->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
@@ -106,12 +105,12 @@ class KanjiQuizController extends Controller
             $this->syncQuestions($quiz, $validated['questions']);
         });
 
-        return redirect()->route('admin.kanji-quizzes.index')->with('status', 'Kanji quiz created successfully.');
+        return redirect()->route('admin.kanji-quizzes.index')->with('status', 'Quiz created successfully.');
     }
 
     public function edit(KanjiQuiz $quiz)
     {
-        $quiz->load(['questions' => fn ($query) => $query->orderBy('sort_order'), 'questions.kanji:id,character,meaning,jlpt_level_id']);
+        $quiz->load(['questions' => fn ($query) => $query->orderBy('sort_order')]);
 
         return $this->formPage($quiz, 'edit', route('admin.kanji-quizzes.update', $quiz));
     }
@@ -133,14 +132,14 @@ class KanjiQuizController extends Controller
             $this->syncQuestions($quiz, $validated['questions']);
         });
 
-        return redirect()->route('admin.kanji-quizzes.index')->with('status', 'Kanji quiz updated successfully.');
+        return redirect()->route('admin.kanji-quizzes.index')->with('status', 'Quiz updated successfully.');
     }
 
     public function destroy(KanjiQuiz $quiz): RedirectResponse
     {
         $quiz->delete();
 
-        return redirect()->route('admin.kanji-quizzes.index')->with('status', 'Kanji quiz deleted successfully.');
+        return redirect()->route('admin.kanji-quizzes.index')->with('status', 'Quiz deleted successfully.');
     }
 
     protected function formPage(KanjiQuiz $quiz, string $mode, string $action)
@@ -148,20 +147,22 @@ class KanjiQuizController extends Controller
         $questions = old('questions', $quiz->relationLoaded('questions')
             ? $quiz->questions->map(fn (KanjiQuizQuestion $question) => [
                 'id' => $question->id,
-                'kanji_id' => $question->kanji_id,
-                'prompt' => $question->prompt,
-                'question_type' => $question->question_type,
+                'quiz_type' => $question->quiz_type ?: 'kanji',
+                'question' => $question->question ?: $question->prompt,
+                'highlight_text' => $question->highlight_text,
                 'options' => $question->options ?? [],
                 'correct_answer' => $question->correct_answer,
+                'explanation' => $question->explanation,
                 'sort_order' => $question->sort_order,
             ])->values()->all()
             : [[
                 'id' => null,
-                'kanji_id' => '',
-                'prompt' => 'What is the meaning of this kanji?',
-                'question_type' => 'meaning',
+                'quiz_type' => 'kanji',
+                'question' => '',
+                'highlight_text' => '',
                 'options' => ['', '', '', ''],
                 'correct_answer' => '',
+                'explanation' => '',
                 'sort_order' => 1,
             ]]);
 
@@ -174,41 +175,29 @@ class KanjiQuizController extends Controller
 
             return [
                 'id' => $question['id'] ?? null,
-                'kanji_id' => $question['kanji_id'] ?? '',
-                'prompt' => $question['prompt'] ?? 'What is the meaning of this kanji?',
-                'question_type' => $question['question_type'] ?? 'meaning',
+                'quiz_type' => $question['quiz_type'] ?? 'kanji',
+                'question' => $question['question'] ?? '',
+                'highlight_text' => $question['highlight_text'] ?? '',
                 'options' => $options,
                 'correct_answer' => $question['correct_answer'] ?? '',
+                'explanation' => $question['explanation'] ?? '',
                 'sort_order' => $question['sort_order'] ?? ($index + 1),
             ];
         })->values()->all();
 
         return view('vue-page', [
-            'title' => $mode === 'create' ? 'Create Kanji Quiz' : 'Edit Kanji Quiz',
+            'title' => $mode === 'create' ? 'Create Quiz' : 'Edit Quiz',
             'pageComponent' => 'admin-kanji-quiz-form',
             'pageProps' => [
                 'mode' => $mode,
                 'csrfToken' => csrf_token(),
                 'errors' => session('errors')?->getBag('default')->toArray() ?? [],
                 'layout' => AdminLayoutData::make(
-                    $mode === 'create' ? 'Create Kanji Quiz' : 'Edit Kanji Quiz',
-                    'Choose a JLPT level, add kanji questions, and publish when it is ready.',
+                    $mode === 'create' ? 'Create Quiz' : 'Edit Quiz',
+                    'Choose a JLPT level, add quiz questions, and publish when it is ready.',
                     'kanji-quizzes',
                 ),
                 'levels' => JlptLevel::query()->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
-                'kanjiOptions' => Kanji::query()
-                    ->orderBy('jlpt_level_id')
-                    ->orderBy('sort_order')
-                    ->orderBy('character')
-                    ->get(['id', 'jlpt_level_id', 'character', 'meaning'])
-                    ->map(fn (Kanji $kanji) => [
-                        'id' => $kanji->id,
-                        'jlpt_level_id' => $kanji->jlpt_level_id,
-                        'character' => $kanji->character,
-                        'meaning' => $kanji->meaning,
-                    ])
-                    ->values()
-                    ->all(),
                 'existingQuizzes' => KanjiQuiz::query()
                     ->orderBy('title')
                     ->get(['id', 'slug'])
@@ -251,11 +240,15 @@ class KanjiQuizController extends Controller
             }
 
             $question->fill([
-                'kanji_id' => $questionData['kanji_id'],
-                'prompt' => $questionData['prompt'],
-                'question_type' => $questionData['question_type'],
+                'kanji_id' => null,
+                'prompt' => $questionData['question'],
+                'question_type' => $questionData['quiz_type'],
+                'quiz_type' => $questionData['quiz_type'],
+                'question' => $questionData['question'],
+                'highlight_text' => $questionData['highlight_text'] ?? null,
                 'options' => $questionData['options'],
                 'correct_answer' => $questionData['correct_answer'],
+                'explanation' => $questionData['explanation'] ?? null,
                 'sort_order' => $questionData['sort_order'] ?: ($index + 1),
             ]);
             $question->save();

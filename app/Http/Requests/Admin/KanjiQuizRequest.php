@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Models\Kanji;
 use App\Models\KanjiQuiz;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -32,12 +31,13 @@ class KanjiQuizRequest extends FormRequest
             'is_published' => ['nullable', 'boolean'],
             'questions' => ['required', 'array', 'min:1'],
             'questions.*.id' => ['nullable', 'integer'],
-            'questions.*.kanji_id' => ['required', 'integer', 'exists:kanji,id'],
-            'questions.*.prompt' => ['required', 'string', 'max:255'],
-            'questions.*.question_type' => ['required', 'string', 'max:50'],
+            'questions.*.quiz_type' => ['required', 'string', 'in:kanji,grammar,vocab'],
+            'questions.*.question' => ['required', 'string', 'max:255'],
+            'questions.*.highlight_text' => ['nullable', 'string', 'max:255'],
             'questions.*.options' => ['required', 'array', 'min:2', 'max:6'],
             'questions.*.options.*' => ['required', 'string', 'max:255', 'distinct'],
             'questions.*.correct_answer' => ['required', 'string', 'max:255'],
+            'questions.*.explanation' => ['nullable', 'string'],
             'questions.*.sort_order' => ['required', 'integer', 'min:1', 'max:9999'],
         ];
     }
@@ -54,11 +54,12 @@ class KanjiQuizRequest extends FormRequest
 
                 return [
                     'id' => isset($question['id']) && $question['id'] !== '' ? (int) $question['id'] : null,
-                    'kanji_id' => isset($question['kanji_id']) && $question['kanji_id'] !== '' ? (int) $question['kanji_id'] : null,
-                    'prompt' => trim((string) ($question['prompt'] ?? '')),
-                    'question_type' => trim((string) ($question['question_type'] ?? 'meaning')) ?: 'meaning',
+                    'quiz_type' => trim((string) ($question['quiz_type'] ?? '')),
+                    'question' => trim((string) ($question['question'] ?? '')),
+                    'highlight_text' => trim((string) ($question['highlight_text'] ?? '')) ?: null,
                     'options' => $options,
                     'correct_answer' => trim((string) ($question['correct_answer'] ?? '')),
+                    'explanation' => trim((string) ($question['explanation'] ?? '')) ?: null,
                     'sort_order' => isset($question['sort_order']) && $question['sort_order'] !== ''
                         ? (int) $question['sort_order']
                         : ($index + 1),
@@ -78,30 +79,13 @@ class KanjiQuizRequest extends FormRequest
     {
         return [
             function (Validator $validator) {
-                $levelId = (int) $this->input('jlpt_level_id');
-                $questionIds = collect($this->input('questions', []))
-                    ->pluck('kanji_id')
-                    ->filter()
-                    ->map(fn ($id) => (int) $id)
-                    ->values();
-
-                if ($questionIds->isEmpty()) {
-                    return;
-                }
-
-                $validKanjiIds = Kanji::query()
-                    ->where('jlpt_level_id', $levelId)
-                    ->whereIn('id', $questionIds)
-                    ->pluck('id')
-                    ->all();
-
-                foreach ($questionIds as $index => $kanjiId) {
-                    if (! in_array($kanjiId, $validKanjiIds, true)) {
-                        $validator->errors()->add("questions.{$index}.kanji_id", 'The selected kanji must belong to the chosen JLPT level.');
-                    }
-                }
-
                 foreach ($this->input('questions', []) as $index => $question) {
+                    $highlightText = $question['highlight_text'] ?? null;
+
+                    if ($highlightText && ! str_contains($question['question'] ?? '', $highlightText)) {
+                        $validator->errors()->add("questions.{$index}.highlight_text", 'The highlight text must appear in the question.');
+                    }
+
                     if (! in_array($question['correct_answer'] ?? '', $question['options'] ?? [], true)) {
                         $validator->errors()->add("questions.{$index}.correct_answer", 'The correct answer must match one of the listed options.');
                     }
@@ -109,15 +93,17 @@ class KanjiQuizRequest extends FormRequest
 
                 $quiz = $this->route('quiz');
 
-                if ($quiz instanceof KanjiQuiz) {
-                    $existingIds = $quiz->questions()->pluck('id')->all();
+                if (! $quiz instanceof KanjiQuiz) {
+                    return;
+                }
 
-                    foreach ($this->input('questions', []) as $index => $question) {
-                        $questionId = $question['id'] ?? null;
+                $existingIds = $quiz->questions()->pluck('id')->all();
 
-                        if ($questionId !== null && ! in_array($questionId, $existingIds, true)) {
-                            $validator->errors()->add("questions.{$index}.id", 'The selected question is invalid for this quiz.');
-                        }
+                foreach ($this->input('questions', []) as $index => $question) {
+                    $questionId = $question['id'] ?? null;
+
+                    if ($questionId !== null && ! in_array($questionId, $existingIds, true)) {
+                        $validator->errors()->add("questions.{$index}.id", 'The selected question is invalid for this quiz.');
                     }
                 }
             },

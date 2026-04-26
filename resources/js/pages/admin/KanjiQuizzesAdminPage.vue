@@ -11,8 +11,8 @@
             <div class="flex flex-wrap items-center justify-between gap-4">
                 <div>
                     <p class="app-eyebrow">Admin</p>
-                    <h1 class="app-title">Manage Kanji Quizzes</h1>
-                    <p class="app-subtitle">Create JLPT-based kanji quizzes and keep each level organized.</p>
+                    <h1 class="app-title">Manage Quizzes</h1>
+                    <p class="app-subtitle">Create JLPT-based quizzes and keep each level organized.</p>
                 </div>
                 <div class="flex items-center gap-3">
                     <a :href="routes.publicIndex" class="app-link">View public list</a>
@@ -82,7 +82,7 @@
                 </table>
             </div>
 
-            <p v-if="!items.length" class="app-empty mt-8">No kanji quizzes found.</p>
+            <p v-if="!items.length" class="app-empty mt-8">No quizzes found.</p>
             <div v-if="pagination.total" class="mt-8 text-sm text-slate-500">Showing {{ pagination.from }}-{{ pagination.to }} of {{ pagination.total }} quizzes</div>
             <PaginationNav :pagination="pagination" />
         </main>

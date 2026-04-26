@@ -12,8 +12,12 @@ class KanjiQuizQuestion extends Model
         'kanji_id',
         'prompt',
         'question_type',
+        'quiz_type',
+        'question',
+        'highlight_text',
         'options',
         'correct_answer',
+        'explanation',
         'sort_order',
     ];
 

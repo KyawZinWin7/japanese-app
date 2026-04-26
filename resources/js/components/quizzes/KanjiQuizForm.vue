@@ -44,7 +44,7 @@
             <div class="flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <h2 class="text-xl font-semibold text-slate-900">Questions</h2>
-                    <p class="mt-1 text-sm text-slate-500">Choose kanji from the selected level and set multiple-choice answers.</p>
+                    <p class="mt-1 text-sm text-slate-500">Add kanji, grammar, or vocabulary questions and set multiple-choice answers.</p>
                 </div>
                 <button type="button" class="app-btn" @click="addQuestion">Add Question</button>
             </div>
@@ -52,24 +52,22 @@
             <div class="mt-6 space-y-5">
                 <article v-for="(question, index) in questions" :key="question.uid" class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                     <input v-if="question.id" :name="`questions[${index}][id]`" :value="question.id" type="hidden">
-                    <input :name="`questions[${index}][question_type]`" :value="question.question_type" type="hidden">
 
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <p class="text-xs font-semibold uppercase tracking-[0.25em] text-emerald-700">Question {{ index + 1 }}</p>
-                            <p class="mt-2 text-sm text-slate-500">Meaning question for one kanji item.</p>
+                            <p class="mt-2 text-sm text-slate-500">Set the quiz type, question text, and answer choices.</p>
                         </div>
                         <button type="button" class="app-link text-rose-600 hover:text-rose-500" @click="removeQuestion(index)" :disabled="questions.length === 1">Remove</button>
                     </div>
 
                     <div class="mt-5 grid gap-5 md:grid-cols-[minmax(0,1fr),140px]">
                         <div>
-                            <label :for="`kanji-${question.uid}`" class="app-label">Kanji</label>
-                            <select :id="`kanji-${question.uid}`" v-model="question.kanji_id" :name="`questions[${index}][kanji_id]`" class="app-input" required>
-                                <option value="">Choose kanji</option>
-                                <option v-for="kanji in availableKanji" :key="kanji.id" :value="String(kanji.id)">
-                                    {{ kanji.character }} - {{ kanji.meaning }}
-                                </option>
+                            <label :for="`quiz-type-${question.uid}`" class="app-label">Quiz Type</label>
+                            <select :id="`quiz-type-${question.uid}`" v-model="question.quiz_type" :name="`questions[${index}][quiz_type]`" class="app-input" required>
+                                <option value="kanji">Kanji</option>
+                                <option value="grammar">Grammar</option>
+                                <option value="vocab">Vocab</option>
                             </select>
                         </div>
                         <div>
@@ -79,8 +77,13 @@
                     </div>
 
                     <div class="mt-5">
-                        <label :for="`prompt-${question.uid}`" class="app-label">Prompt</label>
-                        <input :id="`prompt-${question.uid}`" v-model="question.prompt" :name="`questions[${index}][prompt]`" type="text" class="app-input" required>
+                        <label :for="`question-${question.uid}`" class="app-label">Question</label>
+                        <input :id="`question-${question.uid}`" v-model="question.question" :name="`questions[${index}][question]`" type="text" class="app-input" required>
+                    </div>
+
+                    <div class="mt-5">
+                        <label :for="`highlight-${question.uid}`" class="app-label">Highlight Text</label>
+                        <input :id="`highlight-${question.uid}`" v-model="question.highlight_text" :name="`questions[${index}][highlight_text]`" type="text" class="app-input" placeholder="Optional text to show in red inside the question">
                     </div>
 
                     <div class="mt-5 grid gap-4 md:grid-cols-2">
@@ -96,6 +99,11 @@
                             <option value="">Choose the correct answer</option>
                             <option v-for="option in filledOptions(question.options)" :key="option" :value="option">{{ option }}</option>
                         </select>
+                    </div>
+
+                    <div class="mt-5">
+                        <label :for="`explanation-${question.uid}`" class="app-label">Explanation</label>
+                        <textarea :id="`explanation-${question.uid}`" v-model="question.explanation" :name="`questions[${index}][explanation]`" rows="3" class="app-input" placeholder="Optional feedback shown after submission"></textarea>
                     </div>
 
                     <p v-if="questionErrorSummary(index)" class="app-help mt-4">{{ questionErrorSummary(index) }}</p>
@@ -123,7 +131,6 @@ const props = defineProps({
     errors: { type: Object, required: true },
     existingQuizzes: { type: Array, default: () => [] },
     indexUrl: { type: String, required: true },
-    kanjiOptions: { type: Array, required: true },
     levels: { type: Array, required: true },
     method: { type: String, default: 'POST' },
     quiz: { type: Object, required: true },
@@ -139,7 +146,6 @@ const currentQuizId = props.quiz.id ?? null;
 const nextUid = ref(1);
 const questions = ref((props.quiz.questions ?? []).map((question, index) => buildQuestion(question, index + 1)));
 
-const availableKanji = computed(() => props.kanjiOptions.filter((kanji) => String(kanji.jlpt_level_id) === selectedLevelId.value));
 const existingSlugs = computed(() => new Set(
     props.existingQuizzes
         .filter((item) => item.id !== currentQuizId)
@@ -156,14 +162,6 @@ watch(titleValue, () => {
     }
 }, { immediate: true });
 
-watch(selectedLevelId, () => {
-    for (const question of questions.value) {
-        if (! availableKanji.value.find((kanji) => String(kanji.id) === String(question.kanji_id))) {
-            question.kanji_id = '';
-        }
-    }
-});
-
 function buildQuestion(question = {}, fallbackOrder = 1) {
     const options = Array.isArray(question.options) ? [...question.options] : [];
 
@@ -174,11 +172,12 @@ function buildQuestion(question = {}, fallbackOrder = 1) {
     return {
         uid: nextUid.value++,
         id: question.id ?? null,
-        kanji_id: question.kanji_id ? String(question.kanji_id) : '',
-        prompt: question.prompt || 'What is the meaning of this kanji?',
-        question_type: question.question_type || 'meaning',
+        quiz_type: question.quiz_type || 'kanji',
+        question: question.question || '',
+        highlight_text: question.highlight_text || '',
         options: options.slice(0, 6),
         correct_answer: question.correct_answer || '',
+        explanation: question.explanation || '',
         sort_order: String(question.sort_order || fallbackOrder),
     };
 }

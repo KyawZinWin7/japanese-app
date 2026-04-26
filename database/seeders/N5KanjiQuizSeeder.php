@@ -58,7 +58,9 @@ class N5KanjiQuizSeeder extends Seeder
                 $quiz->questions()->create([
                     'kanji_id' => $targetKanji->id,
                     'prompt' => 'What is the meaning of this kanji?',
-                    'question_type' => 'meaning',
+                    'question_type' => 'kanji',
+                    'quiz_type' => 'kanji',
+                    'question' => "What is the meaning of {$targetKanji->character}?",
                     'options' => $options,
                     'correct_answer' => $targetKanji->meaning,
                     'sort_order' => $questionIndex,

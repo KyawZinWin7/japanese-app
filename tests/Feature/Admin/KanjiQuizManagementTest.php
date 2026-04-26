@@ -3,7 +3,6 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\JlptLevel;
-use App\Models\Kanji;
 use App\Models\KanjiQuiz;
 use App\Models\KanjiQuizQuestion;
 use App\Models\User;
@@ -14,32 +13,24 @@ class KanjiQuizManagementTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_admin_can_create_a_kanji_quiz_for_a_selected_level(): void
+    public function test_admin_can_create_a_quiz_for_a_selected_level(): void
     {
         $admin = User::factory()->create(['is_admin' => true, 'is_approved' => true]);
         $level = JlptLevel::create(['name' => 'N5', 'slug' => 'n5', 'sort_order' => 5, 'description' => 'Beginner']);
-        $kanji = Kanji::create([
-            'jlpt_level_id' => $level->id,
-            'character' => '水',
-            'slug' => 'water-kanji',
-            'meaning' => 'water',
-            'sort_order' => 1,
-            'is_published' => true,
-        ]);
 
         $response = $this->actingAs($admin)->post('/admin/kanji-quizzes', [
             'jlpt_level_id' => $level->id,
-            'title' => 'N5 Water Quiz',
-            'slug' => 'n5-water-quiz',
-            'description' => 'Basic kanji meanings',
+            'title' => 'N5 Mixed Quiz',
+            'slug' => 'n5-mixed-quiz',
+            'description' => 'Basic kanji and vocabulary practice',
             'is_published' => 1,
             'questions' => [
                 [
-                    'kanji_id' => $kanji->id,
-                    'prompt' => 'What is the meaning of this kanji?',
-                    'question_type' => 'meaning',
+                    'quiz_type' => 'kanji',
+                    'question' => 'What is the meaning of 水?',
                     'options' => ['water', 'fire', 'tree', 'gold'],
                     'correct_answer' => 'water',
+                    'explanation' => '水 means water.',
                     'sort_order' => 1,
                 ],
             ],
@@ -47,16 +38,18 @@ class KanjiQuizManagementTest extends TestCase
 
         $response->assertRedirect('/admin/kanji-quizzes');
         $this->assertDatabaseHas('kanji_quizzes', [
-            'title' => 'N5 Water Quiz',
-            'slug' => 'n5-water-quiz',
+            'title' => 'N5 Mixed Quiz',
+            'slug' => 'n5-mixed-quiz',
             'jlpt_level_id' => $level->id,
             'question_count' => 1,
         ]);
-        $quizId = KanjiQuiz::query()->where('slug', 'n5-water-quiz')->value('id');
+
+        $quizId = KanjiQuiz::query()->where('slug', 'n5-mixed-quiz')->value('id');
 
         $this->assertDatabaseHas('kanji_quiz_questions', [
             'kanji_quiz_id' => $quizId,
-            'kanji_id' => $kanji->id,
+            'quiz_type' => 'kanji',
+            'question' => 'What is the meaning of 水?',
             'correct_answer' => 'water',
         ]);
     }
@@ -65,22 +58,6 @@ class KanjiQuizManagementTest extends TestCase
     {
         $admin = User::factory()->create(['is_admin' => true, 'is_approved' => true]);
         $level = JlptLevel::create(['name' => 'N4', 'slug' => 'n4', 'sort_order' => 4, 'description' => 'Elementary']);
-        $firstKanji = Kanji::create([
-            'jlpt_level_id' => $level->id,
-            'character' => '火',
-            'slug' => 'fire-kanji',
-            'meaning' => 'fire',
-            'sort_order' => 1,
-            'is_published' => true,
-        ]);
-        $secondKanji = Kanji::create([
-            'jlpt_level_id' => $level->id,
-            'character' => '木',
-            'slug' => 'tree-kanji',
-            'meaning' => 'tree',
-            'sort_order' => 2,
-            'is_published' => true,
-        ]);
         $quiz = KanjiQuiz::create([
             'jlpt_level_id' => $level->id,
             'title' => 'Starter Quiz',
@@ -91,9 +68,10 @@ class KanjiQuizManagementTest extends TestCase
         ]);
         $question = KanjiQuizQuestion::create([
             'kanji_quiz_id' => $quiz->id,
-            'kanji_id' => $firstKanji->id,
-            'prompt' => 'What is the meaning of this kanji?',
-            'question_type' => 'meaning',
+            'prompt' => 'What is the meaning of 火?',
+            'question_type' => 'kanji',
+            'quiz_type' => 'kanji',
+            'question' => 'What is the meaning of 火?',
             'options' => ['fire', 'water', 'tree', 'gold'],
             'correct_answer' => 'fire',
             'sort_order' => 1,
@@ -108,19 +86,19 @@ class KanjiQuizManagementTest extends TestCase
             'questions' => [
                 [
                     'id' => $question->id,
-                    'kanji_id' => $secondKanji->id,
-                    'prompt' => 'What is the meaning of this kanji?',
-                    'question_type' => 'meaning',
+                    'quiz_type' => 'vocab',
+                    'question' => 'What does 木 mean in this quiz?',
                     'options' => ['tree', 'water', 'moon', 'rain'],
                     'correct_answer' => 'tree',
+                    'explanation' => '木 is tree.',
                     'sort_order' => 1,
                 ],
                 [
-                    'kanji_id' => $firstKanji->id,
-                    'prompt' => 'What is the meaning of this kanji?',
-                    'question_type' => 'meaning',
+                    'quiz_type' => 'grammar',
+                    'question' => 'Which choice fits the pattern best?',
                     'options' => ['fire', 'stone', 'river', 'earth'],
                     'correct_answer' => 'fire',
+                    'explanation' => 'This is the expected answer for the test case.',
                     'sort_order' => 2,
                 ],
             ],
@@ -135,29 +113,20 @@ class KanjiQuizManagementTest extends TestCase
         ]);
         $this->assertDatabaseHas('kanji_quiz_questions', [
             'id' => $question->id,
-            'kanji_id' => $secondKanji->id,
+            'quiz_type' => 'vocab',
             'correct_answer' => 'tree',
         ]);
         $this->assertDatabaseHas('kanji_quiz_questions', [
             'kanji_quiz_id' => $quiz->id,
-            'kanji_id' => $firstKanji->id,
+            'quiz_type' => 'grammar',
             'sort_order' => 2,
         ]);
     }
 
-    public function test_admin_cannot_use_kanji_from_a_different_level_in_a_quiz(): void
+    public function test_admin_requires_quiz_type_question_and_matching_correct_answer(): void
     {
         $admin = User::factory()->create(['is_admin' => true, 'is_approved' => true]);
         $n5 = JlptLevel::create(['name' => 'N5', 'slug' => 'n5', 'sort_order' => 5, 'description' => 'Beginner']);
-        $n4 = JlptLevel::create(['name' => 'N4', 'slug' => 'n4', 'sort_order' => 4, 'description' => 'Elementary']);
-        $wrongKanji = Kanji::create([
-            'jlpt_level_id' => $n4->id,
-            'character' => '山',
-            'slug' => 'mountain-kanji',
-            'meaning' => 'mountain',
-            'sort_order' => 1,
-            'is_published' => true,
-        ]);
 
         $response = $this->from('/admin/kanji-quizzes/create')->actingAs($admin)->post('/admin/kanji-quizzes', [
             'jlpt_level_id' => $n5->id,
@@ -165,17 +134,16 @@ class KanjiQuizManagementTest extends TestCase
             'slug' => 'broken-quiz',
             'questions' => [
                 [
-                    'kanji_id' => $wrongKanji->id,
-                    'prompt' => 'What is the meaning of this kanji?',
-                    'question_type' => 'meaning',
+                    'quiz_type' => '',
+                    'question' => '',
                     'options' => ['mountain', 'river', 'fire', 'tree'],
-                    'correct_answer' => 'mountain',
+                    'correct_answer' => 'gold',
                     'sort_order' => 1,
                 ],
             ],
         ]);
 
         $response->assertRedirect('/admin/kanji-quizzes/create');
-        $response->assertSessionHasErrors('questions.0.kanji_id');
+        $response->assertSessionHasErrors(['questions.0.quiz_type', 'questions.0.question', 'questions.0.correct_answer']);
     }
 }

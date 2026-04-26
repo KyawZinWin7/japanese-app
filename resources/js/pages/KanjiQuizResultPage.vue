@@ -19,9 +19,13 @@
             <article v-for="answer in result.answers" :key="answer.question_id" class="content-card">
                 <div class="flex flex-wrap items-start justify-between gap-4">
                     <div>
-                        <h2 class="text-xl font-semibold text-slate-900">{{ answer.prompt }}</h2>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <h2 class="text-xl font-semibold text-slate-900">{{ answer.question }}</h2>
+                            <span class="app-badge">{{ answer.quiz_type }}</span>
+                        </div>
                         <p class="mt-3 text-slate-600">{{ t('quizResult.yourAnswer') }} <span class="font-medium text-slate-900">{{ answer.selected || t('quizResult.noAnswer') }}</span></p>
                         <p class="mt-2 text-slate-600">{{ t('quizResult.correctAnswer') }} <span class="font-medium text-slate-900">{{ answer.correct }}</span></p>
+                        <p v-if="answer.explanation" class="mt-2 text-slate-600">{{ answer.explanation }}</p>
                     </div>
                     <span :class="answer.is_correct ? 'app-badge' : 'rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-rose-700'">
                         {{ answer.is_correct ? t('quizResult.correct') : t('quizResult.incorrect') }}
