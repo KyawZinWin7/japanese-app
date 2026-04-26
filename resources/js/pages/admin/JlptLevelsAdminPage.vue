@@ -48,7 +48,7 @@
                                 <a :href="`${routes.editBase}/${level.id}/edit`" class="text-sm font-medium text-emerald-700 hover:text-emerald-600">
                                     Edit
                                 </a>
-                                <form :action="`${routes.editBase}/${level.id}`" method="POST">
+                                <form :action="`${routes.editBase}/${level.id}`" method="POST" @submit="confirmDelete($event, level.name)">
                                     <input type="hidden" name="_token" :value="csrfToken">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit" class="text-sm font-medium text-rose-600 hover:text-rose-500">
@@ -70,6 +70,7 @@
 </template>
 
 <script setup>
+import Swal from 'sweetalert2';
 import AdminLayout from '../../components/admin/AdminLayout.vue';
 
 defineProps({
@@ -79,4 +80,34 @@ defineProps({
     routes: { type: Object, required: true },
     status: { type: String, default: null },
 });
+
+async function confirmDelete(event, name) {
+    event.preventDefault();
+
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        html: `<div class="swal-delete-copy">Delete <strong>${name}</strong>?</div>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true,
+        focusCancel: true,
+        background: '#ffffff',
+        customClass: {
+            popup: 'app-swal-popup',
+            icon: 'app-swal-icon',
+            title: 'app-swal-title',
+            htmlContainer: 'app-swal-copy',
+            actions: 'app-swal-actions',
+            confirmButton: 'app-swal-confirm',
+            cancelButton: 'app-swal-cancel',
+        },
+        buttonsStyling: false,
+    });
+
+    if (result.isConfirmed) {
+        event.target.submit();
+    }
+}
 </script>

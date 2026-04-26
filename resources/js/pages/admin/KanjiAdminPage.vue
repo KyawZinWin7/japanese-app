@@ -83,7 +83,7 @@
                         <td class="px-4 py-4">
                             <div class="flex items-center justify-end gap-3">
                                 <a :href="`${routes.editBase}/${item.slug}/edit`" class="text-sm font-medium text-emerald-700 hover:text-emerald-600">Edit</a>
-                                <form :action="`${routes.editBase}/${item.slug}`" method="POST">
+                                <form :action="`${routes.editBase}/${item.slug}`" method="POST" @submit="confirmDelete($event, item.character)">
                                     <input type="hidden" name="_token" :value="csrfToken">
                                     <input type="hidden" name="_method" value="DELETE">
                                     <button type="submit" class="text-sm font-medium text-rose-600 hover:text-rose-500">Delete</button>
@@ -104,6 +104,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import Swal from 'sweetalert2';
 import AdminLayout from '../../components/admin/AdminLayout.vue';
 import PaginationNav from '../../components/lessons/PaginationNav.vue';
 
@@ -129,5 +130,35 @@ const filteredSources = computed(() => {
 
 function rowNumber(index) {
     return (props.pagination.from || 1) + index;
+}
+
+async function confirmDelete(event, character) {
+    event.preventDefault();
+
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        html: `<div class="swal-delete-copy">Delete <strong>${character}</strong>?</div>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true,
+        focusCancel: true,
+        background: '#ffffff',
+        customClass: {
+            popup: 'app-swal-popup',
+            icon: 'app-swal-icon',
+            title: 'app-swal-title',
+            htmlContainer: 'app-swal-copy',
+            actions: 'app-swal-actions',
+            confirmButton: 'app-swal-confirm',
+            cancelButton: 'app-swal-cancel',
+        },
+        buttonsStyling: false,
+    });
+
+    if (result.isConfirmed) {
+        event.target.submit();
+    }
 }
 </script>

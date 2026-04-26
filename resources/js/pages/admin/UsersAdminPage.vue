@@ -56,7 +56,7 @@
                             <td class="px-4 py-4">
                                 <div class="flex items-center justify-end gap-3">
                                     <a :href="`${routes.editBase}/${userItem.id}/edit`" class="text-sm font-medium text-emerald-700 hover:text-emerald-600">Edit</a>
-                                    <form :action="`${routes.editBase}/${userItem.id}`" method="POST">
+                                    <form :action="`${routes.editBase}/${userItem.id}`" method="POST" @submit="confirmDelete($event, userItem.name)">
                                         <input type="hidden" name="_token" :value="csrfToken">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="text-sm font-medium text-rose-600 hover:text-rose-500">Delete</button>
@@ -74,6 +74,7 @@
 </template>
 
 <script setup>
+import Swal from 'sweetalert2';
 import AdminLayout from '../../components/admin/AdminLayout.vue';
 
 defineProps({
@@ -83,4 +84,34 @@ defineProps({
     status: { type: String, default: null },
     users: { type: Array, required: true },
 });
+
+async function confirmDelete(event, name) {
+    event.preventDefault();
+
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        html: `<div class="swal-delete-copy">Delete <strong>${name}</strong>?</div>`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        reverseButtons: true,
+        focusCancel: true,
+        background: '#ffffff',
+        customClass: {
+            popup: 'app-swal-popup',
+            icon: 'app-swal-icon',
+            title: 'app-swal-title',
+            htmlContainer: 'app-swal-copy',
+            actions: 'app-swal-actions',
+            confirmButton: 'app-swal-confirm',
+            cancelButton: 'app-swal-cancel',
+        },
+        buttonsStyling: false,
+    });
+
+    if (result.isConfirmed) {
+        event.target.submit();
+    }
+}
 </script>
