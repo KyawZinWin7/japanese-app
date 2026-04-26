@@ -198,7 +198,7 @@ const messages = {
         },
         quizTake: {
             fallbackLevel: 'Quiz',
-            fallbackDescription: 'Choose the best answer for each question.',
+            fallbackDescription: '',
             question: 'Question {index}',
             submitAnswers: 'Submit answers',
             backToQuizDetail: 'Back to quiz detail',

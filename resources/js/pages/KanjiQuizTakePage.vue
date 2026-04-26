@@ -1,12 +1,27 @@
 <template>
     <main class="page-shell max-w-5xl pb-28 sm:pb-10">
-        <p class="app-eyebrow">{{ quiz.level.name || t('quizTake.fallbackLevel') }}</p>
-        <h1 class="app-title">{{ quiz.title }}</h1>
-        <p class="app-subtitle">{{ quiz.description || t('quizTake.fallbackDescription') }}</p>
+        <section class="sm:hidden">
+            <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                    <p class="app-eyebrow">{{ quiz.level.name || t('quizTake.fallbackLevel') }}</p>
+                    <h1 class="mt-2 text-[1.65rem] font-semibold leading-tight text-slate-950">{{ quiz.title }}</h1>
+                </div>
+                <span class="shrink-0 rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
+                    {{ currentQuestion.quiz_type }}
+                </span>
+            </div>
+            <p class="mt-2 text-sm leading-6 text-slate-600">{{ quiz.description || t('quizTake.fallbackDescription') }}</p>
+        </section>
 
-        <p v-if="errors.answers?.length" class="app-help mt-6">{{ errors.answers[0] }}</p>
+        <section class="hidden sm:block">
+            <p class="app-eyebrow">{{ quiz.level.name || t('quizTake.fallbackLevel') }}</p>
+            <h1 class="app-title">{{ quiz.title }}</h1>
+            <p class="app-subtitle">{{ quiz.description || t('quizTake.fallbackDescription') }}</p>
+        </section>
 
-        <form id="quiz-step-form" ref="quizForm" :action="quiz.submitUrl" method="POST" class="mt-8 space-y-5" @change="handleFormChange" @submit="handleSubmit">
+        <p v-if="errors.answers?.length" class="app-help mt-4 sm:mt-6">{{ errors.answers[0] }}</p>
+
+        <form id="quiz-step-form" ref="quizForm" :action="quiz.submitUrl" method="POST" class="mt-5 space-y-4 sm:mt-8 sm:space-y-5" @change="handleFormChange" @submit="handleSubmit">
             <input type="hidden" name="_token" :value="csrfToken">
             <input
                 v-for="([questionId, answer]) in persistedAnswerEntries"
@@ -16,18 +31,21 @@
                 type="hidden"
             >
 
-            <div class="flex flex-col gap-3 rounded-3xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:px-5">
-                <p class="text-sm font-medium text-slate-600">
-                    {{ t('quizTake.question', { index: currentQuestionIndex + 1 }) }} / {{ quiz.questions.length }}
-                </p>
-                <div class="flex items-center justify-between gap-3 sm:justify-end">
-                    <p class="text-sm text-slate-500">{{ answeredCount }} / {{ quiz.questions.length }} answered</p>
-                    <div class="h-2 flex-1 overflow-hidden rounded-full bg-slate-100 sm:w-32 sm:flex-none">
-                        <div
-                            class="h-full rounded-full bg-emerald-500 transition-all"
-                            :style="{ width: `${progressPercent}%` }"
-                        />
+            <div class="rounded-[1.35rem] border border-slate-200 bg-white px-4 py-2.5 shadow-sm sm:rounded-3xl sm:px-5 sm:py-4">
+                <div class="flex items-center justify-between gap-3">
+                    <p class="text-[13px] font-medium text-slate-700 sm:text-sm">
+                        {{ t('quizTake.question', { index: currentQuestionIndex + 1 }) }} / {{ quiz.questions.length }}
+                    </p>
+                    <div class="flex items-center gap-2 text-[11px] font-medium text-slate-500 sm:block sm:text-sm">
+                        <span>{{ answeredCount }} / {{ quiz.questions.length }} answered</span>
+                        <span class="sm:hidden">{{ progressPercent }}%</span>
                     </div>
+                </div>
+                <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100 sm:mt-3 sm:h-2">
+                    <div
+                        class="h-full rounded-full bg-emerald-500 transition-all"
+                        :style="{ width: `${progressPercent}%` }"
+                    />
                 </div>
             </div>
 
