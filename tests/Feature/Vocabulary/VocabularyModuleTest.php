@@ -14,7 +14,7 @@ class VocabularyModuleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guests_are_redirected_to_login_from_vocabulary_page(): void
+    public function test_guests_can_view_the_vocabulary_page(): void
     {
         $level = JlptLevel::create(['name' => 'N5', 'slug' => 'n5', 'sort_order' => 5, 'description' => 'Beginner']);
 
@@ -30,7 +30,8 @@ class VocabularyModuleTest extends TestCase
 
         $response = $this->get('/vocabulary');
 
-        $response->assertRedirect('/login');
+        $response->assertOk();
+        $response->assertSee('water');
     }
 
     public function test_users_can_search_and_filter_vocabulary_from_assigned_levels(): void

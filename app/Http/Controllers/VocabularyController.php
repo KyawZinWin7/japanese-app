@@ -15,10 +15,12 @@ class VocabularyController extends Controller
 {
     public function index(Request $request)
     {
+        $user = $request->user();
         $selectedLevel = $request->string('level')->toString();
         $selectedSource = $request->string('source')->toString();
         $search = trim($request->string('search')->toString());
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
 
         $query = Vocabulary::query()
             ->with('jlptLevel:id,name,slug', 'source:id,name,slug')
@@ -46,7 +48,7 @@ class VocabularyController extends Controller
         }
 
         $paginator = $query->paginate(12)->withQueryString();
-        $bookmarkIds = $request->user()->bookmarkedVocabulary()->pluck('vocabulary_id')->all();
+        $bookmarkIds = $canSaveProgress ? $user->bookmarkedVocabulary()->pluck('vocabulary_id')->all() : [];
 
         return view('vue-page', [
             'title' => 'Vocabulary',
@@ -59,7 +61,7 @@ class VocabularyController extends Controller
                 ],
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'sources' => ContentSourceService::optionsForType(Source::CONTENT_TYPE_VOCABULARY, $levelIds),
-                'items' => collect($paginator->items())->map(function (Vocabulary $item) use ($bookmarkIds) {
+                'items' => collect($paginator->items())->map(function (Vocabulary $item) use ($bookmarkIds, $canSaveProgress) {
                     return [
                         'id' => $item->id,
                         'word' => $item->word,
@@ -76,7 +78,7 @@ class VocabularyController extends Controller
                             'name' => $item->source->name,
                             'slug' => $item->source->slug,
                         ] : null,
-                        'canBookmark' => true,
+                        'canBookmark' => $canSaveProgress,
                         'showUrl' => route('vocabulary.show', $item->slug),
                         'bookmarkUrl' => route('vocabulary.bookmarks.toggle', $item),
                         'isBookmarked' => in_array($item->id, $bookmarkIds, true),
@@ -95,7 +97,8 @@ class VocabularyController extends Controller
                     ])->all(),
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
@@ -111,10 +114,12 @@ class VocabularyController extends Controller
 
     public function show(Request $request, Vocabulary $vocabulary)
     {
+        $user = $request->user();
+        $canSaveProgress = (bool) ($user?->is_approved);
         abort_unless($vocabulary->is_published, 404);
-        abort_unless(StudyAccess::canAccessLevel($request->user(), $vocabulary->jlpt_level_id), 403);
+        abort_unless(StudyAccess::canAccessLevel($user, $vocabulary->jlpt_level_id), 403);
         $vocabulary->load('jlptLevel:id,name,slug', 'source:id,name,slug');
-        $isBookmarked = $request->user()->bookmarkedVocabulary()->whereKey($vocabulary->id)->exists();
+        $isBookmarked = $canSaveProgress ? $user->bookmarkedVocabulary()->whereKey($vocabulary->id)->exists() : false;
 
         return view('vue-page', [
             'title' => $vocabulary->word,
@@ -136,12 +141,13 @@ class VocabularyController extends Controller
                         'name' => $vocabulary->source->name,
                         'slug' => $vocabulary->source->slug,
                     ] : null,
-                    'canBookmark' => true,
+                    'canBookmark' => $canSaveProgress,
                     'bookmarkUrl' => route('vocabulary.bookmarks.toggle', $vocabulary),
                     'isBookmarked' => $isBookmarked,
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
@@ -156,9 +162,11 @@ class VocabularyController extends Controller
 
     public function flashcards(Request $request)
     {
+        $user = $request->user();
         $selectedLevel = $request->string('level')->toString();
         $selectedChapter = $request->string('chapter')->toString();
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
 
         $query = Vocabulary::query()
             ->with('jlptLevel:id,name,slug')
@@ -200,15 +208,18 @@ class VocabularyController extends Controller
                     'chapter' => $selectedChapter,
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'cards' => $cards,
-                'studyState' => $request->user()->studyHistoryEntries()
-                    ->where('entry_key', StudyHistoryKey::fromPath($request, 'vocabulary-flashcards'))
-                    ->first()?->state ?? [],
+                'studyState' => $canSaveProgress
+                    ? ($user->studyHistoryEntries()
+                        ->where('entry_key', StudyHistoryKey::fromPath($request, 'vocabulary-flashcards'))
+                        ->first()?->state ?? [])
+                    : [],
                 'routes' => [
                     'dashboard' => route('study.home'),
                     'index' => route('vocabulary-flashcards.index'),

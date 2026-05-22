@@ -14,6 +14,31 @@ class KanjiModuleTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_guests_can_view_kanji_index_and_detail_pages(): void
+    {
+        $level = JlptLevel::create(['name' => 'N5', 'slug' => 'n5', 'sort_order' => 5, 'description' => 'Beginner']);
+        $kanji = Kanji::create([
+            'jlpt_level_id' => $level->id,
+            'character' => '?',
+            'slug' => 'hi-kanji',
+            'onyomi' => '?',
+            'kunyomi' => '?',
+            'meaning' => 'fire',
+            'example_sentence' => '?????????',
+            'example_translation' => 'Please look at the fire.',
+            'sort_order' => 1,
+            'is_published' => true,
+        ]);
+
+        $indexResponse = $this->get('/kanji');
+        $detailResponse = $this->get('/kanji/'.$kanji->slug);
+
+        $indexResponse->assertOk();
+        $indexResponse->assertSee('fire');
+        $detailResponse->assertOk();
+        $detailResponse->assertSee('Please look at the fire.');
+    }
+
     public function test_users_can_filter_kanji_by_assigned_level(): void
     {
         $user = User::factory()->create(['is_approved' => true]);

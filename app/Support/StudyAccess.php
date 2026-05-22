@@ -7,19 +7,23 @@ use App\Models\User;
 
 class StudyAccess
 {
-    public static function allowedLevelIds(User $user): array
+    public static function allowedLevelIds(?User $user): array
     {
         return JlptLevel::query()->pluck('id')->all();
     }
 
-    public static function canAccessLevel(User $user, ?int $levelId): bool
+    public static function canAccessLevel(?User $user, ?int $levelId): bool
     {
-        if ($user->is_admin) {
+        if ($levelId === null) {
+            return false;
+        }
+
+        if ($user === null) {
             return true;
         }
 
-        if ($levelId === null) {
-            return false;
+        if ($user->is_admin) {
+            return true;
         }
 
         return in_array($levelId, self::allowedLevelIds($user), true);

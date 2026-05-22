@@ -8,6 +8,8 @@ return [
         'vocabulary' => 'Vocabulary',
         'kanji' => 'Kanji',
         'flashcards' => 'Flashcards',
+        'login' => 'Login',
+        'register' => 'Register',
         'profile' => 'Profile',
         'changePassword' => 'Change Password',
         'logout' => 'Logout',

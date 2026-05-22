@@ -38,12 +38,12 @@ Route::get('/', function () {
             ],
             'routes' => [
                 'accountHome' => $accountHome,
-                'study' => auth()->check() ? route('study.home') : route('login'),
-                'levels' => auth()->check() ? route('levels.index') : route('login'),
-                'lessons' => auth()->check() ? route('lessons.index') : route('login'),
-                'vocabulary' => auth()->check() ? route('vocabulary.index') : route('login'),
-                'kanji' => auth()->check() ? route('kanji.index') : route('login'),
-                'flashcards' => auth()->check() ? route('flashcards.index') : route('login'),
+                'study' => auth()->check() ? route('study.home') : route('lessons.index'),
+                'levels' => route('levels.index'),
+                'lessons' => route('lessons.index'),
+                'vocabulary' => route('vocabulary.index'),
+                'kanji' => route('kanji.index'),
+                'flashcards' => route('flashcards.index'),
                 'quizzes' => auth()->check() ? route('kanji-quizzes.index') : route('login'),
                 'login' => route('login'),
                 'register' => route('register'),
@@ -54,6 +54,19 @@ Route::get('/', function () {
 })->name('home');
 
 Route::post('/locale', [LocaleController::class, 'update'])->name('locale.update');
+
+Route::get('/flashcards', FlashcardLauncherController::class)->name('flashcards.index');
+Route::get('/levels', [JlptLevelController::class, 'index'])->name('levels.index');
+Route::get('/lessons', [LessonController::class, 'index'])->name('lessons.index');
+Route::get('/lessons/{lesson:slug}', [LessonController::class, 'show'])->name('lessons.show');
+Route::get('/vocabulary', [VocabularyController::class, 'index'])->name('vocabulary.index');
+Route::get('/vocabulary/{vocabulary:slug}', [VocabularyController::class, 'show'])->name('vocabulary.show');
+Route::get('/kanji', [KanjiController::class, 'index'])->name('kanji.index');
+Route::get('/kanji/study-page', [KanjiController::class, 'launch'])->name('kanji.launch');
+Route::get('/kanji/{kanji:slug}', [KanjiController::class, 'show'])->name('kanji.show');
+Route::get('/kanji-flashcards', [KanjiController::class, 'flashcards'])->name('kanji-flashcards.index');
+Route::get('/kanji-word-flashcards', [ExampleWordFlashcardController::class, 'index'])->name('example-word-flashcards.index');
+Route::get('/vocabulary-flashcards', [VocabularyController::class, 'flashcards'])->name('vocabulary-flashcards.index');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
@@ -76,18 +89,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware('approved')->group(function () {
         Route::get('/study', StudyHomeController::class)->name('study.home');
         Route::post('/study-history/sync', [StudyHistoryController::class, 'store'])->name('study-history.sync');
-        Route::get('/flashcards', FlashcardLauncherController::class)->name('flashcards.index');
-        Route::get('/levels', [JlptLevelController::class, 'index'])->name('levels.index');
-        Route::get('/lessons', [LessonController::class, 'index'])->name('lessons.index');
-        Route::get('/lessons/{lesson:slug}', [LessonController::class, 'show'])->name('lessons.show');
-        Route::get('/vocabulary', [VocabularyController::class, 'index'])->name('vocabulary.index');
-        Route::get('/vocabulary/{vocabulary:slug}', [VocabularyController::class, 'show'])->name('vocabulary.show');
-        Route::get('/kanji', [KanjiController::class, 'index'])->name('kanji.index');
-        Route::get('/kanji/study-page', [KanjiController::class, 'launch'])->name('kanji.launch');
-        Route::get('/kanji/{kanji:slug}', [KanjiController::class, 'show'])->name('kanji.show');
-        Route::get('/kanji-flashcards', [KanjiController::class, 'flashcards'])->name('kanji-flashcards.index');
-        Route::get('/kanji-word-flashcards', [ExampleWordFlashcardController::class, 'index'])->name('example-word-flashcards.index');
-        Route::get('/vocabulary-flashcards', [VocabularyController::class, 'flashcards'])->name('vocabulary-flashcards.index');
         Route::get('/kanji-quizzes', [KanjiQuizController::class, 'index'])->name('kanji-quizzes.index');
         Route::get('/kanji-quizzes/{quiz:slug}', [KanjiQuizController::class, 'show'])->name('kanji-quizzes.show');
         Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');

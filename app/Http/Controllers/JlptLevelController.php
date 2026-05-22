@@ -10,7 +10,9 @@ class JlptLevelController extends Controller
 {
     public function index(Request $request)
     {
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $user = $request->user();
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
 
         return view('vue-page', [
             'title' => 'JLPT Levels',
@@ -22,7 +24,8 @@ class JlptLevelController extends Controller
                     ->get(['id', 'name', 'slug', 'sort_order', 'description'])
                     ->toArray(),
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],

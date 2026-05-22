@@ -39,6 +39,10 @@ const props = defineProps({
 });
 
 onMounted(() => {
+    if (!props.viewer.isApproved) {
+        return;
+    }
+
     const entry = {
         id: `lesson:${window.location.pathname}`,
         href: window.location.href,

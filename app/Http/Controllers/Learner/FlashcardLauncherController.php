@@ -16,7 +16,9 @@ class FlashcardLauncherController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $user = $request->user();
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
 
         $levels = JlptLevel::query()
             ->whereIn('id', $levelIds)
@@ -91,7 +93,8 @@ class FlashcardLauncherController extends Controller
                     'exampleWords' => $exampleWordSources,
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],

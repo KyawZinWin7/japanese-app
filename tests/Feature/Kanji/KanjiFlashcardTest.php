@@ -14,6 +14,34 @@ class KanjiFlashcardTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_guests_can_view_kanji_flashcards(): void
+    {
+        $level = JlptLevel::create([
+            'name' => 'N5',
+            'slug' => 'n5',
+            'sort_order' => 5,
+            'description' => 'Beginner',
+        ]);
+
+        Kanji::create([
+            'jlpt_level_id' => $level->id,
+            'character' => '?',
+            'slug' => 'guest-flash-water',
+            'onyomi' => '??',
+            'kunyomi' => '??',
+            'meaning' => 'water',
+            'example_sentence' => '???????',
+            'example_translation' => 'I drink water.',
+            'sort_order' => 1,
+            'is_published' => true,
+        ]);
+
+        $response = $this->get('/kanji-flashcards?level=n5');
+
+        $response->assertOk();
+        $response->assertSee('guest-flash-water');
+    }
+
     public function test_users_can_view_kanji_flashcards_for_assigned_level(): void
     {
         $user = User::factory()->create(['is_approved' => true]);

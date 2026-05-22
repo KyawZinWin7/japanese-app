@@ -22,12 +22,12 @@
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3">
-                        <a :href="viewer.isAuthenticated ? routes.accountHome : routes.register" class="app-btn-accent">
-                            {{ viewer.isAuthenticated ? text.openMyPage : common.register }}
+                        <a :href="viewer.isAuthenticated ? routes.accountHome : routes.lessons" class="app-btn-accent">
+                            {{ viewer.isAuthenticated ? text.openMyPage : text.startFree }}
                         </a>
-                        <a :href="routes.login" class="app-btn-secondary">{{ common.login }}</a>
+                        <a :href="routes.flashcards" class="app-btn-secondary">{{ text.tryFlashcards }}</a>
                         <a :href="viewer.isAuthenticated ? routes.accountHome : routes.login" class="app-link text-base">
-                            {{ viewer.isAuthenticated ? text.continue : text.alreadyAccount }}
+                            {{ viewer.isAuthenticated ? text.continue : text.signInToSave }}
                         </a>
                     </div>
 
@@ -81,26 +81,26 @@
         </section>
 
         <section class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            <article class="content-card">
+            <a :href="routes.levels" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="app-badge">JLPT</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ text.levels }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.jlptText }}</p>
-            </article>
-            <article class="content-card">
+            </a>
+            <a :href="routes.lessons" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="app-badge">{{ text.read }}</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ sectionTitles.lessons }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.lessonsText }}</p>
-            </article>
-            <article class="content-card">
+            </a>
+            <a :href="routes.vocabulary" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="app-badge">{{ text.words }}</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ sectionTitles.vocabulary }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.vocabularyText }}</p>
-            </article>
-            <article class="content-card">
+            </a>
+            <a :href="routes.kanji" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="app-badge">{{ text.practice }}</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ sectionTitles.kanji }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.kanjiText }}</p>
-            </article>
+            </a>
         </section>
     </main>
 </template>
@@ -127,32 +127,34 @@ const copy = {
         },
         home: {
             webApp: 'Japanese Learning Web App',
-            heroTitle: 'Learn Japanese in a clean web app with lessons, kanji, vocabulary, quizzes, and flashcards.',
-            heroText: 'KMM JAPANESE gives learners a simple study flow, while admins can approve learners and control JLPT access.',
+            heroTitle: 'Study Japanese for free with lessons, kanji, vocabulary, quizzes, and flashcards in one place.',
+            heroText: 'KMM JAPANESE gives learners a simple place to start studying right away, and accounts help you save progress, bookmarks, and resume history.',
             openMyPage: 'Open My Page',
+            startFree: 'Start Free',
+            tryFlashcards: 'Try Flashcards',
             continue: 'Continue',
-            alreadyAccount: 'I already have an account',
+            signInToSave: 'Sign in to save progress',
             levels: 'Levels',
-            levelsText: 'Admins can assign the correct JLPT path for each learner.',
+            levelsText: 'Start from the JLPT level that matches what you want to study next.',
             practice: 'Practice',
-            practiceText: 'Study readings, meanings, examples, quizzes, and flashcards.',
-            access: 'Access',
-            approved: 'Approved',
-            accessText: 'Registered learners are approved by an admin before study access starts.',
+            practiceText: 'Review readings, meanings, examples, quizzes, and flashcards in one flow.',
+            access: 'Free',
+            approved: 'Open',
+            accessText: 'Browse the study materials freely, then sign in when you want to keep your progress.',
             today: 'Today With KMM',
-            guidedTitle: 'A guided study flow for real learners',
+            guidedTitle: 'A simple study flow you can start right away',
             focus: 'Focus',
             learnByLevel: 'Learn by level',
-            step1: '1. Register',
-            step1Text: 'Create your learner account with your basic information.',
-            step2: '2. Get approved',
-            step2Text: 'An admin accepts your registration and assigns your JLPT levels.',
-            step3: '3. Start learning',
-            step3Text: 'Open your study home, lessons, vocabulary, kanji, flashcards, and quizzes.',
-            jlptText: 'Each learner sees the levels the admin approved for them.',
-            lessonsText: 'Open structured lesson pages with a simple reading layout.',
-            vocabularyText: 'Study words, readings, meanings, and examples in one place.',
-            kanjiText: 'Review kanji details, flashcards, and quizzes after approval.',
+            step1: '1. Choose a level',
+            step1Text: 'Pick the JLPT level or topic you want to focus on first.',
+            step2: '2. Open a study page',
+            step2Text: 'Read lessons, review vocabulary, and practice kanji with simple study screens.',
+            step3: '3. Keep going',
+            step3Text: 'Use an account when you want to save bookmarks, history, and resume shortcuts.',
+            jlptText: 'Study materials are organized by JLPT level so you can jump in where you belong.',
+            lessonsText: 'Read structured lesson pages designed for focused, easy review.',
+            vocabularyText: 'Study words, readings, meanings, and examples together in one place.',
+            kanjiText: 'Practice kanji details, flashcards, and quizzes as part of your regular review.',
             words: 'Words',
             read: 'Read',
         },
@@ -165,36 +167,38 @@ const copy = {
         sectionTitles: {
             lessons: '\u101e\u1004\u103a\u1001\u1014\u103a\u1038\u1005\u102c\u1019\u103b\u102c\u1038',
             vocabulary: '\u101d\u1031\u102b\u101f\u102c\u101b\u1019\u103b\u102c\u1038',
-            kanji: '\u1001\u1014\u103a\u1002\u103b\u102e',
+            kanji: '\u1001\u1014\u103a\u1038\u1002\u103b\u102e\u1038',
         },
         home: {
             webApp: '\u1002\u103b\u1015\u1014\u103a\u1005\u102c \u101c\u1031\u1037\u101c\u102c\u101b\u1031\u1038 Web App',
-            heroTitle: '\u101e\u1004\u103a\u1001\u1014\u103a\u1038\u1005\u102c\u1019\u103b\u102c\u1038\u104a kanji\u104a \u101d\u1031\u102b\u101f\u102c\u101b\u1019\u103b\u102c\u1038\u104a quizzes \u1014\u103e\u1004\u1037\u103a flashcards \u1019\u103b\u102c\u1038\u1015\u102b\u101d\u1004\u103a\u101e\u1031\u102c \u101e\u1014\u1037\u103a\u101b\u103e\u1004\u103a\u1038\u101c\u103d\u101a\u103a\u1000\u1030\u101e\u100a\u1037\u103a web app \u1016\u103c\u1004\u1037\u103a \u1002\u103b\u1015\u1014\u103a\u1005\u102c\u101c\u1031\u1037\u101c\u102c\u1015\u102b\u104b',
-            heroText: 'KMM JAPANESE \u101e\u100a\u103a learner \u1019\u103b\u102c\u1038\u1021\u1010\u103d\u1000\u103a \u101c\u103d\u101a\u103a\u1000\u1030\u101e\u1031\u102c study flow \u1000\u102d\u102f\u1015\u1031\u1038\u1015\u103c\u102e\u1038 admin \u1019\u103b\u102c\u1038\u1000 learner approval \u1014\u103e\u1004\u1037\u103a JLPT access \u1000\u102d\u102f \u1005\u102e\u1019\u1036\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
+            heroTitle: '\u101e\u1004\u103a\u1001\u1014\u103a\u1038\u1005\u102c\u1019\u103b\u102c\u1038\u104a kanji\u104a \u101d\u1031\u102b\u101f\u102c\u101b\u1019\u103b\u102c\u1038\u104a quizzes \u1014\u103e\u1004\u1037\u103a flashcards \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1010\u1005\u103a\u1014\u1031\u101b\u102c\u1010\u100a\u103a\u1038\u1010\u103d\u1004\u103a \u1021\u1001\u1019\u1032\u1037 \u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u101e\u100a\u1037\u103a \u1002\u103b\u1015\u1014\u103a\u1005\u102c\u101c\u1031\u1037\u101c\u102c\u101b\u1031\u1038 web app \u1016\u103c\u1005\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
+            heroText: 'KMM JAPANESE \u1010\u103d\u1004\u103a \u1002\u103b\u1015\u1014\u103a\u1005\u102c\u1000\u102d\u102f \u1010\u1001\u103b\u1000\u103a\u1001\u103b\u1004\u103a\u1038 \u1005\u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u101e\u100a\u1037\u103a \u101c\u103d\u101a\u103a\u1000\u1030\u101e\u1031\u102c study flow \u101b\u103e\u102d\u1015\u102b\u101e\u100a\u103a\u104b account \u1016\u103d\u1004\u1037\u103a\u1011\u102c\u1038\u1015\u102b\u1000 progress\u104a bookmarks \u1014\u103e\u1004\u1037\u103a resume history \u1019\u103b\u102c\u1038\u1000\u102d\u102f\u101c\u100a\u103a\u1038 \u101e\u102d\u1019\u103a\u1038\u1011\u102c\u1038\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
             openMyPage: '\u1000\u103b\u103d\u1014\u103a\u102f\u1015\u103a\u104f\u1005\u102c\u1019\u103b\u1000\u103a\u1014\u103e\u102c \u1016\u103d\u1004\u1037\u103a\u1019\u100a\u103a',
+            startFree: '\u1021\u1001\u1019\u1032\u1037 \u1005\u101c\u1031\u1037\u101c\u102c\u1019\u100a\u103a',
+            tryFlashcards: 'Flashcards \u1005\u1019\u103a\u1038\u1019\u100a\u103a',
             continue: '\u1006\u1000\u103a\u101e\u103d\u102c\u1038\u1019\u100a\u103a',
-            alreadyAccount: '\u1021\u1000\u1031\u102c\u1004\u1037\u103a\u101b\u103e\u102d\u1015\u103c\u102e\u1038\u101e\u102c\u1038',
+            signInToSave: 'Progress \u101e\u102d\u1019\u103a\u1038\u1011\u102c\u1038\u101b\u1014\u103a sign in \u101d\u1004\u103a\u1015\u102b',
             levels: '\u1021\u1006\u1004\u1037\u103a\u1019\u103b\u102c\u1038',
-            levelsText: 'Learner \u1010\u1005\u103a\u101a\u1031\u102c\u1000\u103a\u1001\u103b\u1004\u103a\u1038\u1021\u1010\u103d\u1000\u103a \u101e\u1004\u1037\u103a\u1010\u1031\u102c\u103a\u101e\u1031\u102c JLPT \u101c\u1019\u103a\u1038\u1000\u103c\u1031\u102c\u1004\u103a\u1038\u1000\u102d\u102f admin \u1000 \u101e\u1010\u103a\u1019\u103e\u1010\u103a\u1015\u1031\u1038\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
+            levelsText: '\u1019\u102d\u1019\u102d \u101c\u1031\u1037\u101c\u102c\u1001\u103b\u1004\u103a\u101e\u100a\u1037\u103a JLPT level \u1000\u102d\u102f \u101b\u103d\u1031\u1038\u1015\u103c\u102e\u1038 \u1010\u1014\u103a\u1038\u1010\u1000\u103a\u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
             practice: '\u101c\u1031\u1037\u1000\u103b\u1004\u1037\u103a\u1019\u103e\u102f',
-            practiceText: 'Reading\u104a meaning\u104a example\u104a quiz \u1014\u103e\u1004\u1037\u103a flashcard \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
+            practiceText: 'Reading\u104a meaning\u104a example\u104a quiz \u1014\u103e\u1004\u1037\u103a flashcard \u1019\u103b\u102c\u1038\u1000\u102d\u102f study flow \u1010\u1005\u103a\u1001\u102f\u1010\u100a\u103a\u1038\u1010\u103d\u1004\u103a \u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
             access: '\u1021\u101e\u102f\u1036\u1038\u1015\u103c\u102f\u1001\u103d\u1004\u1037\u103a',
-            approved: '\u1021\u1010\u100a\u103a\u1015\u103c\u102f\u1015\u103c\u102e\u1038',
-            accessText: '\u1005\u102c\u101b\u1004\u103a\u1038\u101e\u103d\u1004\u103a\u1038\u1011\u102c\u1038\u101e\u1031\u102c learner \u1019\u103b\u102c\u1038\u1000\u102d\u102f admin \u1000 \u1021\u1010\u100a\u103a\u1015\u103c\u102f\u1015\u103c\u102e\u1038\u1019\u103e study access \u1005\u1010\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
+            approved: '\u1016\u103d\u1004\u1037\u103a\u1011\u102c\u1038',
+            accessText: '\u101c\u1031\u1037\u101c\u102c\u101b\u1031\u1038 content \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u101c\u103d\u1010\u103a\u101c\u1015\u103a\u1005\u103d\u102c \u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b progress \u101e\u102d\u1019\u103a\u1038\u1011\u102c\u1038\u1001\u103b\u1004\u103a\u101c\u103e\u103b\u1004\u103a sign in \u101d\u1004\u103a\u1015\u102b\u104b',
             today: '\u101a\u1014\u1031\u1037 KMM \u1014\u103e\u1004\u1037\u103a',
-            guidedTitle: '\u1010\u1000\u101a\u1037\u103a learner \u1019\u103b\u102c\u1038\u1021\u1010\u103d\u1000\u103a \u101c\u1019\u103a\u1038\u100a\u103d\u103e\u1014\u103a\u1011\u102c\u1038\u101e\u1031\u102c study flow',
+            guidedTitle: '\u1010\u1001\u103b\u1000\u103a\u1001\u103b\u1004\u103a\u1038 \u1005\u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u101e\u100a\u1037\u103a \u101b\u103e\u1004\u103a\u1038\u101c\u1004\u103a\u1038\u101e\u1031\u102c study flow',
             focus: '\u1021\u1013\u102d\u1000\u1011\u102c\u1038',
             learnByLevel: 'Level \u1021\u101c\u102d\u102f\u1000\u103a \u101c\u1031\u1037\u101c\u102c\u1015\u102b',
-            step1: '\u1041\u104b \u1005\u102c\u101b\u1004\u103a\u1038\u101e\u103d\u1004\u103a\u1038\u1015\u102b',
-            step1Text: '\u1021\u1001\u103c\u1031\u1001\u1036\u1021\u1001\u103b\u1000\u103a\u1021\u101c\u1000\u103a\u1019\u103b\u102c\u1038\u1016\u103c\u1004\u1037\u103a learner account \u1010\u1005\u103a\u1001\u102f \u1016\u1014\u103a\u1010\u102e\u1038\u1015\u102b\u104b',
-            step2: '\u1042\u104b \u1021\u1010\u100a\u103a\u1015\u103c\u102f\u1001\u103b\u1000\u103a\u101b\u101a\u1030\u1015\u102b',
-            step2Text: 'Admin \u1000 registration \u1000\u102d\u102f \u101c\u1000\u103a\u1001\u1036\u1015\u103c\u102e\u1038 JLPT levels \u1019\u103b\u102c\u1038 \u101e\u1010\u103a\u1019\u103e\u1010\u103a\u1015\u1031\u1038\u1015\u102b\u101e\u100a\u103a\u104b',
-            step3: '\u1043\u104b \u1005\u1010\u1004\u103a\u101c\u1031\u1037\u101c\u102c\u1015\u102b',
-            step3Text: 'Study home\u104a lessons\u104a vocabulary\u104a kanji\u104a flashcards \u1014\u103e\u1004\u1037\u103a quizzes \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1016\u103d\u1004\u1037\u103a\u1015\u102b\u104b',
-            jlptText: 'Learner \u1010\u1005\u103a\u101a\u1031\u102c\u1000\u103a\u1001\u103b\u1004\u103a\u1038\u1005\u102e\u1021\u1010\u103d\u1000\u103a admin \u1001\u103d\u1004\u1037\u103a\u1015\u103c\u102f\u1011\u102c\u1038\u101e\u1031\u102c level \u1019\u103b\u102c\u1038\u1000\u102d\u102f\u101e\u102c \u1019\u103c\u1004\u103a\u101b\u1015\u102b\u1019\u100a\u103a\u104b',
-            lessonsText: '\u101b\u102d\u102f\u1038\u101b\u103e\u1004\u103a\u1038\u101e\u1031\u102c reading layout \u1016\u103c\u1004\u1037\u103a structured lesson pages \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1016\u103d\u1004\u1037\u103a\u1015\u102b\u104b',
-            vocabularyText: 'Word\u104a reading\u104a meaning \u1014\u103e\u1004\u1037\u103a example \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1010\u1005\u103a\u1014\u1031\u101b\u102c\u1010\u100a\u103a\u1038\u1010\u103d\u1004\u103a \u101c\u1031\u1037\u101c\u102c\u1015\u102b\u104b',
-            kanjiText: 'Approval \u101b\u1015\u103c\u102e\u1038\u1014\u1031\u102c\u1000\u103a kanji details\u104a flashcards \u1014\u103e\u1004\u1037\u103a quizzes \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u101c\u1031\u1037\u101c\u102c\u1015\u102b\u104b',
+            step1: '\u1041\u104b level \u101b\u103d\u1031\u1038\u1015\u102b',
+            step1Text: '\u1019\u102d\u1019\u102d \u101c\u1031\u1037\u101c\u102c\u1001\u103b\u1004\u103a\u101e\u100a\u1037\u103a JLPT level \u101e\u102d\u102f\u1037\u1019\u101f\u102f\u1010\u103a topic \u1000\u102d\u102f \u1021\u1005\u1026\u1026\u101b\u103d\u1031\u1038\u1015\u102b\u104b',
+            step2: '\u1042\u104b study page \u1016\u103d\u1004\u1037\u103a\u1015\u102b',
+            step2Text: '\u101e\u1004\u103a\u1001\u1014\u103a\u1038\u1005\u102c\u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1016\u1010\u103a\u101b\u103e\u102f\u1015\u103c\u102e\u1038 vocabulary \u1014\u103e\u1004\u1037\u103a kanji \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u101c\u103d\u101a\u103a\u1000\u1030\u101e\u1031\u102c screen \u1019\u103b\u102c\u1038\u1016\u103c\u1004\u1037\u103a \u101c\u1031\u1037\u1010\u103d\u1004\u103a\u1015\u102b\u104b',
+            step3: '\u1043\u104b \u1006\u1000\u103a\u101c\u1031\u1037\u101c\u102c\u1015\u102b',
+            step3Text: 'Bookmarks\u104a history \u1014\u103e\u1004\u1037\u103a resume shortcuts \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u101e\u102d\u1019\u103a\u1038\u1011\u102c\u1038\u1001\u103b\u1004\u103a\u101c\u103e\u103b\u1004\u103a account \u1016\u103d\u1004\u1037\u103a\u1011\u102c\u1038\u1015\u102b\u104b',
+            jlptText: '\u101c\u1031\u1037\u101c\u102c\u101b\u1031\u1038 content \u1019\u103b\u102c\u1038\u1000\u102d\u102f JLPT level \u1021\u101c\u102d\u102f\u1000\u103a \u1005\u102e\u1005\u1009\u103a\u1011\u102c\u1038\u101e\u103c\u102c\u1038\u1015\u103c\u102e\u1038 \u1019\u102d\u1019\u102d\u1014\u1031\u101b\u102c\u1000 \u1010\u1014\u103a\u1038\u1010\u1000\u103a\u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
+            lessonsText: '\u1021\u102c\u101b\u102f\u1036\u1005\u102d\u102f\u1000\u103a\u1016\u1010\u103a\u101b\u103e\u102f\u1014\u102d\u102f\u1004\u103a\u101b\u1014\u103a \u1015\u1036\u102f\u1005\u1036\u1000\u103b\u1005\u103d\u102c \u1010\u100a\u103a\u1006\u1031\u102c\u1000\u103a\u1011\u102c\u1038\u101e\u1031\u102c lesson pages \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1016\u103d\u1004\u1037\u103a\u1015\u102b\u104b',
+            vocabularyText: 'Word\u104a reading\u104a meaning \u1014\u103e\u1004\u1037\u103a example \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1010\u1005\u103a\u1014\u1031\u101b\u102c\u1010\u100a\u103a\u1038\u1010\u103d\u1004\u103a \u1015\u1031\u102b\u1004\u103a\u1038\u1005\u100a\u103a\u1038\u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u104b',
+            kanjiText: 'Kanji details\u104a flashcards \u1014\u103e\u1004\u1037\u103a quizzes \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1015\u102f\u1036\u1019\u103e\u1014\u103a review \u101c\u102f\u1015\u103a\u1004\u1014\u103a\u1038\u1005\u1009\u103a \u1010\u1005\u103a\u1001\u102f\u1021\u1016\u103c\u1005\u103a \u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u104b',
             words: '\u1005\u1000\u102c\u1038\u101c\u102f\u1036\u1038\u1019\u103b\u102c\u1038',
             read: '\u1016\u1010\u103a\u1019\u100a\u103a',
         },

@@ -13,8 +13,10 @@ class LessonController extends Controller
 {
     public function index(Request $request)
     {
+        $user = $request->user();
         $selectedLevel = $request->string('level')->toString();
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
 
         $query = Lesson::query()
             ->with('jlptLevel:id,name,slug')
@@ -30,8 +32,8 @@ class LessonController extends Controller
         }
 
         $paginator = $query->paginate(6)->withQueryString();
-        $bookmarkIds = $request->user()->bookmarkedLessons()->pluck('lesson_id')->all();
-        $completedIds = $request->user()->completedLessons()->pluck('lesson_id')->all();
+        $bookmarkIds = $canSaveProgress ? $user->bookmarkedLessons()->pluck('lesson_id')->all() : [];
+        $completedIds = $canSaveProgress ? $user->completedLessons()->pluck('lesson_id')->all() : [];
 
         return view('vue-page', [
             'title' => 'Lessons',
@@ -42,18 +44,19 @@ class LessonController extends Controller
                 ],
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
-                'lessons' => collect($paginator->items())->map(function (Lesson $lesson) use ($bookmarkIds, $completedIds) {
+                'lessons' => collect($paginator->items())->map(function (Lesson $lesson) use ($bookmarkIds, $completedIds, $canSaveProgress) {
                     return [
                         'id' => $lesson->id,
                         'title' => $lesson->title,
                         'slug' => $lesson->slug,
                         'excerpt' => $lesson->excerpt,
                         'sort_order' => $lesson->sort_order,
-                        'canBookmark' => true,
+                        'canBookmark' => $canSaveProgress,
                         'bookmarkUrl' => route('lessons.bookmarks.toggle', $lesson),
                         'isBookmarked' => in_array($lesson->id, $bookmarkIds, true),
                         'completionUrl' => route('lessons.complete.toggle', $lesson),
@@ -90,11 +93,13 @@ class LessonController extends Controller
 
     public function show(Request $request, Lesson $lesson)
     {
+        $user = $request->user();
+        $canSaveProgress = (bool) ($user?->is_approved);
         abort_unless($lesson->is_published, 404);
-        abort_unless(StudyAccess::canAccessLevel($request->user(), $lesson->jlpt_level_id), 403);
+        abort_unless(StudyAccess::canAccessLevel($user, $lesson->jlpt_level_id), 403);
         $lesson->load('jlptLevel:id,name,slug');
-        $isBookmarked = $request->user()->bookmarkedLessons()->whereKey($lesson->id)->exists();
-        $isCompleted = $request->user()->completedLessons()->whereKey($lesson->id)->exists();
+        $isBookmarked = $canSaveProgress ? $user->bookmarkedLessons()->whereKey($lesson->id)->exists() : false;
+        $isCompleted = $canSaveProgress ? $user->completedLessons()->whereKey($lesson->id)->exists() : false;
 
         return view('vue-page', [
             'title' => $lesson->title,
@@ -107,7 +112,7 @@ class LessonController extends Controller
                     'excerpt' => $lesson->excerpt,
                     'content' => $lesson->content,
                     'sort_order' => $lesson->sort_order,
-                    'canBookmark' => true,
+                    'canBookmark' => $canSaveProgress,
                     'bookmarkUrl' => route('lessons.bookmarks.toggle', $lesson),
                     'isBookmarked' => $isBookmarked,
                     'completionUrl' => route('lessons.complete.toggle', $lesson),
@@ -118,7 +123,8 @@ class LessonController extends Controller
                     ],
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
@@ -127,9 +133,11 @@ class LessonController extends Controller
                 'routes' => [
                     'index' => route('lessons.index'),
                 ],
-                'studyState' => $request->user()->studyHistoryEntries()
-                    ->where('entry_key', StudyHistoryKey::fromPath($request, 'lesson', false))
-                    ->first()?->state ?? [],
+                'studyState' => $canSaveProgress
+                    ? ($user->studyHistoryEntries()
+                        ->where('entry_key', StudyHistoryKey::fromPath($request, 'lesson', false))
+                        ->first()?->state ?? [])
+                    : [],
             ],
         ]);
     }

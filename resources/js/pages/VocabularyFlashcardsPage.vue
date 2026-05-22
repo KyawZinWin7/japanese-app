@@ -89,6 +89,7 @@
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { t } from '../frontendI18n';
 import { saveStudyResume, trackStudyHistory } from '../studyHistory';
+import { buildFlashcardStudyState, reorderCardsBySavedOrder, resolveSavedActiveIndex } from '../flashcardStudyState';
 
 const props = defineProps({
     cards: { type: Array, required: true },
@@ -146,6 +147,7 @@ function shuffleCards() {
     orderedCards.value = [...orderedCards.value].sort(() => Math.random() - 0.5);
     activeIndex.value = 0;
     showBack.value = false;
+    syncStudyProgress();
     scrollToStudyStage();
 }
 
@@ -192,26 +194,24 @@ function resetTouchState() {
 }
 
 function restoreStudyProgress() {
-    const savedIndex = Number(props.studyState?.activeIndex ?? 0);
-
-    if (Number.isInteger(savedIndex) && savedIndex >= 0 && savedIndex < orderedCards.value.length) {
-        activeIndex.value = savedIndex;
-    }
+    orderedCards.value = reorderCardsBySavedOrder(props.cards, props.studyState?.cardOrderIds);
+    activeIndex.value = resolveSavedActiveIndex(orderedCards.value, props.studyState);
 
     showBack.value = Boolean(props.studyState?.showBack);
 }
 
 function syncStudyProgress() {
+    if (!props.viewer.isApproved) {
+        return;
+    }
+
     const entry = {
         id: `vocabulary-flashcards:${window.location.pathname}${window.location.search}`,
         href: window.location.href,
         title: t('study.vocabulary'),
         subtitle: t('study.flashcards'),
         progressLabel: `${activeIndex.value + 1} / ${orderedCards.value.length}`,
-        state: {
-            activeIndex: activeIndex.value,
-            showBack: showBack.value,
-        },
+        state: buildFlashcardStudyState(orderedCards.value, props.cards, activeIndex.value, showBack.value),
     };
 
     trackStudyHistory(entry);

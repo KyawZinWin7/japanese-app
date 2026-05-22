@@ -19,6 +19,68 @@
             ];
         @endphp
 
+        @guest
+            <header class="app-nav-shell">
+                <a href="{{ route('home') }}" class="app-brand">
+                    <img src="{{ asset('images/kmm.png') }}" alt="KMM JAPANESE logo" class="app-brand-logo">
+                    <span class="app-brand-text">
+                        <span class="app-brand-name">KMM JAPANESE</span>
+                        <span class="app-brand-subtitle">Japanese learning platform</span>
+                    </span>
+                </a>
+
+                <nav class="app-nav-links" aria-label="Primary">
+                    <a href="{{ route('home') }}" class="app-nav-link">{{ __('frontend.nav.study') }}</a>
+                    <a href="{{ route('lessons.index') }}" class="app-nav-link">{{ __('frontend.nav.lessons') }}</a>
+                    <a href="{{ route('vocabulary.index') }}" class="app-nav-link">{{ __('frontend.nav.vocabulary') }}</a>
+                    <a href="{{ route('kanji.index') }}" class="app-nav-link">{{ __('frontend.nav.kanji') }}</a>
+                    <a href="{{ route('flashcards.index') }}" class="app-nav-link">{{ __('frontend.nav.flashcards') }}</a>
+                </nav>
+
+                <div class="app-nav-actions">
+                    <a href="{{ route('login') }}" class="app-btn-secondary">{{ __('frontend.nav.login') }}</a>
+                    <a href="{{ route('register') }}" class="app-btn-secondary hidden lg:inline-flex">{{ __('frontend.nav.register') }}</a>
+                </div>
+
+                <div class="app-mobile-menu">
+                    <button type="button" class="app-mobile-menu-button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav-panel" data-mobile-menu-toggle>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+
+                    <div id="mobile-nav-panel" class="app-mobile-menu-panel" data-mobile-menu-panel hidden>
+                        <div class="app-mobile-menu-section-title">Navigate</div>
+                        <nav class="app-mobile-menu-links" aria-label="Mobile Primary">
+                            <a href="{{ route('home') }}" class="app-mobile-menu-link">{{ __('frontend.nav.study') }}</a>
+                            <a href="{{ route('lessons.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.lessons') }}</a>
+                            <a href="{{ route('vocabulary.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.vocabulary') }}</a>
+                            <a href="{{ route('kanji.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.kanji') }}</a>
+                            <a href="{{ route('flashcards.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.flashcards') }}</a>
+                        </nav>
+
+                        <div class="app-mobile-menu-footer">
+                            <div class="app-mobile-menu-section-title">Account</div>
+                            <div class="app-mobile-menu-links">
+                                <a href="{{ route('login') }}" class="app-mobile-menu-link">{{ __('frontend.nav.login') }}</a>
+                                <a href="{{ route('register') }}" class="app-mobile-menu-link">{{ __('frontend.nav.register') }}</a>
+                            </div>
+                        </div>
+
+                        <div class="app-mobile-menu-section">
+                            <div class="app-mobile-menu-section-title">Language</div>
+                            <form action="{{ route('locale.update') }}" method="POST" class="app-mobile-language-toggle">
+                                @csrf
+                                <input type="hidden" name="redirect_to" value="{{ url()->full() }}">
+                                <button type="submit" name="locale" value="en" class="rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition {{ app()->getLocale() === 'en' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-white' }}">ENG</button>
+                                <button type="submit" name="locale" value="my" class="rounded-xl px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition {{ app()->getLocale() === 'my' ? 'bg-emerald-600 text-white' : 'text-slate-700 hover:bg-white' }}">MYA</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        @endguest
+
         @auth
             @php
                 $navHomeUrl = auth()->user()->is_admin ? route('admin.dashboard') : route('study.home');

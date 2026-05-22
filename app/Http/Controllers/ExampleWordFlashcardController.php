@@ -13,10 +13,12 @@ class ExampleWordFlashcardController extends Controller
 {
     public function index(Request $request)
     {
+        $user = $request->user();
         $selectedLevel = $request->string('level')->toString();
         $selectedSource = $request->string('source')->toString();
         $selectedChapter = $request->string('chapter')->toString();
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
 
         $query = ExampleWord::query()
             ->with('jlptLevel:id,name,slug', 'source:id,name,slug', 'kanji:id,character')
@@ -70,7 +72,8 @@ class ExampleWordFlashcardController extends Controller
                     'chapter' => $selectedChapter,
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
@@ -89,9 +92,11 @@ class ExampleWordFlashcardController extends Controller
                     ->toArray(),
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'cards' => $cards,
-                'studyState' => $request->user()->studyHistoryEntries()
-                    ->where('entry_key', StudyHistoryKey::fromPath($request, 'example-word-flashcards'))
-                    ->first()?->state ?? [],
+                'studyState' => $canSaveProgress
+                    ? ($user->studyHistoryEntries()
+                        ->where('entry_key', StudyHistoryKey::fromPath($request, 'example-word-flashcards'))
+                        ->first()?->state ?? [])
+                    : [],
                 'routes' => [
                     'dashboard' => route('study.home'),
                     'index' => route('example-word-flashcards.index'),

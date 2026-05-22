@@ -7,7 +7,9 @@
                     <h1 class="app-title">{{ text.title }}</h1>
                     <p class="app-subtitle">{{ text.subtitle }}</p>
                 </div>
-                <a :href="routes.dashboard" class="app-link">{{ common.studyHome }}</a>
+                <a :href="viewer.isAuthenticated ? routes.dashboard : viewer.loginUrl" class="app-link">
+                    {{ viewer.isAuthenticated ? common.studyHome : common.login }}
+                </a>
             </div>
         </section>
 

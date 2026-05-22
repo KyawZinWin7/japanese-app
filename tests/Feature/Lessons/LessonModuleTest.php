@@ -12,6 +12,34 @@ class LessonModuleTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_guests_can_view_published_lessons_and_lesson_details(): void
+    {
+        $level = JlptLevel::create([
+            'name' => 'N5',
+            'slug' => 'n5',
+            'sort_order' => 5,
+            'description' => 'Beginner',
+        ]);
+
+        $lesson = Lesson::create([
+            'jlpt_level_id' => $level->id,
+            'title' => 'Greetings',
+            'slug' => 'greetings',
+            'excerpt' => 'Useful daily greetings',
+            'content' => 'Konnichiwa and more',
+            'sort_order' => 1,
+            'is_published' => true,
+        ]);
+
+        $indexResponse = $this->get('/lessons');
+        $detailResponse = $this->get('/lessons/'.$lesson->slug);
+
+        $indexResponse->assertOk();
+        $indexResponse->assertSee('Greetings');
+        $detailResponse->assertOk();
+        $detailResponse->assertSee('Konnichiwa and more');
+    }
+
     public function test_authenticated_users_can_view_filtered_lessons_from_assigned_levels(): void
     {
         $user = User::factory()->create(['is_approved' => true]);

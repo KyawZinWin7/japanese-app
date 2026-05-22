@@ -15,11 +15,13 @@ class KanjiController extends Controller
 {
     public function index(Request $request)
     {
+        $user = $request->user();
         $selectedLevel = $request->string('level')->toString();
         $selectedSource = $request->string('source')->toString();
         $selectedChapter = $request->string('chapter')->toString();
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
-        $items = $this->kanjiIndexItems($request->user(), $levelIds);
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
+        $items = $this->kanjiIndexItems($user, $levelIds, $canSaveProgress);
 
         return view('vue-page', [
             'title' => 'Kanji',
@@ -31,7 +33,8 @@ class KanjiController extends Controller
                     'chapter' => $selectedChapter,
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
@@ -52,11 +55,13 @@ class KanjiController extends Controller
 
     public function launch(Request $request)
     {
+        $user = $request->user();
         $selectedLevel = $request->string('level')->toString();
         $selectedSource = $request->string('source')->toString();
         $selectedChapter = $request->string('chapter')->toString();
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
-        $items = collect($this->kanjiIndexItems($request->user(), $levelIds));
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
+        $items = collect($this->kanjiIndexItems($user, $levelIds, $canSaveProgress));
 
         $filteredItems = $items
             ->filter(function (array $item) use ($selectedLevel, $selectedSource, $selectedChapter) {
@@ -91,7 +96,8 @@ class KanjiController extends Controller
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'sources' => ContentSourceService::optionsForType(Source::CONTENT_TYPE_KANJI, $levelIds),
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
@@ -109,13 +115,15 @@ class KanjiController extends Controller
 
     public function show(Request $request, Kanji $kanji)
     {
+        $user = $request->user();
+        $canSaveProgress = (bool) ($user?->is_approved);
         abort_unless($kanji->is_published, 404);
-        abort_unless(StudyAccess::canAccessLevel($request->user(), $kanji->jlpt_level_id), 403);
+        abort_unless(StudyAccess::canAccessLevel($user, $kanji->jlpt_level_id), 403);
         $kanji->load('jlptLevel:id,name,slug', 'source:id,name,slug', 'exampleWords:id,word,reading,meaning,meaning_mm,sort_order');
-        $isBookmarked = $request->user()->bookmarkedKanji()->whereKey($kanji->id)->exists();
+        $isBookmarked = $canSaveProgress ? $user->bookmarkedKanji()->whereKey($kanji->id)->exists() : false;
         $sequence = Kanji::query()
             ->where('is_published', true)
-            ->whereIn('jlpt_level_id', StudyAccess::allowedLevelIds($request->user()))
+            ->whereIn('jlpt_level_id', StudyAccess::allowedLevelIds($user))
             ->where('jlpt_level_id', $kanji->jlpt_level_id)
             ->when($kanji->source_id !== null, fn ($builder) => $builder->where('source_id', $kanji->source_id))
             ->when($kanji->chapter !== null && $kanji->chapter !== '', fn ($builder) => $builder->where('chapter', $kanji->chapter))
@@ -158,7 +166,7 @@ class KanjiController extends Controller
                             'url' => route('kanji.show', $item),
                         ])->all(),
                     ],
-                    'canBookmark' => true,
+                    'canBookmark' => $canSaveProgress,
                     'bookmarkUrl' => route('kanji.bookmarks.toggle', $kanji),
                     'isBookmarked' => $isBookmarked,
                     'level' => [
@@ -178,7 +186,8 @@ class KanjiController extends Controller
                     ])->values()->all(),
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
@@ -199,10 +208,12 @@ class KanjiController extends Controller
 
     public function flashcards(Request $request)
     {
+        $user = $request->user();
         $selectedLevel = $request->string('level')->toString();
         $selectedSource = $request->string('source')->toString();
         $selectedChapter = $request->string('chapter')->toString();
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
 
         $query = Kanji::query()
             ->with('jlptLevel:id,name,slug', 'source:id,name,slug', 'exampleWords:id,word,reading,meaning,meaning_mm,sort_order')
@@ -260,16 +271,19 @@ class KanjiController extends Controller
                     'chapter' => $selectedChapter,
                 ],
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
                 'levels' => JlptLevel::query()->whereIn('id', $levelIds)->orderBy('sort_order')->get(['id', 'name', 'slug'])->toArray(),
                 'sources' => ContentSourceService::optionsForType(Source::CONTENT_TYPE_KANJI, $levelIds),
                 'cards' => $cards,
-                'studyState' => $request->user()->studyHistoryEntries()
-                    ->where('entry_key', StudyHistoryKey::fromPath($request, 'kanji-flashcards'))
-                    ->first()?->state ?? [],
+                'studyState' => $canSaveProgress
+                    ? ($user->studyHistoryEntries()
+                        ->where('entry_key', StudyHistoryKey::fromPath($request, 'kanji-flashcards'))
+                        ->first()?->state ?? [])
+                    : [],
                 'routes' => [
                     'dashboard' => route('study.home'),
                     'index' => route('kanji-flashcards.index'),
@@ -297,9 +311,9 @@ class KanjiController extends Controller
         return back()->with('status', $message);
     }
 
-    private function kanjiIndexItems($user, array $levelIds): array
+    private function kanjiIndexItems($user, array $levelIds, bool $canSaveProgress): array
     {
-        $bookmarkIds = $user->bookmarkedKanji()->pluck('kanji_id')->all();
+        $bookmarkIds = $canSaveProgress ? $user->bookmarkedKanji()->pluck('kanji_id')->all() : [];
 
         return Kanji::query()
             ->with('jlptLevel:id,name,slug', 'source:id,name,slug')
@@ -308,7 +322,7 @@ class KanjiController extends Controller
             ->orderBy('sort_order')
             ->orderBy('character')
             ->get()
-            ->map(function (Kanji $item) use ($bookmarkIds) {
+            ->map(function (Kanji $item) use ($bookmarkIds, $canSaveProgress) {
                 return [
                     'id' => $item->id,
                     'character' => $item->character,
@@ -319,7 +333,7 @@ class KanjiController extends Controller
                     'meaning_mm' => $item->meaning_mm,
                     'chapter' => $item->chapter,
                     'sort_order' => $item->sort_order,
-                    'canBookmark' => true,
+                    'canBookmark' => $canSaveProgress,
                     'bookmarkUrl' => route('kanji.bookmarks.toggle', $item),
                     'isBookmarked' => in_array($item->id, $bookmarkIds, true),
                     'level' => [
