@@ -44,7 +44,7 @@ Route::get('/', function () {
                 'vocabulary' => route('vocabulary.index'),
                 'kanji' => route('kanji.index'),
                 'flashcards' => route('flashcards.index'),
-                'quizzes' => auth()->check() ? route('kanji-quizzes.index') : route('login'),
+                'quizzes' => route('kanji-quizzes.index'),
                 'login' => route('login'),
                 'register' => route('register'),
                 'pending' => auth()->check() ? route('approval.pending') : route('login'),
@@ -67,6 +67,8 @@ Route::get('/kanji/{kanji:slug}', [KanjiController::class, 'show'])->name('kanji
 Route::get('/kanji-flashcards', [KanjiController::class, 'flashcards'])->name('kanji-flashcards.index');
 Route::get('/kanji-word-flashcards', [ExampleWordFlashcardController::class, 'index'])->name('example-word-flashcards.index');
 Route::get('/vocabulary-flashcards', [VocabularyController::class, 'flashcards'])->name('vocabulary-flashcards.index');
+Route::get('/kanji-quizzes', [KanjiQuizController::class, 'index'])->name('kanji-quizzes.index');
+Route::get('/kanji-quizzes/{quiz:slug}', [KanjiQuizController::class, 'show'])->name('kanji-quizzes.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
@@ -89,8 +91,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware('approved')->group(function () {
         Route::get('/study', StudyHomeController::class)->name('study.home');
         Route::post('/study-history/sync', [StudyHistoryController::class, 'store'])->name('study-history.sync');
-        Route::get('/kanji-quizzes', [KanjiQuizController::class, 'index'])->name('kanji-quizzes.index');
-        Route::get('/kanji-quizzes/{quiz:slug}', [KanjiQuizController::class, 'show'])->name('kanji-quizzes.show');
         Route::get('/bookmarks', [BookmarkController::class, 'index'])->name('bookmarks.index');
 
         Route::post('/lessons/{lesson:slug}/complete', [LessonController::class, 'toggleCompletion'])->name('lessons.complete.toggle');

@@ -14,7 +14,9 @@ class KanjiQuizController extends Controller
 {
     public function index(Request $request)
     {
-        $levelIds = StudyAccess::allowedLevelIds($request->user());
+        $user = $request->user();
+        $levelIds = StudyAccess::allowedLevelIds($user);
+        $canSaveProgress = (bool) ($user?->is_approved);
         $levels = \App\Models\JlptLevel::query()
             ->whereIn('id', $levelIds)
             ->orderBy('sort_order')
@@ -57,7 +59,8 @@ class KanjiQuizController extends Controller
                     'showUrl' => route('kanji-quizzes.show', $quiz),
                 ])->values()->all(),
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],
@@ -72,8 +75,10 @@ class KanjiQuizController extends Controller
 
     public function show(Request $request, KanjiQuiz $quiz)
     {
+        $user = $request->user();
+        $canSaveProgress = (bool) ($user?->is_approved);
         abort_unless($quiz->is_published, 404);
-        abort_unless(StudyAccess::canAccessLevel($request->user(), $quiz->jlpt_level_id), 403);
+        abort_unless(StudyAccess::canAccessLevel($user, $quiz->jlpt_level_id), 403);
         $quiz->load('jlptLevel:id,name,slug', 'questions');
 
         return view('vue-page', [
@@ -89,12 +94,15 @@ class KanjiQuizController extends Controller
                     ],
                     'takeUrl' => route('kanji-quizzes.take', $quiz),
                 ],
-                'latestAttempt' => $request->user()->kanjiQuizAttempts()
-                    ->where('kanji_quiz_id', $quiz->id)
-                    ->latest()
-                    ->first(['id', 'score', 'total_questions'])?->toArray(),
+                'latestAttempt' => $canSaveProgress
+                    ? ($user->kanjiQuizAttempts()
+                        ->where('kanji_quiz_id', $quiz->id)
+                        ->latest()
+                        ->first(['id', 'score', 'total_questions'])?->toArray())
+                    : null,
                 'viewer' => [
-                    'isAuthenticated' => true,
+                    'isAuthenticated' => $user !== null,
+                    'isApproved' => $canSaveProgress,
                     'dashboardUrl' => route('study.home'),
                     'loginUrl' => route('login'),
                 ],

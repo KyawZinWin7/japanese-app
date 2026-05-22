@@ -80,7 +80,7 @@
             </div>
         </section>
 
-        <section class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <section class="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
             <a :href="routes.levels" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="app-badge">JLPT</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ text.levels }}</h2>
@@ -100,6 +100,11 @@
                 <p class="app-badge">{{ text.practice }}</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ sectionTitles.kanji }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.kanjiText }}</p>
+            </a>
+            <a :href="routes.quizzes" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
+                <p class="app-badge">{{ text.quizzes }}</p>
+                <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ text.quizzes }}</h2>
+                <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.quizzesText }}</p>
             </a>
         </section>
     </main>
@@ -157,6 +162,8 @@ const copy = {
             kanjiText: 'Practice kanji details, flashcards, and quizzes as part of your regular review.',
             words: 'Words',
             read: 'Read',
+            quizzes: 'Quizzes',
+            quizzesText: 'Browse published quiz sets now, then sign in when you are ready to take them.',
         },
     },
     my: {
@@ -201,6 +208,8 @@ const copy = {
             kanjiText: 'Kanji details\u104a flashcards \u1014\u103e\u1004\u1037\u103a quizzes \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1015\u102f\u1036\u1019\u103e\u1014\u103a review \u101c\u102f\u1015\u103a\u1004\u1014\u103a\u1038\u1005\u1009\u103a \u1010\u1005\u103a\u1001\u102f\u1021\u1016\u103c\u1005\u103a \u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u104b',
             words: '\u1005\u1000\u102c\u1038\u101c\u102f\u1036\u1038\u1019\u103b\u102c\u1038',
             read: '\u1016\u1010\u103a\u1019\u100a\u103a',
+            quizzes: 'Quizzes',
+            quizzesText: '\u1011\u102f\u1010\u103a\u101c\u103d\u103e\u1004\u1037\u103a\u1011\u102c\u1038\u101e\u1031\u102c quiz set \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1021\u1001\u1019\u1032\u1037 \u1000\u103c\u100a\u1037\u103a\u101b\u103e\u102f\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b \u1016\u103c\u1031\u1006\u102d\u102f\u101b\u1014\u103a ready \u1016\u103c\u1005\u103a\u101e\u1031\u102c\u1021\u1001\u102b sign in \u101d\u1004\u103a\u1015\u102b\u104b',
         },
     },
 };

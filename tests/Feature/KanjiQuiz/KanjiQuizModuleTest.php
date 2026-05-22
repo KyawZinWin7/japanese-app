@@ -14,7 +14,7 @@ class KanjiQuizModuleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guests_are_redirected_to_login_for_quiz_pages(): void
+    public function test_guests_can_view_quiz_list_and_detail_pages(): void
     {
         $level = JlptLevel::create(['name' => 'N5', 'slug' => 'n5', 'sort_order' => 5, 'description' => 'Beginner']);
         $quiz = KanjiQuiz::create([
@@ -29,8 +29,10 @@ class KanjiQuizModuleTest extends TestCase
         $listResponse = $this->get('/kanji-quizzes');
         $detailResponse = $this->get('/kanji-quizzes/'.$quiz->slug);
 
-        $listResponse->assertRedirect('/login');
-        $detailResponse->assertRedirect('/login');
+        $listResponse->assertOk();
+        $listResponse->assertSee('Public N5 Meaning Quiz');
+        $detailResponse->assertOk();
+        $detailResponse->assertSee('Basic kanji meanings');
     }
 
     public function test_users_can_choose_level_then_view_quiz_list_and_detail_for_assigned_levels(): void
