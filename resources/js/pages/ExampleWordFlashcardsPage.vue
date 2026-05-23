@@ -19,14 +19,37 @@
                     </div>
 
                     <div class="grid gap-3 px-4 py-3 sm:gap-4 sm:px-5 sm:py-4 lg:grid-cols-[minmax(0,1fr)_minmax(14rem,0.72fr)] lg:items-stretch">
-                        <button
-                            type="button"
-                            class="rounded-[1.3rem] border border-emerald-100 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.92),_rgba(236,253,245,0.88))] px-4 py-4 text-left shadow-[0_18px_40px_-34px_rgba(15,23,42,0.28)] transition hover:border-emerald-200 sm:rounded-[1.6rem] sm:px-6 sm:py-6"
-                            @click="handleCardClick"
-                            @touchstart="handleTouchStart"
-                            @touchend="handleTouchEnd"
-                            @touchcancel="resetTouchState"
-                        >
+                        <div class="relative">
+                            <button
+                                type="button"
+                                class="absolute left-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center transition sm:left-5"
+                                :class="activeIndex === 0 ? 'text-slate-300' : 'text-emerald-700'"
+                                :disabled="activeIndex === 0"
+                                @click.stop="previousCard"
+                            >
+                                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="h-5 w-5">
+                                    <path d="M12.5 4.5L7 10l5.5 5.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <button
+                                type="button"
+                                class="absolute right-3 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center transition sm:right-5"
+                                :class="activeIndex === orderedCards.length - 1 ? 'text-slate-300' : 'text-emerald-700'"
+                                :disabled="activeIndex === orderedCards.length - 1"
+                                @click.stop="nextCard"
+                            >
+                                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="h-5 w-5">
+                                    <path d="M7.5 4.5L13 10l-5.5 5.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </button>
+                            <button
+                                type="button"
+                                class="w-full rounded-[1.3rem] border border-emerald-100 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.92),_rgba(236,253,245,0.88))] px-14 py-4 text-left shadow-[0_18px_40px_-34px_rgba(15,23,42,0.28)] transition hover:border-emerald-200 sm:rounded-[1.6rem] sm:px-16 sm:py-6"
+                                @click="handleCardClick"
+                                @touchstart="handleTouchStart"
+                                @touchend="handleTouchEnd"
+                                @touchcancel="resetTouchState"
+                            >
                             <template v-if="!showBack">
                                 <div class="mt-1 flex min-h-[8.5rem] flex-col items-center justify-center text-center sm:mt-4 sm:min-h-[13rem]">
                                     <h1 class="text-[2.8rem] font-semibold leading-none text-slate-950 sm:text-[4rem] lg:text-[4.5rem]">
@@ -41,7 +64,7 @@
                             </template>
 
                             <template v-else>
-                                <div class="space-y-3 sm:space-y-4">
+                                <div class="flex min-h-[8.5rem] flex-col justify-center space-y-3 sm:min-h-[13rem] sm:space-y-4">
                                     <p class="text-lg font-semibold leading-7 text-slate-800 sm:text-2xl">{{ currentCard.reading || '-' }}</p>
                                     <p class="text-lg font-semibold leading-7 text-slate-800 sm:text-2xl">{{ currentCard.meaning }}</p>
                                     <p class="text-sm leading-6 text-emerald-900 sm:text-lg">
@@ -49,7 +72,8 @@
                                     </p>
                                 </div>
                             </template>
-                        </button>
+                            </button>
+                        </div>
 
                         <div class="grid content-start gap-2.5 sm:gap-3">
                             <section class="section-card min-h-[5.25rem] !rounded-[1.1rem] !p-3 sm:min-h-[6.5rem] sm:!rounded-[1.4rem] sm:!p-4">

@@ -217,41 +217,40 @@ const copy = {
     },
     my: {
         common: {
-            studyHome: 'á€œá€±á€·á€œá€¬á€›á€”á€º á€•á€„á€ºá€™á€…á€¬á€™á€»á€€á€ºá€”á€¾á€¬',
-            chapter: 'á€¡á€á€”á€ºá€¸',
+            studyHome: 'လေ့လာရေး ပင်မစာမျက်နှာ',
+            chapter: 'အခန်း',
             level: 'Level',
         },
         flashcards: {
             eyebrow: 'Flashcards',
-            title: 'Flashcards á€€á€­á€¯ á€›á€½á€±á€¸á€•á€«',
-            subtitle: 'Level á€›á€½á€±á€¸á€•á€«áŠ flashcard type á€›á€½á€±á€¸á€•á€«áŠ á€•á€¼á€®á€¸á€™á€¾ á€œá€±á€·á€œá€¬á€á€»á€„á€ºá€á€²á€· set á€€á€­á€¯á€–á€½á€„á€·á€ºá€•á€«á‹',
-            step1: 'á€¡á€†á€„á€·á€º á',
-            chooseLevel: 'Level á€›á€½á€±á€¸á€•á€«',
-            step2: 'á€¡á€†á€„á€·á€º á‚',
-            chooseType: 'Flashcard á€¡á€™á€»á€­á€¯á€¸á€¡á€…á€¬á€¸ á€›á€½á€±á€¸á€•á€«',
-            step3: 'á€¡á€†á€„á€·á€º áƒ',
-            step4: 'á€¡á€†á€„á€·á€º á„',
-            chooseBookCategory: 'á€…á€¬á€¡á€¯á€•á€º category á€›á€½á€±á€¸á€•á€«',
-            chooseChapter: 'Chapter á€žá€­á€¯á€·á€™á€Ÿá€¯á€á€º All á€€á€­á€¯ á€›á€½á€±á€¸á€•á€«',
-            ready: 'á€¡á€†á€„á€ºá€žá€„á€·á€º',
-            openTitle: 'Flashcards á€–á€½á€„á€·á€ºá€™á€Šá€º',
-            openButton: 'Flashcards á€–á€½á€„á€·á€ºá€™á€Šá€º',
-            startOver: 'á€¡á€…á€™á€¾ á€•á€¼á€”á€ºá€…á€™á€Šá€º',
-            back: 'á€•á€¼á€”á€ºá€™á€Šá€º',
-            next: 'á€›á€¾á€±á€·á€žá€­á€¯á€·',
-            reviewSelection: 'á€›á€½á€±á€¸á€‘á€¬á€¸á€™á€¾á€¯ á€•á€¼á€”á€ºá€€á€¼á€Šá€·á€ºá€™á€Šá€º',
-            type: 'á€¡á€™á€»á€­á€¯á€¸á€¡á€…á€¬á€¸',
-            option: 'á€›á€½á€±á€¸á€á€»á€šá€ºá€™á€¾á€¯',
-            bookCategory: 'á€…á€¬á€¡á€¯á€•á€º',
-            all: 'á€¡á€¬á€¸á€œá€¯á€¶á€¸',
-            noBookCategories: 'á€’á€® level á€¡á€á€½á€€á€º á€…á€¬á€¡á€¯á€•á€º category á€™á€›á€¾á€­á€žá€±á€¸á€•á€«á‹',
+            title: 'Flashcards ရွေးချယ်ပါ',
+            subtitle: 'Level ရွေးပါ၊ flashcard type ရွေးပါ၊ ပြီးမှ လေ့လာချင်တဲ့ set ကိုဖွင့်ပါ။',
+            step1: 'အဆင့် ၁',
+            chooseLevel: 'Level ရွေးပါ',
+            step2: 'အဆင့် ၂',
+            chooseType: 'Flashcard အမျိုးအစား ရွေးပါ',
+            step3: 'အဆင့် ၃',
+            step4: 'အဆင့် ၄',
+            chooseBookCategory: 'စာအုပ် category ရွေးပါ',
+            chooseChapter: 'Chapter သို့မဟုတ် All ရွေးပါ',
+            ready: 'အဆင်သင့်',
+            openTitle: 'Flashcards ဖွင့်ပါ',
+            openButton: 'Flashcards ဖွင့်မည်',
+            startOver: 'အစမှ ပြန်စမည်',
+            back: 'ပြန်မည်',
+            next: 'နောက်တစ်ခု',
+            reviewSelection: 'ရွေးချယ်ထားမှု ပြန်ကြည့်မည်',
+            type: 'အမျိုးအစား',
+            option: 'ရွေးချယ်စရာ',
+            bookCategory: 'စာအုပ်',
+            all: 'အားလုံး',
+            noBookCategories: 'ဒီ level အတွက် စာအုပ် category မရှိသေးပါ။',
             kanjiFlashcards: 'Kanji Flashcards',
             vocabularyFlashcards: 'Vocabulary Flashcards',
             exampleWordFlashcards: 'Kanji Word Flashcards',
         },
     },
 };
-
 const locale = computed(() => getLocale());
 const text = computed(() => copy[locale.value]?.flashcards ?? copy.en.flashcards);
 const common = computed(() => copy[locale.value]?.common ?? copy.en.common);
@@ -388,7 +387,10 @@ watch(selectedLevel, () => {
     selectedType.value = '';
     selectedSource.value = '';
     selectedChapter.value = '';
-    mobileStep.value = 1;
+
+    if (!selectedLevel.value) {
+        mobileStep.value = 1;
+    }
 });
 
 watch(selectedType, () => {
@@ -459,3 +461,4 @@ function reset() {
     mobileStep.value = 1;
 }
 </script>
+

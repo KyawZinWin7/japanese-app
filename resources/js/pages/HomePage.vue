@@ -106,6 +106,11 @@
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ text.quizzes }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.quizzesText }}</p>
             </a>
+            <a :href="routes.flashcards" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
+                <p class="app-badge">{{ text.flashcards }}</p>
+                <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ sectionTitles.flashcards }}</h2>
+                <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.flashcardsText }}</p>
+            </a>
         </section>
     </main>
 </template>
@@ -128,6 +133,7 @@ const copy = {
         sectionTitles: {
             lessons: 'Lessons',
             vocabulary: 'Vocabulary',
+            flashcards: 'Flashcards',
             kanji: 'Kanji',
         },
         home: {
@@ -159,6 +165,8 @@ const copy = {
             jlptText: 'Study materials are organized by JLPT level so you can jump in where you belong.',
             lessonsText: 'Read structured lesson pages designed for focused, easy review.',
             vocabularyText: 'Study words, readings, meanings, and examples together in one place.',
+            flashcards: 'Flashcards',
+            flashcardsText: 'Launch quick review sets for vocabulary and kanji from one simple starting point.',
             kanjiText: 'Practice kanji details, flashcards, and quizzes as part of your regular review.',
             words: 'Words',
             read: 'Read',
@@ -174,6 +182,7 @@ const copy = {
         sectionTitles: {
             lessons: '\u101e\u1004\u103a\u1001\u1014\u103a\u1038\u1005\u102c\u1019\u103b\u102c\u1038',
             vocabulary: '\u101d\u1031\u102b\u101f\u102c\u101b\u1019\u103b\u102c\u1038',
+            flashcards: 'Flashcards',
             kanji: '\u1001\u1014\u103a\u1038\u1002\u103b\u102e\u1038',
         },
         home: {
@@ -205,6 +214,8 @@ const copy = {
             jlptText: '\u101c\u1031\u1037\u101c\u102c\u101b\u1031\u1038 content \u1019\u103b\u102c\u1038\u1000\u102d\u102f JLPT level \u1021\u101c\u102d\u102f\u1000\u103a \u1005\u102e\u1005\u1009\u103a\u1011\u102c\u1038\u101e\u103c\u102c\u1038\u1015\u103c\u102e\u1038 \u1019\u102d\u1019\u102d\u1014\u1031\u101b\u102c\u1000 \u1010\u1014\u103a\u1038\u1010\u1000\u103a\u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b',
             lessonsText: '\u1021\u102c\u101b\u102f\u1036\u1005\u102d\u102f\u1000\u103a\u1016\u1010\u103a\u101b\u103e\u102f\u1014\u102d\u102f\u1004\u103a\u101b\u1014\u103a \u1015\u1036\u102f\u1005\u1036\u1000\u103b\u1005\u103d\u102c \u1010\u100a\u103a\u1006\u1031\u102c\u1000\u103a\u1011\u102c\u1038\u101e\u1031\u102c lesson pages \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1016\u103d\u1004\u1037\u103a\u1015\u102b\u104b',
             vocabularyText: 'Word\u104a reading\u104a meaning \u1014\u103e\u1004\u1037\u103a example \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1010\u1005\u103a\u1014\u1031\u101b\u102c\u1010\u100a\u103a\u1038\u1010\u103d\u1004\u103a \u1015\u1031\u102b\u1004\u103a\u1038\u1005\u100a\u103a\u1038\u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u104b',
+            flashcards: 'Flashcards',
+            flashcardsText: 'Vocabulary \u1014\u103e\u1004\u1037\u103a kanji \u1010\u102d\u102f\u1037\u1021\u1010\u103d\u1000\u103a quick review set \u1019\u103b\u102c\u1038\u1000\u102d\u102f start point \u1010\u1005\u103a\u1014\u1031\u101b\u102c\u1010\u100a\u103a\u1038\u1019\u103e \u101c\u103d\u101a\u103a\u1000\u1030\u1005\u103d\u102c \u1016\u103d\u1004\u1037\u103a\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u104b',
             kanjiText: 'Kanji details\u104a flashcards \u1014\u103e\u1004\u1037\u103a quizzes \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1015\u102f\u1036\u1019\u103e\u1014\u103a review \u101c\u102f\u1015\u103a\u1004\u1014\u103a\u1038\u1005\u1009\u103a \u1010\u1005\u103a\u1001\u102f\u1021\u1016\u103c\u1005\u103a \u101c\u1031\u1037\u101c\u102c\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u104b',
             words: '\u1005\u1000\u102c\u1038\u101c\u102f\u1036\u1038\u1019\u103b\u102c\u1038',
             read: '\u1016\u1010\u103a\u1019\u100a\u103a',
