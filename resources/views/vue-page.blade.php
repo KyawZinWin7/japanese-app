@@ -17,6 +17,20 @@
                     ],
                 ]),
             ];
+            $guestPrimaryNav = [
+                ['label' => __('frontend.nav.study'), 'href' => route('home'), 'active' => request()->routeIs('home')],
+                ['label' => __('frontend.nav.lessons'), 'href' => route('lessons.index'), 'active' => request()->routeIs('lessons.*')],
+                ['label' => __('frontend.nav.vocabulary'), 'href' => route('vocabulary.index'), 'active' => request()->routeIs('vocabulary.*')],
+                ['label' => __('frontend.nav.kanji'), 'href' => route('kanji.index'), 'active' => request()->routeIs('kanji.*')],
+                ['label' => __('frontend.nav.flashcards'), 'href' => route('flashcards.index'), 'active' => request()->routeIs('flashcards.*') || request()->routeIs('kanji.flashcards.*') || request()->routeIs('vocabulary.flashcards.*') || request()->routeIs('example-words.flashcards.*')],
+            ];
+            $authPrimaryNav = [
+                ['label' => __('frontend.nav.study'), 'href' => route('study.home'), 'active' => request()->routeIs('study.home')],
+                ['label' => __('frontend.nav.lessons'), 'href' => route('lessons.index'), 'active' => request()->routeIs('lessons.*')],
+                ['label' => __('frontend.nav.vocabulary'), 'href' => route('vocabulary.index'), 'active' => request()->routeIs('vocabulary.*')],
+                ['label' => __('frontend.nav.kanji'), 'href' => route('kanji.index'), 'active' => request()->routeIs('kanji.*')],
+                ['label' => __('frontend.nav.flashcards'), 'href' => route('flashcards.index'), 'active' => request()->routeIs('flashcards.*') || request()->routeIs('kanji.flashcards.*') || request()->routeIs('vocabulary.flashcards.*') || request()->routeIs('example-words.flashcards.*')],
+            ];
         @endphp
 
         @guest
@@ -30,11 +44,9 @@
                 </a>
 
                 <nav class="app-nav-links" aria-label="Primary">
-                    <a href="{{ route('home') }}" class="app-nav-link">{{ __('frontend.nav.study') }}</a>
-                    <a href="{{ route('lessons.index') }}" class="app-nav-link">{{ __('frontend.nav.lessons') }}</a>
-                    <a href="{{ route('vocabulary.index') }}" class="app-nav-link">{{ __('frontend.nav.vocabulary') }}</a>
-                    <a href="{{ route('kanji.index') }}" class="app-nav-link">{{ __('frontend.nav.kanji') }}</a>
-                    <a href="{{ route('flashcards.index') }}" class="app-nav-link">{{ __('frontend.nav.flashcards') }}</a>
+                    @foreach ($guestPrimaryNav as $item)
+                        <a href="{{ $item['href'] }}" class="{{ $item['active'] ? 'app-nav-link-active' : 'app-nav-link' }}">{{ $item['label'] }}</a>
+                    @endforeach
                 </nav>
 
                 <div class="app-nav-actions">
@@ -52,11 +64,9 @@
                     <div id="mobile-nav-panel" class="app-mobile-menu-panel" data-mobile-menu-panel hidden>
                         <div class="app-mobile-menu-section-title">Navigate</div>
                         <nav class="app-mobile-menu-links" aria-label="Mobile Primary">
-                            <a href="{{ route('home') }}" class="app-mobile-menu-link">{{ __('frontend.nav.study') }}</a>
-                            <a href="{{ route('lessons.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.lessons') }}</a>
-                            <a href="{{ route('vocabulary.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.vocabulary') }}</a>
-                            <a href="{{ route('kanji.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.kanji') }}</a>
-                            <a href="{{ route('flashcards.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.flashcards') }}</a>
+                            @foreach ($guestPrimaryNav as $item)
+                                <a href="{{ $item['href'] }}" class="{{ $item['active'] ? 'app-mobile-menu-link-active' : 'app-mobile-menu-link' }}">{{ $item['label'] }}</a>
+                            @endforeach
                         </nav>
 
                         <div class="app-mobile-menu-footer">
@@ -116,11 +126,9 @@
                 </a>
 
                 <nav class="app-nav-links" aria-label="Primary">
-                    <a href="{{ route('study.home') }}" class="app-nav-link">{{ __('frontend.nav.study') }}</a>
-                    <a href="{{ route('lessons.index') }}" class="app-nav-link">{{ __('frontend.nav.lessons') }}</a>
-                    <a href="{{ route('vocabulary.index') }}" class="app-nav-link">{{ __('frontend.nav.vocabulary') }}</a>
-                    <a href="{{ route('kanji.index') }}" class="app-nav-link">{{ __('frontend.nav.kanji') }}</a>
-                    <a href="{{ route('flashcards.index') }}" class="app-nav-link">{{ __('frontend.nav.flashcards') }}</a>
+                    @foreach ($authPrimaryNav as $item)
+                        <a href="{{ $item['href'] }}" class="{{ $item['active'] ? 'app-nav-link-active' : 'app-nav-link' }}">{{ $item['label'] }}</a>
+                    @endforeach
                 </nav>
 
                 <div class="app-nav-actions">
@@ -160,11 +168,9 @@
                     <div id="mobile-nav-panel" class="app-mobile-menu-panel" data-mobile-menu-panel hidden>
                         <div class="app-mobile-menu-section-title">Navigate</div>
                         <nav class="app-mobile-menu-links" aria-label="Mobile Primary">
-                            <a href="{{ route('study.home') }}" class="app-mobile-menu-link">{{ __('frontend.nav.study') }}</a>
-                            <a href="{{ route('lessons.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.lessons') }}</a>
-                            <a href="{{ route('vocabulary.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.vocabulary') }}</a>
-                            <a href="{{ route('kanji.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.kanji') }}</a>
-                            <a href="{{ route('flashcards.index') }}" class="app-mobile-menu-link">{{ __('frontend.nav.flashcards') }}</a>
+                            @foreach ($authPrimaryNav as $item)
+                                <a href="{{ $item['href'] }}" class="{{ $item['active'] ? 'app-mobile-menu-link-active' : 'app-mobile-menu-link' }}">{{ $item['label'] }}</a>
+                            @endforeach
                         </nav>
 
                         <div class="app-mobile-menu-footer">
