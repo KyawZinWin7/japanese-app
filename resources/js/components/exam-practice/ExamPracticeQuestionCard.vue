@@ -7,7 +7,7 @@
                     Choose {{ question.requiredAnswerCount }}
                 </p>
             </div>
-            <h2 class="mt-3 text-[1.05rem] font-semibold leading-8 text-slate-900 sm:text-xl">
+            <h2 class="mt-3 whitespace-pre-line text-[1.05rem] font-semibold leading-8 text-slate-900 sm:text-xl">
                 {{ question.question }}
             </h2>
         </div>
@@ -58,3 +58,4 @@ function optionLabel(index) {
     return String.fromCharCode(65 + index);
 }
 </script>
+
