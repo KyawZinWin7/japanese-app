@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             SourceSeeder::class,
             N5Chapter1Seeder::class,
             N5KanjiQuizSeeder::class,
+            ExamPracticeSeeder::class,
         ]);
 
         User::updateOrCreate(

@@ -104,6 +104,7 @@ class DashboardController extends Controller
                     'vocabulary' => route('vocabulary.index'),
                     'kanji' => route('kanji.index'),
                     'kanjiQuizzes' => route('kanji-quizzes.index'),
+                    'examPractice' => route('exam-practice.index'),
                     'kanjiFlashcards' => route('kanji-flashcards.index'),
                 ],
             ],

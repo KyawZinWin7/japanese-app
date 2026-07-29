@@ -75,6 +75,11 @@
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ t('study.quizzes') }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ t('dashboard.quizCardText') }}</p>
             </a>
+            <a :href="routes.examPractice" class="content-card transition hover:-translate-y-0.5 hover:shadow-md">
+                <p class="app-badge">Exam Practice</p>
+                <h2 class="mt-4 text-2xl font-semibold text-slate-950">Exam Practice</h2>
+                <p class="mt-3 text-[15px] leading-7 text-slate-600">Open standalone certification practice sets like AWS Cloud Practitioner.</p>
+            </a>
             <a :href="routes.kanjiFlashcards" class="content-card transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="app-badge">{{ t('study.flashcards') }}</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ t('flashcardStudy.exampleWordFlashcards') }}</h2>

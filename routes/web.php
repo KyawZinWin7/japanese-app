@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ExamPracticeController;
 use App\Http\Controllers\ExampleWordFlashcardController;
 use App\Http\Controllers\JlptLevelController;
 use App\Http\Controllers\KanjiController;
@@ -45,6 +46,7 @@ Route::get('/', function () {
                 'kanji' => route('kanji.index'),
                 'flashcards' => route('flashcards.index'),
                 'quizzes' => route('kanji-quizzes.index'),
+                'examPractice' => route('exam-practice.index'),
                 'login' => route('login'),
                 'register' => route('register'),
                 'pending' => auth()->check() ? route('approval.pending') : route('login'),
@@ -69,6 +71,8 @@ Route::get('/kanji-word-flashcards', [ExampleWordFlashcardController::class, 'in
 Route::get('/vocabulary-flashcards', [VocabularyController::class, 'flashcards'])->name('vocabulary-flashcards.index');
 Route::get('/kanji-quizzes', [KanjiQuizController::class, 'index'])->name('kanji-quizzes.index');
 Route::get('/kanji-quizzes/{quiz:slug}', [KanjiQuizController::class, 'show'])->name('kanji-quizzes.show');
+Route::get('/exam-practice', [ExamPracticeController::class, 'index'])->name('exam-practice.index');
+Route::get('/exam-practice/{set:slug}', [ExamPracticeController::class, 'show'])->name('exam-practice.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
@@ -100,6 +104,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/kanji-quizzes/{quiz:slug}/take', [KanjiQuizController::class, 'take'])->name('kanji-quizzes.take');
         Route::post('/kanji-quizzes/{quiz:slug}/submit', [KanjiQuizController::class, 'submit'])->name('kanji-quizzes.submit');
         Route::get('/kanji-quizzes/{quiz:slug}/results/{attempt}', [KanjiQuizController::class, 'result'])->name('kanji-quizzes.results.show');
+        Route::get('/exam-practice/{set:slug}/take', [ExamPracticeController::class, 'take'])->name('exam-practice.take');
+        Route::post('/exam-practice/{set:slug}/submit', [ExamPracticeController::class, 'submit'])->name('exam-practice.submit');
+        Route::get('/exam-practice/{set:slug}/results/{attempt}', [ExamPracticeController::class, 'result'])->name('exam-practice.results.show');
     });
 
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
@@ -149,6 +156,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/kanji-quizzes/{quiz}/edit', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'edit'])->name('kanji-quizzes.edit');
         Route::put('/kanji-quizzes/{quiz}', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'update'])->name('kanji-quizzes.update');
         Route::delete('/kanji-quizzes/{quiz}', [\App\Http\Controllers\Admin\KanjiQuizController::class, 'destroy'])->name('kanji-quizzes.destroy');
+        Route::get('/exam-practice', [\App\Http\Controllers\Admin\ExamPracticeController::class, 'index'])->name('exam-practice.index');
+        Route::get('/exam-practice/create', [\App\Http\Controllers\Admin\ExamPracticeController::class, 'create'])->name('exam-practice.create');
+        Route::post('/exam-practice', [\App\Http\Controllers\Admin\ExamPracticeController::class, 'store'])->name('exam-practice.store');
+        Route::get('/exam-practice/{set}/edit', [\App\Http\Controllers\Admin\ExamPracticeController::class, 'edit'])->name('exam-practice.edit');
+        Route::put('/exam-practice/{set}', [\App\Http\Controllers\Admin\ExamPracticeController::class, 'update'])->name('exam-practice.update');
+        Route::delete('/exam-practice/{set}', [\App\Http\Controllers\Admin\ExamPracticeController::class, 'destroy'])->name('exam-practice.destroy');
         Route::get('/example-words', [\App\Http\Controllers\Admin\ExampleWordController::class, 'index'])->name('example-words.index');
         Route::get('/example-words/create', [\App\Http\Controllers\Admin\ExampleWordController::class, 'create'])->name('example-words.create');
         Route::post('/example-words', [\App\Http\Controllers\Admin\ExampleWordController::class, 'store'])->name('example-words.store');

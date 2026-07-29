@@ -80,7 +80,7 @@
             </div>
         </section>
 
-        <section class="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+        <section class="grid gap-5 md:grid-cols-2 xl:grid-cols-6">
             <a :href="routes.levels" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
                 <p class="app-badge">JLPT</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ text.levels }}</h2>
@@ -110,6 +110,11 @@
                 <p class="app-badge">{{ text.flashcards }}</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ sectionTitles.flashcards }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.flashcardsText }}</p>
+            </a>
+            <a :href="routes.examPractice" class="content-card block transition hover:-translate-y-0.5 hover:shadow-md">
+                <p class="app-badge">{{ text.examPractice }}</p>
+                <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ text.examPractice }}</h2>
+                <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ text.examPracticeText }}</p>
             </a>
         </section>
     </main>
@@ -171,7 +176,9 @@ const copy = {
             words: 'Words',
             read: 'Read',
             quizzes: 'Quizzes',
+            examPractice: 'Exam Practice',
             quizzesText: 'Browse published quiz sets now, then sign in when you are ready to take them.',
+            examPracticeText: 'Open separate practice sets such as AWS Cloud Practitioner with a focused one-question-at-a-time flow.',
         },
     },
     my: {
@@ -220,7 +227,9 @@ const copy = {
             words: '\u1005\u1000\u102c\u1038\u101c\u102f\u1036\u1038\u1019\u103b\u102c\u1038',
             read: '\u1016\u1010\u103a\u1019\u100a\u103a',
             quizzes: 'Quizzes',
+            examPractice: 'Exam Practice',
             quizzesText: '\u1011\u102f\u1010\u103a\u101c\u103d\u103e\u1004\u1037\u103a\u1011\u102c\u1038\u101e\u1031\u102c quiz set \u1019\u103b\u102c\u1038\u1000\u102d\u102f \u1021\u1001\u1019\u1032\u1037 \u1000\u103c\u100a\u1037\u103a\u101b\u103e\u102f\u1014\u102d\u102f\u1004\u103a\u1015\u102b\u101e\u100a\u103a\u104b \u1016\u103c\u1031\u1006\u102d\u102f\u101b\u1014\u103a ready \u1016\u103c\u1005\u103a\u101e\u1031\u102c\u1021\u1001\u102b sign in \u101d\u1004\u103a\u1015\u102b\u104b',
+            examPracticeText: 'AWS Cloud Practitioner လို separate practice set များကို question တစ်ခုပြီးတစ်ခု ဖြေနိုင်သော flow နဲ့ ဖွင့်လေ့လာနိုင်ပါသည်။',
         },
     },
 };

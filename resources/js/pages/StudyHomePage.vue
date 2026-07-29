@@ -6,7 +6,7 @@
             <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-300 sm:text-[15px]">{{ t('study.launcherText') }}</p>
         </section>
 
-        <section class="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+        <section class="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-6">
             <a :href="routes.lessons" class="content-card transition hover:-translate-y-1 hover:shadow-md">
                 <p class="app-badge">{{ t('study.read') }}</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ t('lessons.title') }}</h2>
@@ -35,6 +35,12 @@
                 <p class="app-badge">{{ t('study.quizzes') }}</p>
                 <h2 class="mt-4 text-2xl font-semibold text-slate-950">{{ t('study.quizzes') }}</h2>
                 <p class="mt-3 text-[15px] leading-7 text-slate-600">{{ t('study.quizzesText') }}</p>
+            </a>
+
+            <a :href="routes.examPractice" class="content-card transition hover:-translate-y-1 hover:shadow-md">
+                <p class="app-badge">Exam Practice</p>
+                <h2 class="mt-4 text-2xl font-semibold text-slate-950">Exam Practice</h2>
+                <p class="mt-3 text-[15px] leading-7 text-slate-600">Open standalone practice sets like AWS Cloud Practitioner and answer one question at a time.</p>
             </a>
         </section>
     </main>

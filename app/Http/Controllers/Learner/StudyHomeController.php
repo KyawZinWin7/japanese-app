@@ -19,6 +19,7 @@ class StudyHomeController extends Controller
                     'kanji' => route('kanji.index'),
                     'flashcards' => route('flashcards.index'),
                     'quizzes' => route('kanji-quizzes.index'),
+                    'examPractice' => route('exam-practice.index'),
                 ],
             ],
         ]);

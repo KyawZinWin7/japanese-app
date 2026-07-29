@@ -43,6 +43,12 @@ import KanjiQuizzesPage from './pages/KanjiQuizzesPage.vue';
 import KanjiQuizDetailPage from './pages/KanjiQuizDetailPage.vue';
 import KanjiQuizTakePage from './pages/KanjiQuizTakePage.vue';
 import KanjiQuizResultPage from './pages/KanjiQuizResultPage.vue';
+import ExamPracticeSetsPage from './pages/ExamPracticeSetsPage.vue';
+import ExamPracticeDetailPage from './pages/ExamPracticeDetailPage.vue';
+import ExamPracticeTakePage from './pages/ExamPracticeTakePage.vue';
+import ExamPracticeResultPage from './pages/ExamPracticeResultPage.vue';
+import ExamPracticeAdminPage from './pages/admin/ExamPracticeAdminPage.vue';
+import ExamPracticeFormPage from './pages/admin/ExamPracticeFormPage.vue';
 
 const pages = {
     home: HomePage,
@@ -88,6 +94,12 @@ const pages = {
     'kanji-quiz-detail': KanjiQuizDetailPage,
     'kanji-quiz-take': KanjiQuizTakePage,
     'kanji-quiz-result': KanjiQuizResultPage,
+    'exam-practice-sets': ExamPracticeSetsPage,
+    'exam-practice-detail': ExamPracticeDetailPage,
+    'exam-practice-take': ExamPracticeTakePage,
+    'exam-practice-result': ExamPracticeResultPage,
+    'admin-exam-practice': ExamPracticeAdminPage,
+    'admin-exam-practice-form': ExamPracticeFormPage,
 };
 
 const appElement = document.getElementById('app');
