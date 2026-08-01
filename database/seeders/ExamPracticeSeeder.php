@@ -15,7 +15,7 @@ class ExamPracticeSeeder extends Seeder
                 'title' => 'AWS Cloud Practitioner Set 1',
                 'description' => 'Starter exam practice set for AWS Cloud Practitioner review.',
                 'exam_code' => 'CLF-C02',
-                'question_count' => 410,
+                'question_count' => 430,
                 'is_published' => true,
             ],
         );
@@ -5601,7 +5601,260 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Create an IAM user for individual people who need long-term AWS credentials. Use IAM roles for applications, AWS services, or temporary access.',
             'sort_order' => 410,
         ]);
+
+        $set->questions()->create([
+            'question' => "Question 411\n\nA company needs a serverless data integration service to discover, prepare, and combine data for analytics.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'Amazon EMR',
+                'Amazon Redshift',
+                'AWS Glue',
+                'AWS Step Functions',
+            ],
+            'correct_answer' => 'AWS Glue',
+            'explanation' => 'AWS Glue is a serverless data integration service that discovers, prepares, and transforms data for analytics.',
+            'sort_order' => 411,
+        ]);
+
+        $set->questions()->create([
+            'question' => "Question 412\n\nWhich AWS service provides on-premises applications with low-latency access to data that is stored in the AWS Cloud?",
+            'options' => [
+                'Amazon CloudFront',
+                'AWS Storage Gateway',
+                'AWS Backup',
+                'AWS DataSync',
+            ],
+            'correct_answer' => 'AWS Storage Gateway',
+            'explanation' => 'AWS Storage Gateway provides on-premises applications with low-latency access to data stored in AWS by using local caching while integrating with cloud storage.',
+            'sort_order' => 412,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 413\n\nWhich AWS service should a company use to organize, characterize, and search large numbers of images?",
+            'options' => [
+                'Amazon Transcribe',
+                'Amazon Rekognition',
+                'Amazon Aurora',
+                'Amazon QuickSight',
+            ],
+            'correct_answer' => 'Amazon Rekognition',
+            'explanation' => 'Amazon Rekognition uses machine learning to analyze, organize, label, and search large collections of images and videos.',
+            'sort_order' => 413,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 414\n\nWhat is the recommended use case for Amazon EC2 On-Demand Instances?",
+            'options' => [
+                'A steady-state workload that requires a particular EC2 instance configuration for a long period of time',
+                'A workload that can be interrupted for a project that requires the lowest possible cost',
+                'An unpredictable workload that does not require a long-term commitment',
+                'A workload that is expected to run for longer than 1 year',
+            ],
+            'correct_answer' => 'An unpredictable workload that does not require a long-term commitment',
+            'explanation' => 'Amazon EC2 On-Demand Instances are ideal for unpredictable workloads because they require no long-term commitment and you pay only for the compute capacity you use.',
+            'sort_order' => 414,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 415\n\nA user is moving a workload from a local data center to an architecture that is distributed between the local data center and the AWS Cloud.\n\nWhich type of migration is this?",
+            'options' => [
+                'On-premises to cloud native',
+                'Hybrid to cloud native',
+                'On-premises to hybrid',
+                'Cloud native to hybrid',
+            ],
+            'correct_answer' => 'On-premises to hybrid',
+            'explanation' => 'An on-premises to hybrid migration keeps workloads running in both the local data center and the AWS Cloud.',
+            'sort_order' => 415,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 416\n\nA company plans to deploy its application globally. The company wants to cache content at edge locations and deliver the content to users with the lowest possible latency.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'AWS Global Accelerator',
+                'AWS Outposts',
+                'Amazon Route 53',
+                'Amazon CloudFront',
+            ],
+            'correct_answer' => 'Amazon CloudFront',
+            'explanation' => 'Amazon CloudFront caches content at AWS Edge Locations and delivers it to users with low latency worldwide.',
+            'sort_order' => 416,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 417\n\nWhich of the following are AWS best practice recommendations for the use of AWS Identity and Access Management (IAM)? (Choose two.)",
+            'options' => [
+                'Use the AWS account root user for daily access.',
+                'Use access keys and secret access keys on Amazon EC2.',
+                'Rotate credentials on a regular basis.',
+                'Create a shared set of access keys for system administrators.',
+                'Configure multi-factor authentication (MFA).',
+            ],
+            'correct_answer' => json_encode([
+                'Rotate credentials on a regular basis.',
+                'Configure multi-factor authentication (MFA).',
+            ]),
+            'explanation' => 'Regularly rotate credentials and enable MFA to improve account security and follow IAM best practices.',
+            'sort_order' => 417,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 418\n\nA company wants to automatically set up and govern a multi-account AWS environment.\n\nWhich AWS service provides this functionality?",
+            'options' => [
+                'AWS IAM Identity Center',
+                'AWS Systems Manager',
+                'AWS Config',
+                'AWS Control Tower',
+            ],
+            'correct_answer' => 'AWS Control Tower',
+            'explanation' => 'AWS Control Tower automates the setup and governance of a secure multi-account AWS environment using landing zones and guardrails.',
+            'sort_order' => 418,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 419\n\nA company runs its production workload in the AWS Cloud. The company needs to choose one of the AWS Support Plans.\n\nWhich of the AWS Support Plans will meet these requirements at the LOWEST cost?",
+            'options' => [
+                'Developer',
+                'Enterprise On-Ramp',
+                'Enterprise',
+                'Business',
+            ],
+            'correct_answer' => 'Business',
+            'explanation' => 'Business Support is the lowest-cost AWS Support plan recommended for production workloads. It provides 24/7 technical support and faster response times.',
+            'sort_order' => 419,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 420\n\nWhich AWS Cloud Adoption Framework (AWS CAF) perspective focuses on real-time insights and answers questions about strategy?",
+            'options' => [
+                'Operations',
+                'People',
+                'Business',
+                'Platform',
+            ],
+            'correct_answer' => 'Business',
+            'explanation' => 'The Business perspective focuses on business outcomes, strategy, and real-time insights to help organizations achieve their business goals.',
+            'sort_order' => 420,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 421\n\nA company needs to identify personally identifiable information (PII), such as credit card numbers, from data that is stored in Amazon S3.\n\nWhich AWS service should the company use to meet this requirement?",
+            'options' => [
+                'Amazon Inspector',
+                'AWS Shield',
+                'Amazon GuardDuty',
+                'Amazon Macie',
+            ],
+            'correct_answer' => 'Amazon Macie',
+            'explanation' => 'Amazon Macie uses machine learning to discover and identify sensitive data, including PII, in Amazon S3 buckets.',
+            'sort_order' => 421,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 422\n\nA company needs a solution that provides recommended steps for migration to the AWS Cloud.\n\nWhich AWS service or tool will meet this requirement?",
+            'options' => [
+                'AWS CloudFormation',
+                'AWS Application Discovery Service',
+                'AWS Cloud Readiness Assessment',
+                'Amazon CloudWatch',
+            ],
+            'correct_answer' => 'AWS Cloud Readiness Assessment',
+            'explanation' => 'AWS Cloud Readiness Assessment evaluates an organization\'s readiness for cloud migration and provides recommended migration steps and best practices.',
+            'sort_order' => 422,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 423\n\nA company wants to build an application that uses AWS Lambda to run Python code.\n\nUnder the AWS shared responsibility model, which tasks will be the company's responsibility? (Choose two.)",
+            'options' => [
+                'Management of the underlying infrastructure.',
+                'Management of the operating system.',
+                'Writing the business logic code.',
+                'Installation of the computer language runtime.',
+                'Providing AWS Identity and Access Management (IAM) access to the Lambda service.',
+            ],
+            'correct_answer' => json_encode([
+                'Writing the business logic code.',
+                'Providing AWS Identity and Access Management (IAM) access to the Lambda service.',
+            ]),
+            'explanation' => 'With AWS Lambda, customers are responsible for writing the application code and configuring IAM permissions. AWS manages the infrastructure, operating system, and runtime.',
+            'sort_order' => 423,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 424\n\nWhich part of the AWS Global Infrastructure does Amazon CloudFront use to cache copies of content for rapid delivery to global users?",
+            'options' => [
+                'Edge locations',
+                'Availability Zones',
+                'AWS Regions',
+                'Local Zones',
+            ],
+            'correct_answer' => 'Edge locations',
+            'explanation' => 'Amazon CloudFront caches content at AWS Edge Locations to deliver it quickly to users with low latency.',
+            'sort_order' => 424,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 425\n\nWhich AWS offering can be natively associated with AWS WAF?",
+            'options' => [
+                'Application Load Balancer',
+                'Network Load Balancer',
+                'Gateway Load Balancer',
+                'AWS Lambda',
+            ],
+            'correct_answer' => 'Application Load Balancer',
+            'explanation' => 'AWS WAF can be directly associated with an Application Load Balancer (ALB) to protect web applications from common web attacks.',
+            'sort_order' => 425,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 426\n\nA company needs to apply security rules to specific Amazon EC2 instances.\n\nWhich AWS service or feature provides this functionality?",
+            'options' => [
+                'AWS WAF',
+                'Network ACLs',
+                'Amazon VPC',
+                'Security groups',
+            ],
+            'correct_answer' => 'Security groups',
+            'explanation' => 'Security groups act as virtual firewalls for EC2 instances, controlling inbound and outbound traffic for specific instances.',
+            'sort_order' => 426,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 427\n\nWhich AWS service supports MySQL database engines?",
+            'options' => [
+                'Amazon DynamoDB',
+                'Amazon RDS',
+                'Amazon DocumentDB (with MongoDB compatibility)',
+                'Amazon ElastiCache',
+            ],
+            'correct_answer' => 'Amazon RDS',
+            'explanation' => 'Amazon RDS supports MySQL and other relational database engines as a fully managed database service.',
+            'sort_order' => 427,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 428\n\nA company is planning to migrate applications to the AWS Cloud. During a system audit, the company finds that its content management system (CMS) application is incompatible with cloud environments.\n\nWhich migration strategies will help the company to migrate the CMS application with the LEAST effort? (Choose two.)",
+            'options' => [
+                'Retire',
+                'Rehost',
+                'Repurchase',
+                'Replatform',
+                'Refactor',
+            ],
+            'correct_answer' => json_encode([
+                'Rehost',
+                'Repurchase',
+            ]),
+            'explanation' => 'Rehost (lift and shift) and Repurchase (replace with a SaaS solution) require the least migration effort for an incompatible CMS application.',
+            'sort_order' => 428,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 429\n\nA company needs to mount a file share across multiple Amazon EC2 instances as a mapped drive by using the SMB protocol.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'Amazon FSx for Windows File Server',
+                'Amazon Elastic File System (Amazon EFS)',
+                'Amazon S3',
+                'AWS DataSync',
+            ],
+            'correct_answer' => 'Amazon FSx for Windows File Server',
+            'explanation' => 'Amazon FSx for Windows File Server provides a fully managed Windows file system that supports the SMB protocol for shared file access across EC2 instances.',
+            'sort_order' => 429,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 430\n\nWhich option is an advantage of AWS Cloud computing that minimizes variable costs?",
+            'options' => [
+                'High availability',
+                'Economies of scale',
+                'Global reach',
+                'Agility',
+            ],
+            'correct_answer' => 'Economies of scale',
+            'explanation' => 'AWS achieves economies of scale, helping reduce variable costs by sharing infrastructure across many customers.',
+            'sort_order' => 430,
+        ]);
     }
 
 }
-
