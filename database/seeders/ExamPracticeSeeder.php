@@ -15,7 +15,7 @@ class ExamPracticeSeeder extends Seeder
                 'title' => 'AWS Cloud Practitioner Set 1',
                 'description' => 'Starter exam practice set for AWS Cloud Practitioner review.',
                 'exam_code' => 'CLF-C02',
-                'question_count' => 330,
+                'question_count' => 410,
                 'is_published' => true,
             ],
         );
@@ -4459,252 +4459,1149 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Customer Carbon Footprint Tool tracks and forecasts carbon emissions from AWS usage.',
             'sort_order' => 330,
         ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 331\n\nWhich of the following actions are controlled with AWS Identity and Access Management (IAM)? (Choose two.)",
+            'options' => [
+                'Control access to AWS service APIs and to other specific resources.',
+                'Provide intelligent threat detection and continuous monitoring.',
+                'Protect the AWS environment using multi-factor authentication (MFA).',
+                'Grant users access to AWS data centers.',
+                'Provide firewall protection for applications from common web attacks.',
+            ],
+            'correct_answer' => json_encode([
+                'Control access to AWS service APIs and to other specific resources.',
+                'Protect the AWS environment using multi-factor authentication (MFA).',
+            ]),
+            'explanation' => 'AWS Identity and Access Management (IAM) manages access to AWS resources and supports multi-factor authentication (MFA) for stronger security. Threat detection, data center access, and web application firewall protection are handled by other AWS services.',
+            'sort_order' => 331,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 332\n\nA company wants to deploy an application that stores data in a relational database. The company wants database tasks, such as automated backups and database snapshots, to be managed by AWS.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'Amazon DocumentDB',
+                'Amazon RDS',
+                'Amazon Elastic Block Store (Amazon EBS)',
+                'Amazon S3',
+            ],
+            'correct_answer' => 'Amazon RDS',
+            'explanation' => 'Amazon RDS is a managed relational database service that automatically handles backups, snapshots, and routine database management tasks.',
+            'sort_order' => 332,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 333\n\nA company needs a graph database service that is scalable and highly available.\n\nWhich AWS service meets these requirements?",
+            'options' => [
+                'Amazon Aurora',
+                'Amazon Redshift',
+                'Amazon DynamoDB',
+                'Amazon Neptune',
+            ],
+            'correct_answer' => 'Amazon Neptune',
+            'explanation' => 'Amazon Neptune is a fully managed graph database service that is scalable, highly available, and optimized for graph data.',
+            'sort_order' => 333,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 334\n\nWhich AWS services can a company use to transfer on-premises data to the AWS Cloud? (Choose two.)"
+,
+            'options' => [
+                'AWS Snowcone',
+                'AWS Transit Gateway',
+                'AWS DataSync',
+                'AWS Backup',
+                'Amazon Connect',
+            ],
+            'correct_answer' => json_encode([
+                'AWS Snowcone',
+                'AWS DataSync',
+            ]),
+            'explanation' => 'AWS Snowcone and AWS DataSync are services designed to transfer data from on-premises environments to the AWS Cloud.',
+            'sort_order' => 334,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 335\n\nA company wants to use a centralized AWS service to enforce compliance with the organizational business standards. The company wants to use an AWS service that can govern and control who can deploy, manage, and decommission AWS resources.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'Amazon CloudWatch',
+                'AWS Service Catalog',
+                'Amazon GuardDuty',
+                'AWS Security Hub',
+            ],
+            'correct_answer' => 'AWS Service Catalog',
+            'explanation' => 'AWS Service Catalog lets organizations centrally manage approved AWS resources and control who can deploy and manage them.',
+            'sort_order' => 335,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 336\n\nA company has multiple AWS accounts. The company needs to receive a consolidated bill from AWS and must centrally manage security and compliance.\n\nWhich AWS service or feature should the company use to meet these requirements?",
+            'options' => [
+                'AWS Cost and Usage Report',
+                'AWS Organizations',
+                'AWS Config',
+                'AWS Security Hub',
+            ],
+            'correct_answer' => 'AWS Organizations',
+            'explanation' => 'AWS Organizations provides consolidated billing and centralized management of multiple AWS accounts, security, and policies.',
+            'sort_order' => 336,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 337\n\nA company needs a portable solution to collect data and run computations.\n\nWhich AWS service provides the MOST compact solution to meet these requirements?",
+            'options' => [
+                'AWS Snowcone',
+                'AWS Snowball Edge',
+                'Amazon S3',
+                'AWS Outposts',
+            ],
+            'correct_answer' => 'AWS Snowcone',
+            'explanation' => 'AWS Snowcone is the smallest AWS Snow device for portable data collection and edge computing.',
+            'sort_order' => 337,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 338\n\nWhich AWS service can a company use to build conversational chatbots for customer service?",
+            'options' => [
+                'Amazon Lex',
+                'AWS Amplify',
+                'Amazon Comprehend',
+                'Amazon Polly',
+            ],
+            'correct_answer' => 'Amazon Lex',
+            'explanation' => 'Amazon Lex builds conversational chatbots using voice and text with natural language understanding (NLU).',
+            'sort_order' => 338,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 339\n\nWhich AWS service or tool inspects a user's AWS environment and makes recommendations for cost savings and system performance improvements?",
+            'options' => [
+                'Cost Explorer',
+                'AWS Trusted Advisor',
+                'Amazon Inspector',
+                'AWS Budgets',
+            ],
+            'correct_answer' => 'AWS Trusted Advisor',
+            'explanation' => 'AWS Trusted Advisor analyzes your AWS environment and provides recommendations for cost optimization, performance, security, and best practices.',
+            'sort_order' => 339,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 340\n\nA company wants to migrate its on-premises application to the AWS Cloud. The company is legally obligated to retain certain data in its on-premises data center.\n\nWhich AWS service or feature will support this requirement?",
+            'options' => [
+                'AWS Wavelength',
+                'AWS Local Zones',
+                'VMware Cloud on AWS',
+                'AWS Outposts',
+            ],
+            'correct_answer' => 'AWS Outposts',
+            'explanation' => 'AWS Outposts extends AWS services to on-premises environments, allowing data to remain on-site while using AWS infrastructure.',
+            'sort_order' => 340,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 341\n\nWhich design principle is included in the operational excellence pillar of the AWS Well-Architected Framework?",
+            'options' => [
+                'Create annotated documentation.',
+                'Anticipate failure.',
+                'Ensure performance efficiency.',
+                'Optimize costs.',
+            ],
+            'correct_answer' => 'Create annotated documentation.',
+            'explanation' => 'Creating clear and annotated documentation is an Operational Excellence design principle that helps improve operations and management.',
+            'sort_order' => 341,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 342\n\nA developer who has no AWS Cloud experience wants to use AWS technology to build a web application.\n\nWhich AWS service should the developer use to start building the application?",
+            'options' => [
+                'Amazon SageMaker',
+                'AWS Lambda',
+                'Amazon Lightsail',
+                'Amazon Elastic Container Service (Amazon ECS)',
+            ],
+            'correct_answer' => 'Amazon Lightsail',
+            'explanation' => 'Amazon Lightsail is a simple, beginner-friendly service for quickly building and hosting web applications.',
+            'sort_order' => 342,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 343\n\nA team of researchers is going to collect data at remote locations around the world. Many locations do not have internet connectivity. The team needs to capture the data in the field, and transfer it to the AWS Cloud later.\n\nWhich AWS service will support these requirements?",
+            'options' => [
+                'AWS Outposts',
+                'AWS Transfer Family',
+                'AWS Snow Family',
+                'AWS Migration Hub',
+            ],
+            'correct_answer' => 'AWS Snow Family',
+            'explanation' => 'AWS Snow Family enables offline data collection and later transfer to the AWS Cloud from remote locations.',
+            'sort_order' => 343,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 344\n\nWhich AWS service or tool gives a company the ability to release application changes in an automated way?",
+            'options' => [
+                'Amazon AppFlow',
+                'AWS CodeDeploy',
+                'AWS PrivateLink',
+                'Amazon EKS Distro',
+            ],
+            'correct_answer' => 'AWS CodeDeploy',
+            'explanation' => 'AWS CodeDeploy automates application deployments, making software releases faster and more reliable.',
+            'sort_order' => 344,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 345\n\nWhich AWS service can manage a telephony infrastructure with a cloud contact center?",
+            'options' => [
+                'AWS Direct Connect',
+                'Amazon Connect',
+                'AWS CloudFormation',
+                'Amazon CloudWatch',
+            ],
+            'correct_answer' => 'Amazon Connect',
+            'explanation' => 'Amazon Connect is a cloud contact center service that manages telephony, customer calls, and IVR.',
+            'sort_order' => 345,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 346\n\nWhich AWS service or tool provides recommendations to help users get rightsized Amazon EC2 instances based on historical workload usage data?",
+            'options' => [
+                'AWS Pricing Calculator',
+                'AWS Compute Optimizer',
+                'AWS App Runner',
+                'AWS Systems Manager',
+            ],
+            'correct_answer' => 'AWS Compute Optimizer',
+            'explanation' => 'AWS Compute Optimizer analyzes historical workload data and recommends the right-sized EC2 instances to improve performance and reduce costs.',
+            'sort_order' => 346,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 347\n\nWhich AWS services are serverless? (Choose two.)",
+            'options' => [
+                'AWS Fargate',
+                'Amazon Managed Streaming for Apache Kafka',
+                'Amazon EMR',
+                'Amazon S3',
+                'Amazon EC2',
+            ],
+            'correct_answer' => json_encode([
+                'AWS Fargate',
+                'Amazon S3',
+            ]),
+            'explanation' => 'AWS Fargate and Amazon S3 are serverless services, so you do not need to manage servers.',
+            'sort_order' => 347,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 348\n\nWhich AWS service uses speech-to-text conversion to help users create meeting notes?",
+            'options' => [
+                'Amazon Polly',
+                'Amazon Textract',
+                'Amazon Rekognition',
+                'Amazon Transcribe',
+            ],
+            'correct_answer' => 'Amazon Transcribe',
+            'explanation' => 'Amazon Transcribe converts speech to text, making it easy to create meeting notes and transcripts.',
+            'sort_order' => 348,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 349\n\nWhich AWS service or feature improves network performance by sending traffic through the AWS worldwide network infrastructure?",
+            'options' => [
+                'Route table',
+                'AWS Transit Gateway',
+                'AWS Global Accelerator',
+                'Amazon VPC',
+            ],
+            'correct_answer' => 'AWS Global Accelerator',
+            'explanation' => 'AWS Global Accelerator improves network performance by routing traffic through the AWS global network.',
+            'sort_order' => 349,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 350\n\nA company has a website on AWS. The company wants to deliver the website to a worldwide audience and provide low-latency response times for global users.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'AWS CloudFormation',
+                'Amazon CloudFront',
+                'Amazon ElastiCache',
+                'Amazon DynamoDB',
+            ],
+            'correct_answer' => 'Amazon CloudFront',
+            'explanation' => 'Amazon CloudFront is a CDN that delivers content globally with low latency by using edge locations.',
+            'sort_order' => 350,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 351\n\nA company is running a key-value NoSQL workload on Amazon EC2 instances. The company needs the workload to have scalability, failover protection, and backup capabilities.\n\nWhat is the MOST operationally efficient way to meet these requirements?",
+            'options' => [
+                'Add additional EC2 instances to the database cluster.',
+                'Run an identical copy of the database in a second Availability Zone.',
+                'Migrate the database to Amazon DynamoDB.',
+                'Migrate the database to a relational database.',
+            ],
+            'correct_answer' => 'Migrate the database to Amazon DynamoDB.',
+            'explanation' => 'Amazon DynamoDB is a fully managed NoSQL database with built-in scalability, high availability, and automatic backups.',
+            'sort_order' => 351,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 352\n\nWhich actions represent best practices for using AWS IAM? (Choose two.)",
+            'options' => [
+                'Configure a strong password policy.',
+                'Share the security credentials among users of AWS accounts who are in the same Region.',
+                'Use access keys to log in to the AWS Management Console.',
+                'Rotate access keys on a regular basis.',
+                'Avoid using IAM roles to delegate permissions.',
+            ],
+            'correct_answer' => json_encode([
+                'Configure a strong password policy.',
+                'Rotate access keys on a regular basis.',
+            ]),
+            'explanation' => 'Using a strong password policy and regularly rotating access keys are AWS IAM security best practices.',
+            'sort_order' => 352,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 353\n\nA company has a client that uses an Amazon RDS database. The client requests information about operating system-level upgrades on the AWS resources that host the RDS database. The company employs a third-party provider to monitor the RDS database.\n\nWho is responsible for upgrading the operating systems for Amazon RDS under the AWS shared responsibility model?",
+            'options' => [
+                'The client',
+                'The company',
+                'AWS',
+                'The third-party provider',
+            ],
+            'correct_answer' => 'AWS',
+            'explanation' => 'AWS manages the operating system and underlying infrastructure for Amazon RDS as part of the shared responsibility model.',
+            'sort_order' => 353,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 354\n\nWhich AWS Support plan provides customers with annual consultative and architectural guidance?",
+            'options' => [
+                'AWS Developer Support',
+                'AWS Business Support',
+                'AWS Enterprise On-Ramp Support',
+                'AWS Enterprise Support',
+            ],
+            'correct_answer' => 'AWS Enterprise Support',
+            'explanation' => 'AWS Enterprise Support provides annual architectural guidance and access to a Technical Account Manager (TAM).',
+            'sort_order' => 354,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 355\n\nA company uses Amazon EC2 instances in its AWS account for several workloads. The company needs to perform an analysis to understand the cost of each workload.\n\nWhat is the MOST operationally efficient way to meet this requirement?",
+            'options' => [
+                'Move the EC2 instances for each workload into separate accounts.',
+                'Use a different EC2 instance family for each workload.',
+                'Add cost allocation tags to each EC2 instance. Activate the tags.',
+                'Update any workload applications to publish usage data to a cost allocation database.',
+            ],
+            'correct_answer' => 'Add cost allocation tags to each EC2 instance. Activate the tags.',
+            'explanation' => 'Cost allocation tags let you track and analyze costs for each workload in AWS Cost Explorer and billing reports.',
+            'sort_order' => 355,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 356\n\nWhich AWS team or offering helps users accelerate cloud adoption through paid engagements in any of several specialty practice areas?",
+            'options' => [
+                'AWS Enterprise Support',
+                'AWS solutions architects',
+                'AWS Professional Services',
+                'AWS account managers',
+            ],
+            'correct_answer' => 'AWS Professional Services',
+            'explanation' => 'AWS Professional Services provides paid expert guidance to help organizations accelerate cloud adoption and migration.',
+            'sort_order' => 356,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 357\n\nA company uses Amazon WorkSpaces.\n\nWhich task is the responsibility of AWS, according to the AWS shared responsibility model?",
+            'options' => [
+                'Set up multi-factor authentication (MFA) for each WorkSpaces user account.',
+                'Ensure the environmental safety and security of the AWS infrastructure that hosts WorkSpaces.',
+                'Provide security for WorkSpaces user accounts through AWS Identity and Access Management (IAM).',
+                'Configure AWS CloudTrail to log API calls and user activity.',
+            ],
+            'correct_answer' => 'Ensure the environmental safety and security of the AWS infrastructure that hosts WorkSpaces.',
+            'explanation' => 'AWS is responsible for the physical security and infrastructure that hosts Amazon WorkSpaces.',
+            'sort_order' => 357,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 358\n\nWhich AWS service or feature gives users the ability to access AWS resources from any location by using an encrypted connection?",
+            'options' => [
+                'Amazon CloudFront',
+                'AWS Client VPN',
+                'AWS Direct Connect',
+                'AWS PrivateLink',
+            ],
+            'correct_answer' => 'AWS Client VPN',
+            'explanation' => 'AWS Client VPN provides secure, encrypted remote access to AWS resources from any location.',
+            'sort_order' => 358,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 359\n\nA company wants to visualize and manage AWS Cloud costs and usage for a specific period of time.\n\nWhich AWS service or feature will meet these requirements?",
+            'options' => [
+                'Cost Explorer',
+                'Consolidated billing',
+                'AWS Organizations',
+                'AWS Budgets',
+            ],
+            'correct_answer' => 'Cost Explorer',
+            'explanation' => 'Cost Explorer lets you visualize, analyze, and manage AWS costs and usage over a selected time period.',
+            'sort_order' => 359,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 360\n\nA company needs to have the ability to set up infrastructure for new applications in minutes.\n\nWhich advantage of cloud computing will help the company meet this requirement?",
+            'options' => [
+                'Trade fixed expense for variable expense',
+                'Go global in minutes',
+                'Increase speed and agility',
+                'Stop guessing capacity',
+            ],
+            'correct_answer' => 'Increase speed and agility',
+            'explanation' => 'Cloud computing enables rapid infrastructure provisioning, allowing applications to be deployed in minutes.',
+            'sort_order' => 360,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 361\n\nWhich AWS service or resource can a company use to deploy AWS WAF rules?",
+            'options' => [
+                'Amazon EC2',
+                'Application Load Balancer',
+                'AWS Trusted Advisor',
+                'Network Load Balancer',
+            ],
+            'correct_answer' => 'Application Load Balancer',
+            'explanation' => 'AWS WAF can be attached to an Application Load Balancer (ALB) to filter and protect web traffic.',
+            'sort_order' => 361,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 362\n\nWhich component must be attached to a VPC to enable inbound internet access?",
+            'options' => [
+                'NAT gateway',
+                'VPC endpoint',
+                'VPN connection',
+                'Internet gateway',
+            ],
+            'correct_answer' => 'Internet gateway',
+            'explanation' => 'An Internet Gateway (IGW) must be attached to a VPC to allow inbound and outbound internet access.',
+            'sort_order' => 362,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 363\n\nWhich AWS service is used to temporarily provide federated security credentials to access AWS resources?",
+            'options' => [
+                'Amazon GuardDuty',
+                'AWS Simple Token Service (AWS STS)',
+                'AWS Secrets Manager',
+                'AWS Certificate Manager',
+            ],
+            'correct_answer' => 'AWS Simple Token Service (AWS STS)',
+            'explanation' => 'AWS STS provides temporary security credentials for federated users to access AWS resources.',
+            'sort_order' => 363,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 364\n\nA company is using an Amazon RDS database.\n\nWhich task is the responsibility of AWS, according to the AWS shared responsibility model?",
+            'options' => [
+                'Configure IAM users.',
+                'Manage the database schemas.',
+                'Patch the host operating system\'s software.',
+                'Configure security groups for database connections.',
+            ],
+            'correct_answer' => 'Patch the host operating system\'s software.',
+            'explanation' => 'AWS is responsible for patching and maintaining the host operating system for Amazon RDS.',
+            'sort_order' => 364,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 365\n\nWhich AWS service should a user use to change an AWS account root user password?",
+            'options' => [
+                'AWS IAM Identity Center',
+                'AWS Management Console',
+                'AWS Secrets Manager',
+                'AWS Security Hub',
+            ],
+            'correct_answer' => 'AWS Management Console',
+            'explanation' => 'The AWS Management Console allows users to change the AWS account root user password.',
+            'sort_order' => 365,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 366\n\nA company wants to migrate to the AWS Cloud. The company needs the ability to acquire resources when the resources are necessary. The company also needs the ability to release those resources when the resources are no longer necessary.\n\nWhich architecture concept of the AWS Cloud meets these requirements?",
+            'options' => [
+                'Elasticity',
+                'Availability',
+                'Reliability',
+                'Durability',
+            ],
+            'correct_answer' => 'Elasticity',
+            'explanation' => 'Elasticity allows AWS resources to scale up or down automatically based on demand.',
+            'sort_order' => 366,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 367\n\nWhich of the following is a pillar of the AWS Well-Architected Framework?",
+            'options' => [
+                'Redundancy',
+                'Operational excellence',
+                'Availability',
+                'Multi-Region',
+            ],
+            'correct_answer' => 'Operational excellence',
+            'explanation' => 'Operational Excellence is one of the AWS Well-Architected Framework pillars and focuses on running and improving workloads efficiently.',
+            'sort_order' => 367,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 368\n\nA company migrated to the AWS Cloud. Now the company pays for services on an as-needed basis.\n\nWhich advantage of cloud computing is the company benefiting from?",
+            'options' => [
+                'Stop spending money running and maintaining data centers',
+                'Increase speed and agility',
+                'Go global in minutes',
+                'Trade fixed expense for variable expense',
+            ],
+            'correct_answer' => 'Trade fixed expense for variable expense',
+            'explanation' => 'With AWS, customers pay only for the resources they use, replacing fixed upfront costs with variable, pay-as-you-go pricing.',
+            'sort_order' => 368,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 369\n\nA company needs AWS to automate monitoring, patch management, and backup services on the company's behalf.\n\nWhich AWS service or framework provides this functionality?",
+            'options' => [
+                'AWS Cloud Adoption Framework (AWS CAF)',
+                'AWS Managed Services (AMS)',
+                'AWS Support',
+                'AWS Well-Architected Framework',
+            ],
+            'correct_answer' => 'AWS Managed Services (AMS)',
+            'explanation' => 'AWS Managed Services (AMS) automates monitoring, patching, backups, and other operational tasks for AWS environments.',
+            'sort_order' => 369,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 370\n\nA company wants to develop an accessibility application that will convert text into audible speech.\n\nWhich AWS service will meet this requirement?",
+            'options' => [
+                'Amazon MQ',
+                'Amazon Polly',
+                'Amazon Neptune',
+                'Amazon Timestream',
+            ],
+            'correct_answer' => 'Amazon Polly',
+            'explanation' => 'Amazon Polly converts text into natural-sounding speech using text-to-speech (TTS).',
+            'sort_order' => 370,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 371\n\nWhich design principles are included in the reliability pillar of the AWS Well-Architected Framework? (Choose two.)",
+            'options' => [
+                'Automatically recover from failure.',
+                'Grant everyone access to increase AWS service quotas.',
+                'Stop guessing capacity.',
+                'Design applications to run in a single Availability Zone.',
+                'Plan to increase AWS service quotas first in a secondary AWS Region.',
+            ],
+            'correct_answer' => json_encode([
+                'Automatically recover from failure.',
+                'Stop guessing capacity.',
+            ]),
+            'explanation' => 'The Reliability pillar includes automatically recovering from failures and stopping guessing capacity to build resilient systems.',
+            'sort_order' => 371,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 372\n\nA company needs to perform an audit of recent AWS account activity. The audit will investigate who initiated an event and what actions were performed.\n\nWhich AWS service should the company use to meet these requirements?",
+            'options' => [
+                'AWS Config',
+                'Amazon Rekognition',
+                'AWS CloudTrail',
+                'Amazon Simple Notification Service (Amazon SNS)',
+            ],
+            'correct_answer' => 'AWS CloudTrail',
+            'explanation' => 'AWS CloudTrail records AWS API activity, including who performed an action, when it occurred, and what resources were affected, making it the standard service for auditing and compliance.',
+            'sort_order' => 372,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 373\n\nWhich design principle aligns with the performance efficiency pillar of the AWS Well-Architected Framework?",
+            'options' => [
+                'Using serverless architectures',
+                'Scaling horizontally',
+                'Measuring the cost of workloads',
+                'Using managed services',
+            ],
+            'correct_answer' => 'Scaling horizontally',
+            'explanation' => 'Scaling horizontally is a key design principle of the Performance Efficiency pillar. It improves performance and availability by adding more resources instead of increasing the size of a single server.',
+            'sort_order' => 373,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 374\n\nA company wants to run containers on AWS by using Amazon Elastic Container Service (Amazon ECS). The company does not want to manage the underlying infrastructure.\n\nWhich AWS service can the company use to meet these requirements?",
+            'options' => [
+                'Amazon S3',
+                'Amazon EC2',
+                'AWS Fargate',
+                'Amazon Elastic Container Registry (Amazon ECR)',
+            ],
+            'correct_answer' => 'AWS Fargate',
+            'explanation' => 'AWS Fargate is a serverless compute engine for containers that runs Amazon ECS and EKS workloads without managing EC2 instances or infrastructure, making it ideal for fully managed container deployments.',
+            'sort_order' => 374,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 375\n\nA company wants a list of all users in its AWS account, the status of all of the users' access keys, and if multi-factor authentication (MFA) has been configured.\n\nWhich AWS service or feature will meet these requirements?",
+            'options' => [
+                'AWS Key Management Service (AWS KMS)',
+                'IAM Access Analyzer',
+                'IAM credential report',
+                'Amazon CloudWatch',
+            ],
+            'correct_answer' => 'IAM credential report',
+            'explanation' => 'The IAM credential report provides a complete list of IAM users, including the status of access keys, password usage, and MFA configuration, making it the standard tool for IAM security auditing.',
+            'sort_order' => 375,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 376\n\nA company that is planning to migrate to the AWS Cloud is based in an isolated area that has limited internet connectivity. The company needs to perform local data processing on premises. The company needs a solution that can operate without a stable internet connection.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'Amazon S3',
+                'AWS Snowball Edge',
+                'AWS Storage Gateway',
+                'AWS Backup',
+            ],
+            'correct_answer' => 'AWS Snowball Edge',
+            'explanation' => 'AWS Snowball Edge provides local storage and compute capabilities that can operate in environments with limited or no internet connectivity. It enables on-premises data processing and later transfers the data securely to AWS when connectivity is available.',
+            'sort_order' => 376,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 377\n\nWhich capabilities are in the operations perspective of the AWS Cloud Adoption Framework (AWS CAF)? (Choose two.)",
+            'options' => [
+                'Observability',
+                'Portfolio management',
+                'Incident response',
+                'Data governance',
+                'Configuration management',
+            ],
+            'correct_answer' => json_encode([
+                'Observability',
+                'Incident response',
+            ]),
+            'explanation' => 'The Operations perspective in AWS CAF includes capabilities such as Observability and Incident response to help monitor systems, detect issues, and respond to operational events effectively.',
+            'sort_order' => 377,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 378\n\nWhich capabilities are in the people perspective of the AWS Cloud Adoption Framework (AWS CAF)? (Choose two.)",
+            'options' => [
+                'Configuration management',
+                'Culture evolution',
+                'Change acceleration',
+                'Security assurance',
+                'Innovation management',
+            ],
+            'correct_answer' => json_encode([
+                'Culture evolution',
+                'Change acceleration',
+            ]),
+            'explanation' => 'The People perspective in AWS CAF focuses on preparing employees for cloud adoption. Culture evolution promotes a cloud-first mindset, while Change acceleration helps organizations manage training and organizational change effectively.',
+            'sort_order' => 378,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 379\n\nWhich AWS service or feature allows users to securely store encrypted credentials and retrieve these credentials when required?",
+            'options' => [
+                'AWS Encryption SDK',
+                'AWS Security Hub',
+                'AWS Secrets Manager',
+                'AWS Artifact',
+            ],
+            'correct_answer' => 'AWS Secrets Manager',
+            'explanation' => 'AWS Secrets Manager securely stores, encrypts, and manages sensitive information such as database credentials, API keys, and passwords. Applications can securely retrieve these secrets when needed, and the service also supports automatic secret rotation.',
+            'sort_order' => 379,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 380\n\nA company wants to migrate an on-premises call center to the AWS Cloud.\n\nWhich AWS service will meet this requirement?",
+            'options' => [
+                'AWS Direct Connect',
+                'Amazon Polly',
+                'Amazon Connect',
+                'Amazon Lex',
+            ],
+            'correct_answer' => 'Amazon Connect',
+            'explanation' => 'Amazon Connect is a cloud-based contact center service that enables companies to build and manage customer call centers in AWS. It supports inbound and outbound calls, IVR, call routing, and integration with other AWS services, making it the best choice for migrating an on-premises call center to the cloud.',
+            'sort_order' => 380,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 381\n\nA company wants to add a conversational chatbot to its website.\n\nWhich AWS service can the company use to meet this requirement?",
+            'options' => [
+                'Amazon Textract',
+                'Amazon Lex',
+                'AWS Glue',
+                'Amazon Rekognition',
+            ],
+            'correct_answer' => 'Amazon Lex',
+            'explanation' => 'Amazon Lex is a service for building conversational chatbots using natural language understanding (NLU) and speech recognition. It enables websites and applications to provide interactive customer conversations through text or voice.',
+            'sort_order' => 381,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 382\n\nA company has services that run in the AWS Cloud and in an on-premises data center. The company wants to set up a dedicated, high-throughput connection between AWS and the data center.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'Amazon VPC',
+                'AWS Direct Connect',
+                'Amazon CloudFront',
+                'Amazon API Gateway',
+            ],
+            'correct_answer' => 'AWS Direct Connect',
+            'explanation' => 'AWS Direct Connect provides a dedicated, high-bandwidth private network connection between an on-premises data center and AWS. It bypasses the public internet, delivering lower latency, more consistent performance, and increased security, making it ideal for hybrid cloud environments.',
+            'sort_order' => 382,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 383\n\nWhich AWS service tracks API calls and user activity?",
+            'options' => [
+                'AWS Organizations',
+                'AWS Config',
+                'Amazon CloudWatch',
+                'AWS CloudTrail',
+            ],
+            'correct_answer' => 'AWS CloudTrail',
+            'explanation' => 'AWS CloudTrail records API calls and user activity across an AWS account. It logs actions made through the AWS Management Console, AWS CLI, SDKs, and AWS services, providing an audit trail for security, compliance, and troubleshooting.',
+            'sort_order' => 383,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 384\n\nA company runs MySQL database workloads on self-managed servers in an on-premises data center. The company wants to migrate the database workloads to an AWS managed service.\n\nWhich migration strategy should the company use?",
+            'options' => [
+                'Rehost',
+                'Repurchase',
+                'Refactor',
+                'Replatform',
+            ],
+            'correct_answer' => 'Replatform',
+            'explanation' => 'Replatform means moving an application or database to the cloud with minor optimizations while keeping its core architecture. Migrating a self-managed MySQL database to a managed service like Amazon RDS for MySQL is a classic example of replatforming, because AWS takes over tasks such as patching, backups, and maintenance.',
+            'sort_order' => 384,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 385\n\nWhich AWS service or feature should a company use between two microservices to ensure that messages are sent and received in exact order?",
+            'options' => [
+                'Amazon Simple Email Service (Amazon SES)',
+                'Amazon Simple Notification Service (Amazon SNS)',
+                'Amazon S3 Event Notifications',
+                'Amazon Simple Queue Service (Amazon SQS) FIFO queues',
+            ],
+            'correct_answer' => 'Amazon Simple Queue Service (Amazon SQS) FIFO queues',
+            'explanation' => 'Amazon SQS FIFO (First-In-First-Out) queues guarantee that messages are delivered and processed in the exact order they are sent. They also provide exactly-once processing, preventing duplicate messages. This makes FIFO queues ideal for communication between microservices when message order is critical.',
+            'sort_order' => 385,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 386\n\nWhich group shares responsibility with AWS for security and compliance of AWS accounts and resources?",
+            'options' => [
+                'Third-party vendors',
+                'Customers',
+                'Reseller partners',
+                'Internet providers',
+            ],
+            'correct_answer' => 'Customers',
+            'explanation' => 'According to the AWS Shared Responsibility Model, AWS is responsible for the security of the cloud, while customers are responsible for the security in the cloud, including IAM permissions, data protection, encryption, operating systems where applicable, network configurations, and compliance of their AWS resources.',
+            'sort_order' => 386,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 387\n\nA company needs to collect and assess on-premises server and application inventory data before moving its infrastructure to AWS.\n\nWhich AWS service provides this functionality?",
+            'options' => [
+                'Amazon AppFlow',
+                'AWS Migration Hub',
+                'Amazon QuickSight',
+                'AWS Step Functions',
+            ],
+            'correct_answer' => 'AWS Migration Hub',
+            'explanation' => 'AWS Migration Hub provides a central place to discover, collect, and assess on-premises server and application inventory before migration. It helps organizations plan and track migrations by analyzing servers, applications, and dependencies, making migration to AWS more efficient.',
+            'sort_order' => 387,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 388\n\nA company wants to deploy some of its resources in the AWS Cloud. To meet regulatory requirements, the data must remain local and on premises. There must be low latency between AWS and the company resources.\n\nWhich AWS service or feature can be used to meet these requirements?",
+            'options' => [
+                'AWS Local Zones',
+                'Availability Zones',
+                'AWS Outposts',
+                'AWS Wavelength Zones',
+            ],
+            'correct_answer' => 'AWS Outposts',
+            'explanation' => 'AWS Outposts extends AWS infrastructure and services to an on-premises data center, allowing data to remain local to meet regulatory requirements while providing low-latency connectivity to AWS. It delivers a consistent AWS experience using the same APIs, tools, and services as the AWS Cloud.',
+            'sort_order' => 388,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 389\n\nWhich architecture design principle describes the need to isolate failures between dependent components in the AWS Cloud?",
+            'options' => [
+                'Use a monolithic design.',
+                'Design for automation.',
+                'Design for single points of failure.',
+                'Loosely couple components.',
+            ],
+            'correct_answer' => 'Loosely couple components.',
+            'explanation' => 'Loosely coupled components minimize dependencies between application components. If one component fails, the failure is isolated and does not affect the entire system. This design improves reliability, fault isolation, and scalability, making it a key AWS Well-Architected design principle.',
+            'sort_order' => 389,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 390\n\nWhich guidelines are best practices for using AWS Identity and Access Management (IAM)? (Choose two.)",
+            'options' => [
+                'Share access keys.',
+                'Create individual IAM users.',
+                'Use inline policies instead of customer managed policies.',
+                'Grant maximum privileges to IAM users.',
+                'Use groups to assign permissions to IAM users.',
+            ],
+            'correct_answer' => json_encode([
+                'Create individual IAM users.',
+                'Use groups to assign permissions to IAM users.',
+            ]),
+            'explanation' => 'Creating individual IAM users improves security, auditing, and access management. Using groups to assign permissions simplifies permission management and follows AWS IAM best practices.',
+            'sort_order' => 390,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 391\n\nA company needs to establish a dedicated network connection from on premises to AWS. The connection must provide consistent, low-latency network performance.\n\nWhich AWS service should the company use to meet this requirement?",
+            'options' => [
+                'AWS Direct Connect',
+                'AWS Site-to-Site VPN',
+                'AWS Directory Service',
+                'AWS Transit Gateway',
+            ],
+            'correct_answer' => 'AWS Direct Connect',
+            'explanation' => 'AWS Direct Connect provides a dedicated private network connection between an on-premises data center and AWS. It delivers consistent, low-latency, and high-bandwidth connectivity by bypassing the public internet, making it ideal for workloads that require reliable and predictable network performance.',
+            'sort_order' => 391,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 392\n\nA company has many developers who need programmatic access to AWS services. The company must provide the access in compliance with AWS security best practices.\n\nWhich solution will meet these requirements?",
+            'options' => [
+                'Require multi-factor authentication (MFA) for the AWS account root user and all IAM users. Rotate access keys.',
+                'Create a single shared IAM user account for all the developers.',
+                'Use the AWS account root user for programmatic access. Rotate access keys.',
+                'Create IAM permissions boundaries. Require multi-factor authentication (MFA) for the AWS account root user.',
+            ],
+            'correct_answer' => 'Require multi-factor authentication (MFA) for the AWS account root user and all IAM users. Rotate access keys.',
+            'explanation' => 'AWS security best practices recommend enabling MFA for the root user and all IAM users to provide an additional layer of security. In addition, access keys should be rotated regularly to reduce the risk of compromised credentials. Each developer should use an individual IAM user or role with appropriate permissions rather than sharing accounts or using the root user.',
+            'sort_order' => 392,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 393\n\nWhich AWS service can migrate Amazon EC2 instances from one AWS Region to another?",
+            'options' => [
+                'AWS Application Migration Service',
+                'AWS Database Migration Service (AWS DMS)',
+                'AWS DataSync',
+                'AWS Migration Hub',
+            ],
+            'correct_answer' => 'AWS Application Migration Service',
+            'explanation' => 'AWS Application Migration Service (AWS MGN) simplifies migrating Amazon EC2 instances and other physical or virtual servers to another AWS Region with minimal downtime. It continuously replicates source servers and launches them in the target Region, making it the recommended service for server and EC2 migrations.',
+            'sort_order' => 393,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 394\n\nWhich AWS service or feature identifies whether an Amazon S3 bucket or an IAM role has been shared with an external entity?",
+            'options' => [
+                'AWS Service Catalog',
+                'AWS Systems Manager',
+                'AWS IAM Access Analyzer',
+                'AWS Organizations',
+            ],
+            'correct_answer' => 'AWS IAM Access Analyzer',
+            'explanation' => 'AWS IAM Access Analyzer analyzes resource-based policies to identify resources, such as Amazon S3 buckets and IAM roles, that are shared with external AWS accounts or the public. It helps detect unintended external access and improves security by identifying resources that can be accessed outside your AWS organization.',
+            'sort_order' => 394,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 395\n\nA company with multiple accounts and teams wants to set up a new multi-account AWS environment.\n\nWhich AWS service supports this requirement?",
+            'options' => [
+                'AWS CloudFormation',
+                'AWS Control Tower',
+                'AWS Config',
+                'Amazon Virtual Private Cloud (Amazon VPC)',
+            ],
+            'correct_answer' => 'AWS Control Tower',
+            'explanation' => 'AWS Control Tower helps organizations quickly set up and govern a secure, multi-account AWS environment based on AWS best practices. It automates account creation, applies guardrails, integrates with AWS Organizations, and provides centralized governance, making it the recommended service for managing multiple AWS accounts and teams.',
+            'sort_order' => 395,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 396\n\nA company wants a solution that will automatically adjust the number of Amazon EC2 instances that are being used based on the current load.\n\nWhich AWS offering will meet these requirements?",
+            'options' => [
+                'Dedicated Hosts',
+                'Placement groups',
+                'Auto Scaling groups',
+                'Reserved Instances',
+            ],
+            'correct_answer' => 'Auto Scaling groups',
+            'explanation' => 'Amazon EC2 Auto Scaling automatically adjusts the number of EC2 instances in an Auto Scaling group based on demand, such as CPU utilization or traffic. It helps maintain application availability while optimizing costs by scaling out during high load and scaling in when demand decreases.',
+            'sort_order' => 396,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 397\n\nA company wants to provide one of its employees with access to Amazon RDS. The company also wants to limit the interaction to only the AWS CLI and AWS software development kits (SDKs).\n\nWhich combination of actions should the company take to meet these requirements while following the principles of least privilege? (Choose two.)",
+            'options' => [
+                'Create an IAM user and provide AWS Management Console access only.',
+                'Create an IAM user and provide programmatic access only.',
+                'Create an IAM role and provide AWS Management Console access only.',
+                'Create an IAM policy with administrator access and attach it to the IAM user.',
+                'Create an IAM policy with Amazon RDS access and attach it to the IAM user.',
+            ],
+            'correct_answer' => json_encode([
+                'Create an IAM user and provide programmatic access only.',
+                'Create an IAM policy with Amazon RDS access and attach it to the IAM user.',
+            ]),
+            'explanation' => 'Create an IAM user with programmatic access only so the employee can use only the AWS CLI and SDKs. Attach an IAM policy with Amazon RDS permissions to follow the principle of least privilege instead of granting administrator access.',
+            'sort_order' => 397,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 398\n\nA company needs to set up user authentication for a new application. Users must be able to sign in directly with a username and password, or through a third-party provider.\n\nWhich AWS service should the company use to meet these requirements?",
+            'options' => [
+                'AWS IAM Identity Center',
+                'AWS Signer',
+                'Amazon Cognito',
+                'AWS Directory Service',
+            ],
+            'correct_answer' => 'Amazon Cognito',
+            'explanation' => 'Amazon Cognito provides user authentication and authorization for web and mobile applications. It supports username and password sign-in as well as federated sign-in through third-party identity providers such as Google, Facebook, Apple, Amazon, and SAML or OpenID Connect (OIDC) providers.',
+            'sort_order' => 398,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 399\n\nWhich AWS service or tool does AWS Control Tower use to create resources?",
+            'options' => [
+                'AWS CloudFormation',
+                'AWS Trusted Advisor',
+                'AWS Directory Service',
+                'AWS Cost Explorer',
+            ],
+            'correct_answer' => 'AWS CloudFormation',
+            'explanation' => 'AWS Control Tower uses AWS CloudFormation to automatically create and configure AWS resources across multiple AWS accounts. CloudFormation templates define the infrastructure and settings that Control Tower deploys to establish and manage a well-architected multi-account AWS environment.',
+            'sort_order' => 399,
+        ]);
+
+
+        $set->questions()->create([
+            'question' => "Question 400\n\nWhich of the following are ways to improve security on AWS? (Choose two.)",
+            'options' => [
+                'Using AWS Artifact',
+                'Granting the broadest permissions to all IAM roles',
+                'Running application code with AWS Cloud',
+                'Enabling multi-factor authentication (MFA) with Amazon Cognito',
+                'Using AWS Trusted Advisor security checks',
+            ],
+            'correct_answer' => json_encode([
+                'Enabling multi-factor authentication (MFA) with Amazon Cognito',
+                'Using AWS Trusted Advisor security checks',
+            ]),
+            'explanation' => 'Enabling multi-factor authentication (MFA) adds an extra layer of security. AWS Trusted Advisor security checks help identify security risks and provide recommendations based on AWS best practices.',
+            'sort_order' => 400,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 401\n\nA company needs to set up dedicated network connectivity between its on-premises data center and the AWS Cloud. The network cannot use the public internet.\n\nWhich AWS service or feature will meet these requirements?",
+            'options' => [
+                'AWS Transit Gateway',
+                'AWS VPN',
+                'Amazon CloudFront',
+                'AWS Direct Connect',
+            ],
+            'correct_answer' => 'AWS Direct Connect',
+            'explanation' => 'AWS Direct Connect provides a dedicated private connection between an on-premises data center and AWS without using the public internet. It offers more consistent performance and lower latency than internet-based connections.',
+            'sort_order' => 401,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 402\n\nA company is deploying a web application on Amazon EC2 instances.\n\nWhich task is the responsibility of AWS, according to the AWS shared responsibility model?",
+            'options' => [
+                'Configure IAM permissions.',
+                'Configure security groups.',
+                "Manage the security of the EC2 instances' hardware.",
+                "Manage the security of the EC2 instances' guest operating system.",
+            ],
+            'correct_answer' => "Manage the security of the EC2 instances' hardware.",
+            'explanation' => 'AWS is responsible for the security of the cloud, including the physical hardware that runs EC2 instances. Customers are responsible for IAM, security groups, and the guest operating system.',
+            'sort_order' => 402,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 403\n\nA company's gaming application has been gaining popularity. There has been high demand for the gaming application in countries where the company does not currently deploy the application.\n\nWhich advantage of the AWS Cloud can help the company to deploy the application to more countries around the world?",
+            'options' => [
+                'Benefit from massive economies of scale',
+                'Increase speed and agility',
+                'Trade fixed expense for variable expense',
+                'Go global in minutes',
+            ],
+            'correct_answer' => 'Go global in minutes',
+            'explanation' => 'AWS enables companies to quickly deploy applications in multiple Regions around the world, making it easy to serve customers in new countries with low latency.',
+            'sort_order' => 403,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 404\n\nA company wants to provide low latency to its users around the world.\n\nWhich feature of the AWS Cloud meets this requirement?",
+            'options' => [
+                'Global infrastructure',
+                'Pay-as-you-go pricing',
+                'Managed services',
+                'Economy of scale',
+            ],
+            'correct_answer' => 'Global infrastructure',
+            'explanation' => 'AWS Global Infrastructure provides Regions and Edge Locations worldwide, allowing applications to be deployed closer to users for lower latency.',
+            'sort_order' => 404,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 405\n\nA company plans to migrate its application from on premises to the AWS Cloud. The company needs to gather usage and configuration data for the application components.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'AWS Database Migration Service (AWS DMS)',
+                'AWS Transfer Family',
+                'AWS Application Discovery Service',
+                'AWS Global Accelerator',
+            ],
+            'correct_answer' => 'AWS Application Discovery Service',
+            'explanation' => 'AWS Application Discovery Service collects usage, configuration, and dependency data from on-premises applications to help plan AWS migrations.',
+            'sort_order' => 405,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 406\n\nWhich AWS service uses edge locations to cache content?",
+            'options' => [
+                'Amazon Kinesis',
+                'Amazon Simple Queue Service (Amazon SQS)',
+                'Amazon CloudFront',
+                'Amazon Route 53',
+            ],
+            'correct_answer' => 'Amazon CloudFront',
+            'explanation' => 'Amazon CloudFront uses AWS Edge Locations to cache content closer to users, reducing latency and improving content delivery speed.',
+            'sort_order' => 406,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 407\n\nA company needs to manage multiple AWS accounts as a single unit. The company must consolidate billing for all the accounts.\n\nWhich AWS service should the company use to meet these requirements?",
+            'options' => [
+                'AWS Organizations',
+                'AWS Resource Access Manager (AWS RAM)',
+                'AWS Identity and Access Management (IAM)',
+                'AWS Control Tower',
+            ],
+            'correct_answer' => 'AWS Organizations',
+            'explanation' => 'AWS Organizations lets you manage multiple AWS accounts as one organization and provides consolidated billing across all accounts.',
+            'sort_order' => 407,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 408\n\nA company's compliance officer wants to review the AWS Service Organization Control (SOC) reports.\n\nWhich AWS service or feature should the compliance officer use to complete this task?",
+            'options' => [
+                'AWS Artifact',
+                'AWS Concierge Support',
+                'AWS Support',
+                'AWS Trusted Advisor',
+            ],
+            'correct_answer' => 'AWS Artifact',
+            'explanation' => 'AWS Artifact provides on-demand access to AWS compliance reports, including SOC reports and other security and compliance documents.',
+            'sort_order' => 408,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 409\n\nA company has an application that produces unstructured data continuously. The company needs to store the data so that the data is durable and easy to query.\n\nWhich AWS service can the company use to meet these requirements?",
+            'options' => [
+                'Amazon RDS',
+                'Amazon Aurora',
+                'Amazon QuickSight',
+                'Amazon DynamoDB',
+            ],
+            'correct_answer' => 'Amazon DynamoDB',
+            'explanation' => 'Amazon DynamoDB is a fully managed NoSQL database that stores unstructured data with high durability and provides fast, easy queries.',
+            'sort_order' => 409,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 410\n\nIn which situations should a company create an IAM user instead of an IAM role?",
+            'options' => [
+                'When an application that runs on Amazon EC2 instances requires access to other AWS services',
+                'When the company creates AWS access credentials for individuals',
+                'When the company creates an application that runs on a mobile phone that makes requests to AWS',
+                'When the company needs to add users to IAM groups',
+                'When users are authenticated in the corporate network and want to be able to use AWS without having to sign in a second time',
+            ],
+            'correct_answer' => 'When the company creates AWS access credentials for individuals',
+            'explanation' => 'Create an IAM user for individual people who need long-term AWS credentials. Use IAM roles for applications, AWS services, or temporary access.',
+            'sort_order' => 410,
+        ]);
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
