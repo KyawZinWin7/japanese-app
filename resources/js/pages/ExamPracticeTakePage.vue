@@ -27,6 +27,13 @@
                 :value="entry.value"
                 type="hidden"
             >
+            <input
+                v-for="questionId in revealedQuestionIds"
+                :key="`revealed-${questionId}`"
+                name="revealed_questions[]"
+                :value="questionId"
+                type="hidden"
+            >
 
             <div class="rounded-[1.35rem] border border-slate-200 bg-white px-4 py-2.5 shadow-sm sm:rounded-3xl sm:px-5 sm:py-4">
                 <div class="flex items-center justify-between gap-3">
@@ -71,16 +78,23 @@
                 :index="currentQuestionIndex + 1"
                 :question="currentQuestion"
                 :selected-answer="selectedAnswers[currentQuestion.id] ?? defaultSelectedValue(currentQuestion)"
+                :show-answer="shouldShowAnswer(currentQuestion)"
+                :show-check-result="hasCheckedCurrentQuestion"
+                :is-correct="currentQuestionIsCorrect"
+                :can-check-answer="currentQuestionAnswered"
+                :can-toggle-answer="canToggleCurrentAnswer"
+                @check-answer="checkCurrentAnswer"
+                @toggle-answer="toggleCurrentAnswer"
             />
 
             <div class="hidden flex-wrap items-center gap-3 sm:flex">
                 <button type="button" class="app-btn-secondary" :disabled="currentQuestionIndex === 0" @click="goToPrevious">
                     Previous
                 </button>
-                <button v-if="!isLastQuestion" type="button" class="app-btn" :disabled="!currentQuestionAnswered" @click="goToNext">
+                <button v-if="!isLastQuestion" type="button" class="app-btn" :disabled="!canMoveNext" @click="goToNext">
                     Next
                 </button>
-                <button v-else type="submit" class="app-btn" :disabled="!currentQuestionAnswered">Submit Answers</button>
+                <button v-else type="submit" class="app-btn" :disabled="!canMoveNext">Submit Answers</button>
                 <a :href="routes.detail" class="app-link">Back to Set</a>
             </div>
         </form>
@@ -95,10 +109,10 @@
                     <button type="button" class="app-btn-secondary w-full justify-center" :disabled="currentQuestionIndex === 0" @click="goToPrevious">
                         Previous
                     </button>
-                    <button v-if="!isLastQuestion" type="button" class="app-btn w-full justify-center" :disabled="!currentQuestionAnswered" @click="goToNext">
+                    <button v-if="!isLastQuestion" type="button" class="app-btn w-full justify-center" :disabled="!canMoveNext" @click="goToNext">
                         Next
                     </button>
-                    <button v-else type="submit" form="exam-practice-form" class="app-btn w-full justify-center" :disabled="!currentQuestionAnswered">
+                    <button v-else type="submit" form="exam-practice-form" class="app-btn w-full justify-center" :disabled="!canMoveNext">
                         Submit Answers
                     </button>
                 </div>
@@ -122,12 +136,29 @@ const props = defineProps({
 const quizForm = ref(null);
 const selectedAnswers = ref(normalizeOldAnswers(props.oldAnswers, props.set.questions));
 const currentQuestionIndex = ref(0);
+const checkedQuestionStates = ref({});
+const revealedQuestions = ref({});
 const currentQuestion = computed(() => props.set.questions[currentQuestionIndex.value]);
 const currentQuestionAnswered = computed(() => isQuestionAnswered(currentQuestion.value, selectedAnswers.value[currentQuestion.value?.id]));
+const currentQuestionCorrectAnswers = computed(() => normalizeToArray(currentQuestion.value?.correctAnswers));
+const currentQuestionIsCorrect = computed(() => answersMatch(
+    normalizeToArray(selectedAnswers.value[currentQuestion.value?.id]),
+    currentQuestionCorrectAnswers.value,
+));
+const hasCheckedCurrentQuestion = computed(() => checkedQuestionStates.value[currentQuestion.value?.id] === true);
+const canToggleCurrentAnswer = computed(() => {
+    if (shouldShowAnswer(currentQuestion.value)) {
+        return true;
+    }
+
+    return hasCheckedCurrentQuestion.value && !currentQuestionIsCorrect.value;
+});
+const canMoveNext = computed(() => currentQuestionAnswered.value && hasCheckedCurrentQuestion.value);
 const isLastQuestion = computed(() => currentQuestionIndex.value === props.set.questions.length - 1);
 const answeredCount = computed(() => props.set.questions.filter((question) => isQuestionAnswered(question, selectedAnswers.value[question.id])).length);
 const progressPercent = computed(() => Math.round((answeredCount.value / props.set.questions.length) * 100));
 const persistedAnswerEntries = computed(() => buildPersistedEntries(selectedAnswers.value, currentQuestion.value));
+const revealedQuestionIds = computed(() => Object.keys(revealedQuestions.value).filter((questionId) => revealedQuestions.value[questionId]));
 
 function normalizeOldAnswers(oldAnswers, questions) {
     const normalized = {};
@@ -178,6 +209,8 @@ function handleFormChange() {
     }
 
     selectedAnswers.value = answers;
+    checkedQuestionStates.value[currentQuestion.value?.id] = false;
+    revealedQuestions.value[currentQuestion.value?.id] = false;
 }
 
 function isQuestionAnswered(question, answer) {
@@ -223,8 +256,33 @@ function buildPersistedEntries(answers, activeQuestion) {
     return entries;
 }
 
+function answersMatch(selected, correct) {
+    return [...selected].sort().join('||') === [...correct].sort().join('||');
+}
+
+function checkCurrentAnswer() {
+    if (!currentQuestionAnswered.value) {
+        return;
+    }
+
+    checkedQuestionStates.value[currentQuestion.value.id] = true;
+}
+
+function toggleCurrentAnswer() {
+    if (!canToggleCurrentAnswer.value) {
+        return;
+    }
+
+    const questionId = currentQuestion.value.id;
+    revealedQuestions.value[questionId] = !revealedQuestions.value[questionId];
+}
+
+function shouldShowAnswer(question) {
+    return revealedQuestions.value[question?.id] === true;
+}
+
 function goToNext() {
-    if (!currentQuestionAnswered.value || isLastQuestion.value) {
+    if (!canMoveNext.value || isLastQuestion.value) {
         return;
     }
 
@@ -251,4 +309,3 @@ function handleQuestionSelect(event) {
     goToQuestion(Number(event.target.value));
 }
 </script>
-

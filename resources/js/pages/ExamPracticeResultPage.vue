@@ -24,9 +24,14 @@
                         <p class="mt-2 text-slate-600">Correct answer: <span class="font-medium text-slate-900">{{ formatAnswer(answer.correct) }}</span></p>
                         <p v-if="answer.explanation" class="mt-2 text-slate-600">{{ answer.explanation }}</p>
                     </div>
-                    <span :class="answer.is_correct ? 'app-badge' : 'rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-rose-700'">
-                        {{ answer.is_correct ? 'Correct' : 'Incorrect' }}
-                    </span>
+                    <div class="flex flex-wrap items-center justify-end gap-2">
+                        <span v-if="answer.answer_revealed" class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-800">
+                            Answer Revealed
+                        </span>
+                        <span :class="answer.is_correct ? 'app-badge' : 'rounded-full bg-rose-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-rose-700'">
+                            {{ answer.is_correct ? 'Correct' : 'Incorrect' }}
+                        </span>
+                    </div>
                 </div>
             </article>
         </div>

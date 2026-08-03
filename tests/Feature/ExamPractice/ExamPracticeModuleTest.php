@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\ExamPractice;
 
+use App\Models\ExamPracticeAttempt;
 use App\Models\ExamPracticeQuestion;
 use App\Models\ExamPracticeSet;
 use App\Models\User;
@@ -67,6 +68,43 @@ class ExamPracticeModuleTest extends TestCase
             'score' => 1,
             'total_questions' => 1,
         ]);
+    }
+
+    public function test_revealed_answers_are_saved_in_attempt_results(): void
+    {
+        $user = User::factory()->create(['is_approved' => true]);
+        $set = ExamPracticeSet::create([
+            'title' => 'AWS Review Mode',
+            'slug' => 'aws-review-mode',
+            'description' => 'Reveal answer tracking set',
+            'exam_code' => 'CLF-C02',
+            'question_count' => 1,
+            'is_published' => true,
+        ]);
+        $question = ExamPracticeQuestion::create([
+            'exam_practice_set_id' => $set->id,
+            'question' => 'Which AWS service stores objects?',
+            'options' => ['Amazon EC2', 'Amazon S3', 'AWS Lambda', 'Amazon RDS'],
+            'correct_answer' => 'Amazon S3',
+            'explanation' => 'Amazon S3 is object storage.',
+            'sort_order' => 1,
+        ]);
+
+        $response = $this->actingAs($user)->post('/exam-practice/'.$set->slug.'/submit', [
+            'answers' => [
+                $question->id => 'Amazon S3',
+            ],
+            'revealed_questions' => [$question->id],
+        ]);
+
+        $response->assertRedirect();
+
+        $attempt = ExamPracticeAttempt::query()->firstOrFail();
+
+        $this->assertTrue($attempt->answers[0]['answer_revealed']);
+
+        $follow = $this->actingAs($user)->get($response->headers->get('Location'));
+        $follow->assertOk()->assertSee('"answer_revealed":true', false);
     }
 
     public function test_approved_users_can_submit_choose_two_exam_practice_answers(): void

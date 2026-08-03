@@ -30,6 +30,27 @@
                 </span>
             </label>
         </div>
+
+        <div class="mt-5 flex flex-wrap items-center gap-3">
+            <button type="button" class="app-btn" :disabled="!canCheckAnswer" @click="$emit('check-answer')">
+                Check Answer
+            </button>
+            <button v-if="canToggleAnswer" type="button" class="app-btn-secondary" @click="$emit('toggle-answer')">
+                {{ showAnswer ? 'Hide Answer' : 'Show Answer' }}
+            </button>
+        </div>
+
+        <div
+            v-if="showCheckResult"
+            :class="isCorrect ? 'mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800' : 'mt-4 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800'"
+        >
+            {{ isCorrect ? 'Correct. You can continue to the next question.' : 'Incorrect. You can reveal the answer if you want to review it now.' }}
+        </div>
+
+        <div v-if="showAnswer" class="mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-4 text-sm text-slate-700">
+            <p class="font-semibold text-slate-900">Correct answer: {{ formatAnswer(question.correctAnswers) }}</p>
+            <p v-if="question.explanation" class="mt-2 leading-6 text-slate-600">{{ question.explanation }}</p>
+        </div>
     </article>
 </template>
 
@@ -40,7 +61,14 @@ const props = defineProps({
     index: { type: Number, required: true },
     question: { type: Object, required: true },
     selectedAnswer: { type: [String, Array], default: '' },
+    showAnswer: { type: Boolean, default: false },
+    showCheckResult: { type: Boolean, default: false },
+    isCorrect: { type: Boolean, default: false },
+    canCheckAnswer: { type: Boolean, default: false },
+    canToggleAnswer: { type: Boolean, default: false },
 });
+
+defineEmits(['check-answer', 'toggle-answer']);
 
 const inputName = computed(() => props.question.allowsMultipleAnswers
     ? `answers[${props.question.id}][]`
@@ -57,5 +85,12 @@ function isSelected(option) {
 function optionLabel(index) {
     return String.fromCharCode(65 + index);
 }
-</script>
 
+function formatAnswer(answer) {
+    if (Array.isArray(answer)) {
+        return answer.join(', ');
+    }
+
+    return answer || '';
+}
+</script>

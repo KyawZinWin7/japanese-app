@@ -101,6 +101,8 @@ class ExamPracticeController extends Controller
                         'options' => $question->options,
                         'allowsMultipleAnswers' => $question->allowsMultipleAnswers(),
                         'requiredAnswerCount' => $question->requiredAnswerCount(),
+                        'correctAnswers' => $question->correctOptionValues(),
+                        'explanation' => $question->explanation,
                     ])->all(),
                 ],
                 'errors' => session('errors')?->getBag('default')->toArray() ?? [],
@@ -118,6 +120,11 @@ class ExamPracticeController extends Controller
         $set->load('questions');
 
         $submitted = $request->input('answers', []);
+        $revealedQuestionIds = collect($request->input('revealed_questions', []))
+            ->map(fn ($questionId) => (string) $questionId)
+            ->unique()
+            ->values()
+            ->all();
         $score = 0;
         $answers = [];
 
@@ -137,6 +144,7 @@ class ExamPracticeController extends Controller
                 'correct' => $question->allowsMultipleAnswers() ? $correct : ($correct[0] ?? null),
                 'explanation' => $question->explanation,
                 'is_correct' => $isCorrect,
+                'answer_revealed' => in_array((string) $question->id, $revealedQuestionIds, true),
             ];
         }
 
