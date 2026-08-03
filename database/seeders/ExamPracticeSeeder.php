@@ -15,7 +15,7 @@ class ExamPracticeSeeder extends Seeder
                 'title' => 'AWS Cloud Practitioner Set 1',
                 'description' => 'Starter exam practice set for AWS Cloud Practitioner review.',
                 'exam_code' => 'CLF-C02',
-                'question_count' => 430,
+                'question_count' => 472,
                 'is_published' => true,
             ],
         );
@@ -5855,6 +5855,517 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS achieves economies of scale, helping reduce variable costs by sharing infrastructure across many customers.',
             'sort_order' => 430,
         ]);
+        $set->questions()->create([
+            'question' => "Question 431\n\nA company deploys its application on Amazon EC2 instances. The application occasionally experiences sudden increases in demand. The company wants to ensure that its application can respond to changes in demand at the lowest possible cost.\n\nWhich AWS service or concept will meet these requirements?",
+            'options' => [
+                'AWS Auto Scaling',
+                'AWS Compute Optimizer',
+                'AWS Cost Explorer',
+                'AWS Well-Architected Framework',
+            ],
+            'correct_answer' => 'AWS Auto Scaling',
+            'explanation' => 'AWS Auto Scaling automatically adds or removes EC2 instances based on demand, ensuring good performance while minimizing costs.',
+            'sort_order' => 431,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 432\n\nA company needs to label its AWS resources so that the company can categorize and track costs.\n\nWhat should the company do to meet this requirement?",
+            'options' => [
+                'Use cost allocation tags.',
+                'Use AWS Identity and Access Management (IAM).',
+                'Use AWS Organizations.',
+                'Use the AWS Cost Management coverage report.',
+            ],
+            'correct_answer' => 'Use cost allocation tags.',
+            'explanation' => 'Cost allocation tags let you label AWS resources with key-value pairs, making it easy to categorize, allocate, and track costs by project, department, environment, or other categories.',
+            'sort_order' => 432,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 433\n\nWhich AWS service enables users to create copies of resources across AWS Regions?",
+            'options' => [
+                'Amazon ElastiCache',
+                'AWS CloudFormation',
+                'AWS CloudTrail',
+                'AWS Systems Manager',
+            ],
+            'correct_answer' => 'AWS CloudFormation',
+            'explanation' => 'AWS CloudFormation uses templates to deploy the same infrastructure in multiple AWS Regions, allowing you to create consistent copies of resources across Regions.',
+            'sort_order' => 433,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 434\n\nA company is migrating a relational database server to the AWS Cloud. The company wants to minimize administrative overhead of database maintenance tasks.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'Amazon DynamoDB',
+                'Amazon EC2',
+                'Amazon Redshift',
+                'Amazon RDS',
+            ],
+            'correct_answer' => 'Amazon RDS',
+            'explanation' => 'Amazon RDS is a fully managed relational database service that automates backups, patching, monitoring, and scaling, reducing database administration tasks.',
+            'sort_order' => 434,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 435\n\nWhich AWS service allows for file sharing between multiple Amazon EC2 instances?",
+            'options' => [
+                'AWS Direct Connect',
+                'AWS Snowball Edge',
+                'AWS Backup',
+                'Amazon Elastic File System (Amazon EFS)',
+            ],
+            'correct_answer' => 'Amazon Elastic File System (Amazon EFS)',
+            'explanation' => 'Amazon EFS is a fully managed shared file system that can be mounted by multiple EC2 instances at the same time, enabling scalable file sharing.',
+            'sort_order' => 435,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 436\n\nA company wants to use the AWS Cloud to provide secure access to desktop applications that are running in a fully managed environment.\n\nWhich AWS service should the company use to meet this requirement?",
+            'options' => [
+                'Amazon S3',
+                'Amazon AppStream 2.0',
+                'AWS AppSync',
+                'AWS Outposts',
+            ],
+            'correct_answer' => 'Amazon AppStream 2.0',
+            'explanation' => 'Amazon AppStream 2.0 is a fully managed application streaming service that securely delivers desktop applications to users without requiring local installation.',
+            'sort_order' => 436,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 437\n\nWhich benefit is always free of charge with AWS, regardless of a user's AWS Support plan?",
+            'options' => [
+                'AWS Developer Support',
+                'AWS Developer Forums',
+                'Programmatic case management',
+                'AWS technical account manager (TAM)',
+            ],
+            'correct_answer' => 'AWS Developer Forums',
+            'explanation' => 'AWS Developer Forums are free for all AWS users, regardless of their AWS Support plan. Users can ask questions and get help from the AWS community.',
+            'sort_order' => 437,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 438\n\nWhich AWS resource can help a company reduce its costs in exchange for a usage commitment when using Amazon EC2 instances?",
+            'options' => [
+                'Compute Savings Plans',
+                'Auto Scaling group',
+                'On-Demand Instance',
+                'EC2 instance store',
+            ],
+            'correct_answer' => 'Compute Savings Plans',
+            'explanation' => 'Compute Savings Plans provide discounted EC2 pricing in exchange for a 1-year or 3-year usage commitment, helping reduce compute costs while offering flexibility across instance types and Regions.',
+            'sort_order' => 438,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 439\n\nA company's application is gaining popularity. The company needs to set up a phone number to manage the increasing volume of calls that the company's support staff receives.\n\nWhich AWS service should the company use to meet this requirement?",
+            'options' => [
+                'Amazon Connect',
+                'Amazon CloudFront',
+                'AWS Direct Connect',
+                'AWS Trusted Advisor',
+            ],
+            'correct_answer' => 'Amazon Connect',
+            'explanation' => 'Amazon Connect is a cloud-based contact center service that lets companies set up phone numbers and manage inbound and outbound customer calls with automatic scaling.',
+            'sort_order' => 439,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 440\n\nA company runs a web application on Amazon EC2 instances. The application has consistent usage and is expected to run indefinitely.\n\nWhich EC2 instance purchasing option will meet these requirements MOST cost-effectively?",
+            'options' => [
+                '1-year All Upfront Reserved Instances',
+                '1-year No Upfront Reserved Instances',
+                '3-year All Upfront Reserved Instances',
+                '3-year No Upfront Reserved Instances',
+            ],
+            'correct_answer' => '3-year All Upfront Reserved Instances',
+            'explanation' => '3-year All Upfront Reserved Instances provide the highest discount for long-term, steady workloads by committing to a 3-year term and paying upfront, making them the most cost-effective option.',
+            'sort_order' => 440,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 441\n\nWhich AWS tool or feature acts as a VPC firewall at the subnet level?",
+            'options' => [
+                'Security group',
+                'Network ACL',
+                'Traffic Mirroring',
+                'Internet gateway',
+            ],
+            'correct_answer' => 'Network ACL',
+            'explanation' => 'A Network ACL (NACL) acts as a stateless firewall at the subnet level, controlling inbound and outbound traffic for all resources in the subnet.',
+            'sort_order' => 441,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 442\n\nWhich AWS service or resource can identify and provide reports on IAM resources in one AWS account that is shared with another AWS account?",
+            'options' => [
+                'IAM credential report',
+                'AWS IAM Identity Center (AWS Single Sign-On)',
+                'AWS Identity and Access Management Access Analyzer',
+                'Amazon Cognito user pool',
+            ],
+            'correct_answer' => 'AWS Identity and Access Management Access Analyzer',
+            'explanation' => 'AWS IAM Access Analyzer identifies IAM resources that are shared with external AWS accounts and provides reports to help review and manage cross-account access.',
+            'sort_order' => 442,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 443\n\nA company needs to connect multiple VPCs and on-premises networks through a single network connection to the AWS Cloud.\n\nWhich solution meets this requirement?",
+            'options' => [
+                'AWS Transit Gateway',
+                'AWS Direct Connect',
+                'VPC peering',
+                'AWS Client VPN',
+            ],
+            'correct_answer' => 'AWS Transit Gateway',
+            'explanation' => 'AWS Transit Gateway is a central network hub that connects multiple VPCs and on-premises networks through a single gateway, simplifying network management and reducing the need for multiple VPC peering connections.',
+            'sort_order' => 443,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 444\n\nAn online retail company wants to migrate its on-premises workload to AWS. The company needs to automatically handle a seasonal workload increase in a cost-effective manner.\n\nWhich AWS Cloud features will help the company meet this requirement? (Choose two.)",
+            'options' => [
+                'Cross-Region workload deployment',
+                'Pay-as-you-go pricing',
+                'Built-in AWS CloudTrail audit capabilities',
+                'Auto Scaling policies',
+                'Centralized logging',
+            ],
+            'correct_answer' => '[1,3]',
+            'explanation' => 'Pay-as-you-go pricing lets the company pay only for the resources it uses, reducing costs during seasonal demand. Auto Scaling policies automatically add or remove resources based on workload, ensuring performance while minimizing costs.',
+            'sort_order' => 444,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 445\n\nAn ecommerce company plans to move its data center workload to the AWS Cloud to support highly dynamic usage patterns.\n\nWhich benefits make the AWS Cloud cost-effective for the migration of this type of workload? (Choose two.)",
+            'options' => [
+                'Reliability',
+                'Security',
+                'Elasticity',
+                'Pay-as-you-go resource',
+                'High availability',
+            ],
+            'correct_answer' => '[2,3]',
+            'explanation' => 'Elasticity allows resources to automatically scale up or down based on demand. Pay-as-you-go pricing means the company pays only for the resources it uses, reducing costs for dynamic workloads.',
+            'sort_order' => 445,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 446\n\nWhich AWS service or feature gives users the ability to provision AWS infrastructure programmatically?",
+            'options' => [
+                'AWS Cloud Development Kit (AWS CDK)',
+                'Amazon CodeGuru',
+                'AWS Config',
+                'AWS CodeCommit',
+            ],
+            'correct_answer' => 'AWS Cloud Development Kit (AWS CDK)',
+            'explanation' => 'AWS CDK lets developers define and provision AWS infrastructure using programming languages such as Python, TypeScript, Java, and C#, enabling Infrastructure as Code (IaC).',
+            'sort_order' => 446,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 447\n\nA company plans to perform a one-time migration of a large dataset with millions of files from its on-premises data center to the AWS Cloud.\n\nWhich AWS service should the company use for the migration?",
+            'options' => [
+                'AWS Database Migration Service (AWS DMS)',
+                'AWS DataSync',
+                'AWS Migration Hub',
+                'AWS Application Migration Service',
+            ],
+            'correct_answer' => 'AWS DataSync',
+            'explanation' => 'AWS DataSync is designed to transfer large amounts of data between on-premises storage and AWS quickly, securely, and efficiently, making it ideal for one-time migrations of millions of files.',
+            'sort_order' => 447,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 448\n\nWhich AWS Cloud benefit describes the ability to acquire resources as they are needed and release resources when they are no longer needed?",
+            'options' => [
+                'Economies of scale',
+                'Elasticity',
+                'Agility',
+                'Security',
+            ],
+            'correct_answer' => 'Elasticity',
+            'explanation' => 'Elasticity is the ability to automatically scale resources up when demand increases and scale them down when demand decreases, ensuring efficient resource usage and cost savings.',
+            'sort_order' => 448,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 449\n\nWhich option is a pillar of the AWS Well-Architected Framework?",
+            'options' => [
+                'Patch management',
+                'Cost optimization',
+                'Business technology strategy',
+                'Physical and environmental controls',
+            ],
+            'correct_answer' => 'Cost optimization',
+            'explanation' => 'Cost Optimization is one of the pillars of the AWS Well-Architected Framework. It focuses on reducing costs while maintaining performance and business requirements.',
+            'sort_order' => 449,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 450\n\nA cloud practitioner is responsible for the program and project management of cloud initiatives.\n\nWhich AWS Cloud Adoption Framework (AWS CAF) perspective includes this capability?",
+            'options' => [
+                'Operations',
+                'Business',
+                'Platform',
+                'Governance',
+            ],
+            'correct_answer' => 'Business',
+            'explanation' => 'The Business perspective of the AWS Cloud Adoption Framework (AWS CAF) includes program and project management, helping align cloud initiatives with business goals and ensuring successful cloud adoption.',
+            'sort_order' => 450,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 451\n\nA company wants to manage sign-in security for workforce users. The company needs to create workforce users and centrally manage their access across all the company's AWS accounts and applications.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'AWS Audit Manager',
+                'Amazon Cognito',
+                'AWS Security Hub',
+                'AWS IAM Identity Center (AWS Single Sign-On)',
+            ],
+            'correct_answer' => 'AWS IAM Identity Center (AWS Single Sign-On)',
+            'explanation' => 'AWS IAM Identity Center enables organizations to create and manage workforce users centrally and provides single sign-on (SSO) access to multiple AWS accounts and applications.',
+            'sort_order' => 451,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 452\n\nA company uses Amazon Aurora as its database service. The company wants to encrypt its databases and database backups.\n\nWhich party manages the encryption of the database clusters and database snapshots, according to the AWS shared responsibility model?",
+            'options' => [
+                'AWS',
+                'The company',
+                'AWS Marketplace partners',
+                'Third-party partners',
+            ],
+            'correct_answer' => 'The company',
+            'explanation' => 'Under the AWS Shared Responsibility Model, the customer (the company) is responsible for enabling and managing encryption settings and AWS KMS keys for Amazon Aurora databases and snapshots, while AWS is responsible for securing the underlying infrastructure.',
+            'sort_order' => 452,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 453\n\nA company wants to use automated video analysis to identify employees that are accessing its offices.\n\nWhich AWS service will meet this requirement?",
+            'options' => [
+                'Amazon Rekognition',
+                'Amazon Polly',
+                'Amazon Cognito',
+                'AWS Lambda',
+            ],
+            'correct_answer' => 'Amazon Rekognition',
+            'explanation' => 'Amazon Rekognition provides AI-powered image and video analysis, including facial recognition and person detection, making it suitable for identifying employees from video footage.',
+            'sort_order' => 453,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 454\n\nA company wants to migrate a database from an on-premises environment to Amazon RDS.\n\nAfter the migration is complete, which management task will the company still be responsible for?",
+            'options' => [
+                'Hardware lifecycle management',
+                'Application optimization',
+                'Server maintenance',
+                'Power, network, and cooling provisioning',
+            ],
+            'correct_answer' => 'Application optimization',
+            'explanation' => 'With Amazon RDS, AWS manages the underlying infrastructure, including hardware, server maintenance, and power, networking, and cooling. The customer remains responsible for optimizing the application and database performance, such as query tuning and schema design.',
+            'sort_order' => 454,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 455\n\nWhat is the LEAST expensive AWS Support plan that contains a full set of AWS Trusted Advisor best practice checks?",
+            'options' => [
+                'AWS Enterprise Support',
+                'AWS Business Support',
+                'AWS Developer Support',
+                'AWS Basic Support',
+            ],
+            'correct_answer' => 'AWS Business Support',
+            'explanation' => 'AWS Business Support is the lowest-cost support plan that provides access to the full set of AWS Trusted Advisor best practice checks. Basic and Developer Support include only a limited set of checks.',
+            'sort_order' => 455,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 456\n\nWhich actions are the responsibility of AWS under the AWS shared responsibility model? (Choose two.)",
+            'options' => [
+                'Scanning AWS service endpoints for vulnerabilities',
+                'Enabling encryption on an Amazon S3 bucket',
+                'Configuring security group rules',
+                'Enforcing application access restrictions',
+                'Encrypting traffic on the AWS backbone between global and regional AWS facilities',
+            ],
+            'correct_answer' => '[0,4]',
+            'explanation' => 'Scanning AWS service endpoints for vulnerabilities is AWS\'s responsibility as part of securing the cloud infrastructure. Encrypting traffic on the AWS backbone is also AWS\'s responsibility to ensure secure communication between AWS facilities. Customers are responsible for enabling S3 encryption, configuring security groups, and enforcing application access controls.',
+            'sort_order' => 456,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 457\n\nWhich AWS design principle emphasizes the reduction of interdependencies between components of an application?",
+            'options' => [
+                'Scalability',
+                'Loose coupling',
+                'Automation',
+                'Caching',
+            ],
+            'correct_answer' => 'Loose coupling',
+            'explanation' => 'Loose coupling minimizes dependencies between application components, making systems more scalable, resilient, and easier to update or replace without affecting other components.',
+            'sort_order' => 457,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 458\n\nA company needs to deploy a mix of AWS compute and storage solutions at its on-premises data center.\n\nWhich AWS offering should the company use to meet this requirement?",
+            'options' => [
+                'AWS Local Zones',
+                'AWS Wavelength Zones',
+                'AWS Outposts',
+                'AWS Direct Connect',
+            ],
+            'correct_answer' => 'AWS Outposts',
+            'explanation' => 'AWS Outposts extends AWS infrastructure and services to on-premises data centers, allowing customers to run AWS compute and storage services locally with a consistent hybrid cloud experience.',
+            'sort_order' => 458,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 459\n\nA company wants to run a graph query that provides credit card users' names, addresses, and transactions. The company wants the graph to show if the names, addresses, and transactions indicate possible fraud.\n\nWhich AWS database service will meet these requirements?",
+            'options' => [
+                'Amazon DocumentDB (with MongoDB compatibility)',
+                'Amazon Timestream',
+                'Amazon DynamoDB',
+                'Amazon Neptune',
+            ],
+            'correct_answer' => 'Amazon Neptune',
+            'explanation' => 'Amazon Neptune is a fully managed graph database service that is designed to analyze relationships between connected data, making it ideal for fraud detection, social networks, and recommendation engines.',
+            'sort_order' => 459,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 460\n\nA developer needs to interact with AWS by using the AWS CLI.\n\nWhich security feature or AWS service must be provisioned in the developer's account to meet this requirement?",
+            'options' => [
+                'User name and password',
+                'AWS Systems Manager',
+                'Root password access',
+                'AWS access key',
+            ],
+            'correct_answer' => 'AWS access key',
+            'explanation' => 'The AWS CLI uses an AWS access key (Access Key ID and Secret Access Key) to authenticate API requests. An IAM user or role must have access keys configured to use the AWS CLI.',
+            'sort_order' => 460,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 461\n\nWhat is a benefit of using an Elastic Load Balancing (ELB) load balancer with applications running in the AWS Cloud?",
+            'options' => [
+                'An ELB will automatically scale resources to meet capacity needs.',
+                'An ELB can balance traffic across multiple compute resources.',
+                'An ELB can span multiple AWS Regions.',
+                'An ELB can balance traffic between multiple internet gateways.',
+            ],
+            'correct_answer' => 'An ELB can balance traffic across multiple compute resources.',
+            'explanation' => 'Elastic Load Balancing (ELB) distributes incoming traffic across multiple compute resources, such as EC2 instances, improving application availability, fault tolerance, and performance.',
+            'sort_order' => 461,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 462\n\nWhich AWS service uses AWS Compute Optimizer to provide sizing recommendations based on workload metrics?",
+            'options' => [
+                'Amazon EC2',
+                'Amazon RDS',
+                'Amazon Lightsail',
+                'AWS Step Functions',
+            ],
+            'correct_answer' => 'Amazon EC2',
+            'explanation' => 'AWS Compute Optimizer analyzes Amazon EC2 workload metrics and provides instance sizing recommendations to improve performance and reduce costs.',
+            'sort_order' => 462,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 463\n\nA company has an application that is accessed by users in different countries.\n\nWhich AWS service or tool will improve the application's availability and performance by routing traffic to the closest healthy endpoints?",
+            'options' => [
+                'AWS Direct Connect',
+                'AWS Global Accelerator',
+                'AWS Well-Architected Tool',
+                'AWS CLI',
+            ],
+            'correct_answer' => 'AWS Global Accelerator',
+            'explanation' => 'AWS Global Accelerator routes user traffic to the nearest healthy application endpoint over the AWS global network, improving application availability, performance, and reducing latency for users worldwide.',
+            'sort_order' => 463,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 464\n\nAn ecommerce company has been monitoring usage of its online store that is hosted on a fleet of Amazon EC2 instances. Surges in traffic occur every weekend day at the same time and last for approximately 4 hours.\n\nWhich AWS service should the company use to ensure that there are enough instances to meet the surges in demand?",
+            'options' => [
+                'AWS Lambda',
+                'Amazon EventBridge',
+                'Elastic Load Balancing (ELB)',
+                'Amazon EC2 Auto Scaling',
+            ],
+            'correct_answer' => 'Amazon EC2 Auto Scaling',
+            'explanation' => 'Amazon EC2 Auto Scaling automatically adjusts the number of EC2 instances based on demand. For predictable traffic spikes, such as every weekend, it can use scheduled scaling to add instances before peak traffic and remove them afterward, ensuring performance while minimizing costs.',
+            'sort_order' => 464,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 465\n\nA company wants to securely rehost databases to AWS with minimal downtime.\n\nWhich AWS service will meet these requirements?",
+            'options' => [
+                'AWS Database Migration Service (AWS DMS)',
+                'AWS Snow Family',
+                'AWS DataSync',
+                'AWS Mainframe Modernization',
+            ],
+            'correct_answer' => 'AWS Database Migration Service (AWS DMS)',
+            'explanation' => 'AWS Database Migration Service (AWS DMS) securely migrates databases to AWS with minimal downtime by continuously replicating data during the migration process. It supports both homogeneous and heterogeneous database migrations.',
+            'sort_order' => 465,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 466\n\nWhich option is a responsibility of AWS under the AWS shared responsibility model?",
+            'options' => [
+                'Application data security',
+                'Patch management for applications that run on Amazon EC2 instances',
+                'Patch management of the underlying infrastructure for managed services',
+                'Application identity and access management',
+            ],
+            'correct_answer' => 'Patch management of the underlying infrastructure for managed services',
+            'explanation' => 'Under the AWS Shared Responsibility Model, AWS is responsible for patching and maintaining the underlying infrastructure of managed services. Customers are responsible for application security, application patching on EC2, and identity and access management.',
+            'sort_order' => 466,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 467\n\nWhich combination of AWS services can be used to move a commercial relational database to an Amazon-managed open-source database? (Choose two.)",
+            'options' => [
+                'AWS Database Migration Service (AWS DMS)',
+                'AWS software development kits (SDKs)',
+                'AWS Schema Conversion Tool',
+                'AWS Systems Manager',
+                'Amazon EMR',
+            ],
+            'correct_answer' => '[0,2]',
+            'explanation' => 'AWS Schema Conversion Tool (AWS SCT) converts database schemas and code from commercial databases to open-source database engines. AWS Database Migration Service (AWS DMS) migrates the data with minimal downtime after the schema has been converted.',
+            'sort_order' => 467,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 468\n\nA company wants to control the protection of its AWS resources. The company wants to block SQL injection attacks and cross-site scripting.\n\nWhich AWS service or feature meets these requirements?",
+            'options' => [
+                'Amazon GuardDuty',
+                'AWS WAF',
+                'Security groups',
+                'AWS Shield',
+            ],
+            'correct_answer' => 'AWS WAF',
+            'explanation' => 'AWS WAF (Web Application Firewall) protects web applications from common web attacks such as SQL injection (SQLi) and cross-site scripting (XSS) by filtering and blocking malicious HTTP requests.',
+            'sort_order' => 468,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 469\n\nA company is planning to use Amazon EC2 instances as web servers. Customers from around the world will use the web servers. Most customers will use the web servers only during certain hours of the day.\n\nHow should the company deploy the EC2 instances to achieve the LOWEST operational cost?",
+            'options' => [
+                'In multiple Availability Zones',
+                'In an Auto Scaling group',
+                'In a placement group',
+                'In private subnets',
+            ],
+            'correct_answer' => 'In an Auto Scaling group',
+            'explanation' => 'An Auto Scaling group automatically adds EC2 instances during peak usage and removes them during off-peak hours, ensuring enough capacity while minimizing operational costs.',
+            'sort_order' => 469,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 470\n\nA company needs to create graphs that show historical and current costs for the company's AWS account.\n\nWhich AWS service or tool provides this functionality?",
+            'options' => [
+                'AWS Config',
+                'AWS Cost and Usage Report',
+                'AWS Budgets',
+                'AWS Cost Explorer',
+            ],
+            'correct_answer' => 'AWS Cost Explorer',
+            'explanation' => 'AWS Cost Explorer provides interactive charts and graphs to visualize, analyze, and track both historical and current AWS costs and usage, helping users understand spending trends and optimize costs.',
+            'sort_order' => 470,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 471\n\nWhat are some advantages of using Amazon EC2 instances to host applications in the AWS Cloud instead of on premises? (Choose two.)",
+            'options' => [
+                'EC2 includes operating system patch management.',
+                'EC2 integrates with Amazon VPC, AWS CloudTrail, and AWS Identity and Access Management (IAM).',
+                'EC2 has a 100% service level agreement (SLA).',
+                'EC2 has a flexible, pay-as-you-go pricing model.',
+                'EC2 has automatic storage cost optimization.',
+            ],
+            'correct_answer' => '[1,3]',
+            'explanation' => 'Amazon EC2 integrates seamlessly with other AWS services like Amazon VPC for networking, AWS CloudTrail for auditing API calls, and AWS IAM for access control. Amazon EC2 also offers a flexible pay-as-you-go pricing model, allowing customers to pay only for the compute capacity they use.',
+            'sort_order' => 471,
+        ]);
+        $set->questions()->create([
+            'question' => "Question 472\n\nWhich AWS service helps protect against DDoS attacks?",
+            'options' => [
+                'AWS Shield',
+                'Amazon Inspector',
+                'Amazon GuardDuty',
+                'Amazon Detective',
+            ],
+            'correct_answer' => 'AWS Shield',
+            'explanation' => 'AWS Shield is a managed Distributed Denial of Service (DDoS) protection service that helps protect AWS applications from DDoS attacks. It provides automatic protection for applications running on AWS, helping mitigate attacks to ensure availability and minimize disruption. AWS offers Shield Standard (included at no additional cost) and Shield Advanced (for enhanced DDoS protection).',
+            'sort_order' => 472,
+        ]);
     }
 
 }
+
+
