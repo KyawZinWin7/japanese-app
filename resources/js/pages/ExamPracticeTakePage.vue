@@ -18,7 +18,7 @@
 
         <p v-if="errors.answers?.length" class="app-help mt-4 sm:mt-6">{{ errors.answers[0] }}</p>
 
-        <form id="exam-practice-form" ref="quizForm" :action="set.submitUrl" method="POST" class="mt-5 space-y-4 sm:mt-8 sm:space-y-5" @change="handleFormChange">
+        <form id="exam-practice-form" ref="quizForm" :action="set.submitUrl" method="POST" class="mt-5 space-y-4 sm:mt-8 sm:space-y-5" @change="handleFormChange" @submit="handleSubmit">
             <input type="hidden" name="_token" :value="csrfToken">
             <input
                 v-for="entry in persistedAnswerEntries"
@@ -122,8 +122,9 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import ExamPracticeQuestionCard from '../components/exam-practice/ExamPracticeQuestionCard.vue';
+import { clearStudyResume, saveStudyResume, trackStudyHistory } from '../studyHistory';
 
 const props = defineProps({
     csrfToken: { type: String, required: true },
@@ -131,6 +132,7 @@ const props = defineProps({
     oldAnswers: { type: Object, required: true },
     routes: { type: Object, required: true },
     set: { type: Object, required: true },
+    studyState: { type: Object, default: () => ({}) },
 });
 
 const quizForm = ref(null);
@@ -138,6 +140,7 @@ const selectedAnswers = ref(normalizeOldAnswers(props.oldAnswers, props.set.ques
 const currentQuestionIndex = ref(0);
 const checkedQuestionStates = ref({});
 const revealedQuestions = ref({});
+const resumeId = computed(() => `quiz:${props.routes.detail}`);
 const currentQuestion = computed(() => props.set.questions[currentQuestionIndex.value]);
 const currentQuestionAnswered = computed(() => isQuestionAnswered(currentQuestion.value, selectedAnswers.value[currentQuestion.value?.id]));
 const currentQuestionCorrectAnswers = computed(() => normalizeToArray(currentQuestion.value?.correctAnswers));
@@ -151,14 +154,20 @@ const canToggleCurrentAnswer = computed(() => {
         return true;
     }
 
-    return hasCheckedCurrentQuestion.value && !currentQuestionIsCorrect.value;
+    return hasCheckedCurrentQuestion.value;
 });
-const canMoveNext = computed(() => currentQuestionAnswered.value && hasCheckedCurrentQuestion.value);
+const canMoveNext = computed(() => currentQuestionAnswered.value);
 const isLastQuestion = computed(() => currentQuestionIndex.value === props.set.questions.length - 1);
 const answeredCount = computed(() => props.set.questions.filter((question) => isQuestionAnswered(question, selectedAnswers.value[question.id])).length);
 const progressPercent = computed(() => Math.round((answeredCount.value / props.set.questions.length) * 100));
 const persistedAnswerEntries = computed(() => buildPersistedEntries(selectedAnswers.value, currentQuestion.value));
 const revealedQuestionIds = computed(() => Object.keys(revealedQuestions.value).filter((questionId) => revealedQuestions.value[questionId]));
+
+onMounted(async () => {
+    restoreExamPracticeState();
+    await nextTick();
+    syncExamPracticeProgress();
+});
 
 function normalizeOldAnswers(oldAnswers, questions) {
     const normalized = {};
@@ -211,6 +220,7 @@ function handleFormChange() {
     selectedAnswers.value = answers;
     checkedQuestionStates.value[currentQuestion.value?.id] = false;
     revealedQuestions.value[currentQuestion.value?.id] = false;
+    syncExamPracticeProgress();
 }
 
 function isQuestionAnswered(question, answer) {
@@ -260,12 +270,63 @@ function answersMatch(selected, correct) {
     return [...selected].sort().join('||') === [...correct].sort().join('||');
 }
 
+function restoreExamPracticeState() {
+    const savedAnswers = props.studyState?.answers;
+    const savedCheckedStates = props.studyState?.checkedQuestionStates;
+    const savedRevealedQuestions = props.studyState?.revealedQuestions;
+    const savedQuestionIndex = Number(props.studyState?.currentQuestionIndex);
+
+    if (savedAnswers && typeof savedAnswers === 'object') {
+        selectedAnswers.value = {
+            ...selectedAnswers.value,
+            ...savedAnswers,
+        };
+    }
+
+    if (savedCheckedStates && typeof savedCheckedStates === 'object') {
+        checkedQuestionStates.value = { ...savedCheckedStates };
+    }
+
+    if (savedRevealedQuestions && typeof savedRevealedQuestions === 'object') {
+        revealedQuestions.value = { ...savedRevealedQuestions };
+    }
+
+    if (Number.isInteger(savedQuestionIndex) && savedQuestionIndex >= 0 && savedQuestionIndex < props.set.questions.length) {
+        currentQuestionIndex.value = savedQuestionIndex;
+        return;
+    }
+
+    const firstUnansweredIndex = props.set.questions.findIndex((question) => !isQuestionAnswered(question, selectedAnswers.value[question.id]));
+
+    currentQuestionIndex.value = firstUnansweredIndex === -1 ? 0 : firstUnansweredIndex;
+}
+
+function syncExamPracticeProgress() {
+    const entry = {
+        id: resumeId.value,
+        href: window.location.href,
+        title: props.set.title,
+        subtitle: props.set.exam_code || 'Exam Practice',
+        progressLabel: `${answeredCount.value} / ${props.set.questions.length}`,
+        state: {
+            answers: selectedAnswers.value,
+            checkedQuestionStates: checkedQuestionStates.value,
+            revealedQuestions: revealedQuestions.value,
+            currentQuestionIndex: currentQuestionIndex.value,
+        },
+    };
+
+    trackStudyHistory(entry);
+    saveStudyResume(entry);
+}
+
 function checkCurrentAnswer() {
     if (!currentQuestionAnswered.value) {
         return;
     }
 
     checkedQuestionStates.value[currentQuestion.value.id] = true;
+    syncExamPracticeProgress();
 }
 
 function toggleCurrentAnswer() {
@@ -275,6 +336,7 @@ function toggleCurrentAnswer() {
 
     const questionId = currentQuestion.value.id;
     revealedQuestions.value[questionId] = !revealedQuestions.value[questionId];
+    syncExamPracticeProgress();
 }
 
 function shouldShowAnswer(question) {
@@ -287,6 +349,7 @@ function goToNext() {
     }
 
     currentQuestionIndex.value += 1;
+    syncExamPracticeProgress();
 }
 
 function goToPrevious() {
@@ -295,6 +358,7 @@ function goToPrevious() {
     }
 
     currentQuestionIndex.value -= 1;
+    syncExamPracticeProgress();
 }
 
 function goToQuestion(index) {
@@ -307,5 +371,21 @@ function goToQuestion(index) {
 
 function handleQuestionSelect(event) {
     goToQuestion(Number(event.target.value));
+}
+
+function handleSubmit() {
+    clearStudyResume({
+        id: resumeId.value,
+        href: window.location.href,
+        title: props.set.title,
+        subtitle: props.set.exam_code || 'Exam Practice',
+        progressLabel: `${answeredCount.value} / ${props.set.questions.length}`,
+        state: {
+            answers: selectedAnswers.value,
+            checkedQuestionStates: checkedQuestionStates.value,
+            revealedQuestions: revealedQuestions.value,
+            currentQuestionIndex: currentQuestionIndex.value,
+        },
+    });
 }
 </script>

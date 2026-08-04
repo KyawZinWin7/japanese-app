@@ -9,20 +9,44 @@ class ExamPracticeSeeder extends Seeder
 {
     public function run(): void
     {
-        $set = ExamPracticeSet::query()->updateOrCreate(
+        $set1 = ExamPracticeSet::query()->updateOrCreate(
             ['slug' => 'aws-cloud-practitioner-set-1'],
             [
                 'title' => 'AWS Cloud Practitioner Set 1',
-                'description' => 'Starter exam practice set for AWS Cloud Practitioner review.',
+                'description' => 'AWS Cloud Practitioner practice questions 1-200.',
                 'exam_code' => 'CLF-C02',
-                'question_count' => 472,
+                'question_count' => 200,
                 'is_published' => true,
             ],
         );
 
-        $set->questions()->delete();
+        $set2 = ExamPracticeSet::query()->updateOrCreate(
+            ['slug' => 'aws-cloud-practitioner-set-2'],
+            [
+                'title' => 'AWS Cloud Practitioner Set 2',
+                'description' => 'AWS Cloud Practitioner practice questions 201-400.',
+                'exam_code' => 'CLF-C02',
+                'question_count' => 200,
+                'is_published' => true,
+            ],
+        );
 
-        $set->questions()->create([
+        $set3 = ExamPracticeSet::query()->updateOrCreate(
+            ['slug' => 'aws-cloud-practitioner-set-3'],
+            [
+                'title' => 'AWS Cloud Practitioner Set 3',
+                'description' => 'AWS Cloud Practitioner practice questions 401-472.',
+                'exam_code' => 'CLF-C02',
+                'question_count' => 72,
+                'is_published' => true,
+            ],
+        );
+
+        collect([$set1, $set2, $set3])->each(function (ExamPracticeSet $set): void {
+            $set->questions()->delete();
+        });
+
+        $set1->questions()->create([
             'question' => 'A web developer wants to use machine learning to classify images that are uploaded to a website. Which AWS service or feature will meet these requirements?',
             'options' => [
                 'Amazon Rekognition',
@@ -35,7 +59,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 1,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company is migrating a workload to AWS. The company needs the AWS Support team to respond to business-critical issues in 30 minutes or less. Which AWS Support plan will meet this requirement?',
             'options' => [
                 'AWS Enterprise Support',
@@ -48,7 +72,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 2,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Where can users find examples of AWS Cloud solution designs?',
             'options' => [
                 'AWS Marketplace',
@@ -61,7 +85,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 3,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Why are AWS CloudFormation templates used?',
             'options' => [
                 'To reduce provisioning time by using automation.',
@@ -74,7 +98,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 4,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company\'s workload can recover with minimal downtime when failures occur. Which AWS Cloud benefit does this scenario represent?',
             'options' => [
                 'Agility',
@@ -87,7 +111,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 5,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company plans to move its test workloads to Amazon EC2. The test workloads can be interrupted and are not required to start at a particular time. Which EC2 instance purchasing option is MOST cost-effective for this use case?',
             'options' => [
                 'On-Demand Instances',
@@ -100,7 +124,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 6,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service or feature supports governance, compliance, and risk auditing of AWS accounts?',
             'options' => [
                 'Multi-factor authentication (MFA)',
@@ -113,7 +137,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 7,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs to manage multiple logins across AWS accounts within the same organization in AWS Organizations. Which AWS service should the company use to meet this requirement?',
             'options' => [
                 'Amazon VPC',
@@ -126,7 +150,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 8,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'An AWS user wants to proactively detect when an instance or account might be compromised or if there are threats from attacks. Which AWS service should the user choose?',
             'options' => [
                 'Amazon GuardDuty',
@@ -139,7 +163,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 9,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'An administrator observed that multiple AWS resources were deleted yesterday. Which AWS service will help identify the cause and determine which user deleted the resources?',
             'options' => [
                 'AWS CloudTrail',
@@ -152,7 +176,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 10,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which tasks are the responsibility of AWS according to the AWS shared responsibility model? (Choose two.)',
             'options' => [
                 'Configure AWS Identity and Access Management (IAM).',
@@ -166,7 +190,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 11,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs an automated vulnerability management service that continually scans AWS workloads for software vulnerabilities. Which AWS service will meet these requirements?',
             'options' => [
                 'Amazon GuardDuty',
@@ -179,7 +203,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 12,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company purchased Amazon EC2 Standard Reserved Instances (RIs) for an AWS workload. The company needs to move part of the workload to an instance family that does not match the instance family of these Standard RIs. How can the company take advantage of the Standard RIs that it no longer needs?',
             'options' => [
                 'Contact the AWS Support team and ask the team to sell the Standard RIs.',
@@ -192,7 +216,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 13,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to set up a secure network connection from on premises to the AWS Cloud within 1 week. Which solution will meet these requirements?',
             'options' => [
                 'AWS Direct Connect',
@@ -205,7 +229,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 14,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company is migrating an application to AWS. As part of the migration, the company needs to move the application\'s database to Amazon RDS. Which AWS service should the company use to migrate the database?',
             'options' => [
                 'AWS Database Migration Service (AWS DMS)',
@@ -218,7 +242,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 15,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS Well-Architected Framework pillar focuses on structured and streamlined allocation of computing resources?',
             'options' => [
                 'Reliability',
@@ -231,7 +255,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 16,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to rightsize its Amazon EC2 instances. Which configuration change will meet this requirement with the LEAST operational overhead?',
             'options' => [
                 'Add EC2 instances in another Availability Zone.',
@@ -244,7 +268,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 17,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to run its workload on Amazon EC2 instances for more than 1 year. This workload will run continuously. Which option offers a discounted hourly rate compared to the hourly rate of On-Demand Instances?',
             'options' => [
                 'AWS Graviton processor',
@@ -257,7 +281,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 18,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company uses Amazon RDS for a product database. The company wants to ensure the database is highly available. Which feature of Amazon RDS will meet this requirement?',
             'options' => [
                 'Read replicas',
@@ -270,7 +294,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 19,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company is planning a migration to AWS. The company wants to modernize its applications by refactoring the applications to microservices. Which AWS service or feature should the company use to achieve this goal?',
             'options' => [
                 'AWS Migration Hub Refactor Spaces',
@@ -283,7 +307,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 20,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to run relational databases in the AWS Cloud. The company wants to use a managed service that will install the database and run regular software updates. Which AWS service will meet these requirements?',
             'options' => [
                 'Amazon S3',
@@ -296,7 +320,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 21,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs a threat detection service that will continuously monitor its AWS accounts, workloads, and Amazon S3 buckets for malicious activity and unauthorized behavior. Which AWS service meets these requirements?',
             'options' => [
                 'AWS Shield',
@@ -309,7 +333,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 22,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service gives users the ability to deploy highly repeatable infrastructure configurations?',
             'options' => [
                 'AWS CloudFormation',
@@ -322,7 +346,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 23,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which benefit of cloud computing gives a company the ability to deploy applications to users all over the world through a network of AWS Regions, Availability Zones, and edge locations?',
             'options' => [
                 'Economy of scale',
@@ -335,7 +359,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 24,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company owns per-core software licenses. Which Amazon EC2 instance purchasing option must the company use for this license type?',
             'options' => [
                 'Reserved Instances',
@@ -348,7 +372,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 25,
         ]);
 
-                $set->questions()->create([
+                $set1->questions()->create([
             'question' => 'Under the AWS shared responsibility model, which of the following is a responsibility of the customer?',
             'options' => [
                 'Shred disk drives before they leave a data center.',
@@ -361,7 +385,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 26,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'What is a customer responsibility under the AWS shared responsibility model when using AWS Lambda?',
             'options' => [
                 'Maintenance of the underlying Lambda hardware.',
@@ -374,7 +398,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 27,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company has an application that uses Amazon DynamoDB for data storage. Which task is the responsibility of AWS, according to the AWS shared responsibility model?',
             'options' => [
                 'Define who or what can read data in a table.',
@@ -387,7 +411,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 28,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service or tool will monitor AWS resources and applications in real time?',
             'options' => [
                 'AWS Trusted Advisor',
@@ -400,7 +424,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 29,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to use a managed service to identify and protect sensitive data that is stored in Amazon S3. Which AWS service will meet these requirements?',
             'options' => [
                 'AWS IAM Access Analyzer',
@@ -413,7 +437,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 30,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to automatically add subtitles to its web-based live radio application. Which AWS service will meet this requirement?',
             'options' => [
                 'Amazon Augmented AI (Amazon A2I)',
@@ -426,7 +450,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 31,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs to use Amazon EC2 instances to conduct quality assurance tests. The EC2 instances must run continuously without interruption for 1 month. After 1 month, the company will not need the EC2 instances anymore. Which EC2 instance purchasing option will meet these requirements MOST cost-effectively?',
             'options' => [
                 'Dedicated Hosts',
@@ -439,7 +463,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 32,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company is running a reporting web server application on Amazon EC2 instances. The application runs once every week and once again at the end of the month. The EC2 instances can be shut down when they are not in use. What is the MOST cost-effective billing model for this use case?',
             'options' => [
                 'Standard Reserved Instances',
@@ -452,7 +476,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 33,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to use machine learning to identify suspicious activities in its AWS account. Which AWS service provides this functionality?',
             'options' => [
                 'AWS Shield',
@@ -465,7 +489,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 34,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service or feature can a company use to create a private, secured, and scalable network environment in the AWS Cloud?',
             'options' => [
                 'Amazon Elastic Container Service (Amazon ECS)',
@@ -477,7 +501,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Answer: C',
             'sort_order' => 35,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs the ability to restore objects in an Amazon S3 bucket if the objects are accidentally overwritten. Which solution will meet this requirement MOST cost-effectively?',
             'options' => [
                 'Back up the objects by using AWS Backup.',
@@ -490,7 +514,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 36,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company is connecting multiple VPCs and on-premises networks. The company needs to use an AWS service as a cloud router to simplify peering relationships. Which AWS service can the company use to meet this requirement?',
             'options' => [
                 'AWS Direct Connect',
@@ -503,7 +527,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 37,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'According to the AWS shared responsibility model, which activities are the customer\'s responsibility for security in the AWS Cloud? (Choose two.)',
             'options' => [
                 'Hardware maintenance',
@@ -517,7 +541,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 38,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs to gain data insights by using natural language to ask questions about its data. Which AWS service provides this functionality?',
             'options' => [
                 'AWS Glue',
@@ -530,7 +554,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 39,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company notices suspicious network activity against an application that is running on a fleet of Amazon EC2 instances. The suspicious activity is coming from a single IP address. Which AWS service should the company use to block access from this IP address?',
             'options' => [
                 'AWS Shield',
@@ -542,7 +566,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS WAF can block requests from specific IP addresses by using IP match rules in a web ACL.',
             'sort_order' => 40,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs to bridge between technology and business to help evolve to a culture of continuous growth and learning. Which perspective in the AWS Cloud Adoption Framework (AWS CAF) serves as this bridge?',
             'options' => [
                 'People',
@@ -555,7 +579,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 41,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs stateless network filtering for its VPC. Which AWS service, tool, or feature will meet this requirement?',
             'options' => [
                 'AWS PrivateLink',
@@ -568,7 +592,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 42,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to build, train, and deploy machine learning (ML) models. Which AWS service can the company use to meet this requirement?',
             'options' => [
                 'Amazon Personalize',
@@ -581,7 +605,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 43,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service gives users the ability to develop loosely coupled microservices and improve service-to-service communication?',
             'options' => [
                 'AWS Elastic Beanstalk',
@@ -594,7 +618,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 44,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs to store data across multiple Availability Zones in an AWS Region. The data will not be accessed regularly but must be immediately retrievable. Which Amazon Elastic File System (Amazon EFS) storage class meets these requirements MOST cost-effectively?',
             'options' => [
                 'EFS Standard',
@@ -606,7 +630,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'EFS Standard-IA stores data across multiple Availability Zones, costs less for infrequently accessed files, and still allows immediate retrieval.',
             'sort_order' => 45,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs to create and manage a portfolio of IT workloads that the company approves for use on AWS. Which AWS service provides this functionality?',
             'options' => [
                 'AWS Config',
@@ -619,7 +643,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 46,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to reduce the cost of its Amazon EC2 instances. The applications that run on the instances cannot tolerate interruptions. The instances must remain in operation for at least 1 year. Which purchasing options should the company use to meet these requirements? (Choose two.)',
             'options' => [
                 'Reserved Instances',
@@ -633,7 +657,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 47,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs to migrate data directly from another cloud service provider\'s environment to AWS. Which AWS service will meet this requirement?',
             'options' => [
                 'AWS Snowcone',
@@ -646,7 +670,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 48,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company is hosting a web application on Amazon EC2 instances. The company wants to implement custom conditions to filter and control inbound web traffic. Which AWS service will meet these requirements?',
             'options' => [
                 'Amazon GuardDuty',
@@ -659,7 +683,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 49,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service or feature provides trusted users with temporary security credentials to access AWS resources?',
             'options' => [
                 'AWS Control Tower',
@@ -672,7 +696,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 50,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company wants to automatically patch its Windows instances that are deployed on Amazon EC2. Which AWS service will meet these requirements?',
             'options' => [
                 'AWS Systems Manager',
@@ -685,7 +709,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 51,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service provides serverless compute for use with containers?',
             'options' => [
                 'Amazon Simple Queue Service (Amazon SQS)',
@@ -698,7 +722,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 52,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'For which use case are Amazon EC2 On-Demand Instances MOST cost-effective?',
             'options' => [
                 'Compute-intensive video transcoding that can be restarted if necessary',
@@ -711,7 +735,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 53,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'An ecommerce company has deployed a new web application on Amazon EC2 instances. The company wants to distribute incoming HTTP traffic evenly across all running instances. Which AWS service or resource will meet this requirement?',
             'options' => [
                 'Amazon EC2 Auto Scaling',
@@ -724,7 +748,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 54,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company has only basic knowledge of AWS technologies. Which AWS service provides the SIMPLEST way for the company to establish a website on AWS?',
             'options' => [
                 'Amazon Elastic File System (Amazon EFS)',
@@ -737,7 +761,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 55,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company\'s user base needs to remotely access virtual desktop computers from the internet. Which AWS service provides this functionality?',
             'options' => [
                 'Amazon Connect',
@@ -750,7 +774,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 56,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A financial company needs to centrally manage its AWS accounts and use consolidated billing. Which AWS service or feature should the company use?',
             'options' => [
                 'AWS Cost Explorer',
@@ -763,7 +787,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 57,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service, feature, or tool uses machine learning to continuously monitor cost and usage for unusual cloud spending?',
             'options' => [
                 'Amazon Lookout for Metrics',
@@ -776,7 +800,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 58,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A company needs to configure its AWS services by using a web-based application. Which AWS offering will meet this requirement?',
             'options' => [
                 'AWS CLI',
@@ -789,7 +813,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 59,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS Cloud deployment model uses AWS Outposts as part of the application deployment infrastructure?',
             'options' => [
                 'On-premises',
@@ -802,7 +826,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 60,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS service can identify activities in images and videos and detect any inappropriate content?',
             'options' => [
                 'Amazon Comprehend',
@@ -815,7 +839,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 61,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which AWS solution gives companies the ability to use protocols such as NFS to store and retrieve objects in Amazon S3?',
             'options' => [
                 'Amazon FSx for Lustre',
@@ -828,7 +852,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 62,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Which of the following are benefits of Amazon EC2 Auto Scaling? (Choose two.)',
             'options' => [
                 'Improved health and availability of applications',
@@ -842,7 +866,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 63,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'An ecommerce company wants to distribute traffic between the Amazon EC2 instances that host its website. Which AWS service or resource will meet these requirements?',
             'options' => [
                 'Application Load Balancer',
@@ -855,7 +879,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 64,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'A cloud engineer wants to know the percentage of the allocated compute units that are in use for a specific Amazon EC2 instance. Which AWS service can provide this information?',
             'options' => [
                 'AWS CloudTrail',
@@ -868,7 +892,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 65,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 66\n\nWhich AWS service can automate patching of operating systems that run on Amazon EC2 instances?',
             'options' => [
                 'Amazon Inspector',
@@ -881,7 +905,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 66,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 67\n\nA company wants to migrate a company\'s on-premises container infrastructure to the AWS Cloud. The company wants to prevent unplanned administration and operation cost and adapt to a serverless architecture.\n\nWhich AWS service will meet these requirements?',
             'options' => [
                 'Amazon Connect',
@@ -894,7 +918,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 67,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 68\n\nA company has multiple SQL-based databases located in a data center. The company needs to migrate all database servers to the AWS Cloud to reduce the cost of operating physical servers.\n\nWhich AWS service or resource will meet these requirements with the LEAST operational overhead?',
             'options' => [
                 'Amazon EC2 instances',
@@ -907,7 +931,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 68,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 69\n\nA company wants to gain insights from its data and build interactive data visualization dashboards.\n\nWhich AWS service will meet these requirements?',
             'options' => [
                 'Amazon SageMaker',
@@ -920,7 +944,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 69,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 70\n\nWhich AWS solution provides the ability for a company to run AWS services in the company\'s on-premises data center?',
             'options' => [
                 'AWS Direct Connect',
@@ -933,7 +957,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 70,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 71\n\nWhich AWS service will turn text into lifelike speech?',
             'options' => [
                 'Amazon Polly',
@@ -946,7 +970,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 71,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 72\n\nA company needs to migrate a 3 TB file share from its on-premises data center to AWS. The company has a 10 Gbps AWS Direct Connect connection between the on-premises data center and AWS.\n\nWhich AWS service will migrate the data in the LEAST amount of time?',
             'options' => [
                 'AWS DataSync',
@@ -959,7 +983,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 72,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 73\n\nWhich option routes inbound traffic from the internet to resources in a VPC?',
             'options' => [
                 'AWS Fargate',
@@ -972,7 +996,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 73,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 74\n\nA company wants a cost-effective option when running its applications in an Amazon EC2 instance for short time periods. The applications can be interrupted.\n\nWhich EC2 instance type will meet these requirements?',
             'options' => [
                 'Spot Instances',
@@ -985,7 +1009,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 74,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 75\n\nWhich AWS services can host PostgreSQL databases? (Choose two.)',
             'options' => [
                 'Amazon S3',
@@ -999,7 +1023,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 75,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 76\n\nWhich AWS service supports user sign-up functionality and authentication to mobile and web applications?',
             'options' => [
                 'Amazon Cognito',
@@ -1012,7 +1036,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 76,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 77\n\nWhich recommendation can AWS Cost Explorer provide to help reduce cost?',
             'options' => [
                 'Use a specific database engine.',
@@ -1025,7 +1049,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 77,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 78\n\nWhich AWS service or feature can be used to monitor for potential disk write spikes on a system that is running on Amazon EC2?',
             'options' => [
                 'AWS CloudTrail',
@@ -1038,7 +1062,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 78,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 79\n\nA company wants to migrate its applications to the AWS Cloud. The company plans to identify and prioritize any business transformation opportunities and evaluate its AWS Cloud readiness.\n\nWhich AWS service or tool should the company use to meet these requirements?',
             'options' => [
                 'AWS Cloud Adoption Framework (AWS CAF)',
@@ -1051,7 +1075,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 79,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 80\n\nA company is operating several factories where it builds products. The company needs the ability to process data, store data, and run applications with local system interdependencies that require low latency.\n\nWhich AWS service should the company use to meet these requirements?',
             'options' => [
                 'AWS IoT Greengrass',
@@ -1064,7 +1088,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 80,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 81\n\nWhich AWS service provides machine learning capability to detect and analyze content in images and videos?',
             'options' => [
                 'Amazon Connect',
@@ -1077,7 +1101,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 81,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 82\n\nA company needs to reserve a certain amount of Amazon EC2 compute resources in a specific Availability Zone within an AWS Region.\n\nWhich purchasing option should the company use to meet this requirement?',
             'options' => [
                 'EC2 Instance Savings Plans',
@@ -1090,7 +1114,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 82,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 83\n\nA company needs to organize its resources and track AWS costs on a detailed level. The company needs to categorize costs by business department, environment, and application.\n\nWhich solution will meet these requirements?',
             'options' => [
                 'Access the AWS Cost Management console to organize resources, set an AWS budget, and receive notifications of unintentional usage.',
@@ -1103,7 +1127,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 83,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 84\n\nWhich Amazon EC2 instance purchasing option offers the LARGEST discount compared to the price of EC2 On-Demand Instances?',
             'options' => [
                 'Savings Plans',
@@ -1116,7 +1140,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 84,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 85\n\nA company needs DDoS protection for its AWS resources. The company also needs proactive mitigation assistance from AWS if a DDoS attack occurs.\n\nWhich AWS service will meet these requirements?',
             'options' => [
                 'Amazon GuardDuty',
@@ -1129,7 +1153,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 85,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 86\n\nA company needs to collect performance metrics about its Amazon RDS instances and Amazon EC2 instances.\n\nWhich AWS service meets this requirement?',
             'options' => [
                 'AWS CloudTrail',
@@ -1142,7 +1166,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 86,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 87\n\nA company has batch workloads that need to run for short periods of time on Amazon EC2. The workloads can handle interruptions and can start again from where they ended.\n\nWhat is the MOST cost-effective EC2 instance purchasing option to meet these requirements?',
             'options' => [
                 'Reserved Instances',
@@ -1155,7 +1179,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 87,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 88\n\nWhich options are benefits of using third-party software from AWS Marketplace? (Choose two.)',
             'options' => [
                 'The software\'s data encryption is managed by a third-party vendor.',
@@ -1169,7 +1193,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 88,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 89\n\nWhich AWS Cloud Adoption Framework (AWS CAF) perspective includes the incident and problem management capability?',
             'options' => [
                 'Business',
@@ -1182,7 +1206,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 89,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 90\n\nA company wants to migrate its on-premises infrastructure to the AWS Cloud.\n\nWhich advantage of cloud computing will help the company reduce upfront costs?',
             'options' => [
                 'Go global in minutes',
@@ -1195,7 +1219,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 90,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 91\n\nA company wants to transport 100 TB of data from its data center to AWS without using the internet.\n\nWhich AWS service will meet this requirement?',
             'options' => [
                 'AWS Snowcone',
@@ -1208,7 +1232,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 91,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 92\n\nWhich task is the responsibility of AWS, according to the AWS shared responsibility model?',
             'options' => [
                 'Apply guest operating system patches to Amazon EC2 instances.',
@@ -1221,7 +1245,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 92,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 93\n\nA company hosts a web application on AWS. The company has improved the availability of its application by provisioning multiple Amazon EC2 instances. The company wants to distribute its traffic across the EC2 instances while providing a single point of contact to the web clients.\n\nWhich AWS service can distribute the traffic to multiple EC2 instances as targets?',
             'options' => [
                 'VPC endpoints',
@@ -1234,7 +1258,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 93,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 94\n\nWhich AWS feature or resource is a deployable Amazon EC2 instance template that is prepackaged with software and security requirements?',
             'options' => [
                 'Amazon Elastic Block Store (Amazon EBS) volume',
@@ -1247,7 +1271,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 94,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 95\n\nA company needs to identify who accessed an AWS service and what action was performed for a given time period.\n\nWhich AWS service should the company use to meet this requirement?',
             'options' => [
                 'Amazon CloudWatch',
@@ -1260,7 +1284,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 95,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 96\n\nWhat does "security of the cloud" refer to in the AWS shared responsibility model?',
             'options' => [
                 'Availability of AWS services such as Amazon EC2',
@@ -1273,7 +1297,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 96,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 97\n\nA company runs an on-premises contact center for customers. The company needs to migrate to a cloud-based solution that can deliver artificial intelligence features to improve user experience.\n\nWhich AWS service will meet these requirements?',
             'options' => [
                 'AWS Wavelength',
@@ -1286,7 +1310,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 97,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 98\n\nA company needs a hybrid cloud storage service to connect its on-premises environment to scalable AWS Cloud storage.\n\nWhich AWS service will meet these requirements?',
             'options' => [
                 'Amazon S3',
@@ -1299,7 +1323,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 98,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 99\n\nWhich AWS service is designed for users running workloads that include a NoSQL database?',
             'options' => [
                 'Amazon RDS',
@@ -1312,7 +1336,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 99,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 100\n\nA company wants to migrate all of its on-premises infrastructure to the AWS Cloud. Before migration, the company wants an estimate of costs for running its as-is infrastructure.\n\nWhich AWS service or principle should the company use to meet this requirement?',
             'options' => [
                 'AWS Pricing Calculator',
@@ -1325,7 +1349,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 100,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 101\n\nA company needs to analyze more than 200,000 financial records that are generated each day. The company must use containerized applications to perform the analysis and automate the process.\n\nWhich AWS service will meet these requirements?',
             'options' => [
                 'Amazon Athena',
@@ -1338,7 +1362,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 101,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 102\n\nA company needs to store infrequently used data for data archives and long-term backups.\n\nWhich AWS service or storage class will meet these requirements MOST cost-effectively?',
             'options' => [
                 'Amazon FSx for Lustre',
@@ -1351,7 +1375,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 102,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 103\n\nA company is building a web application that requires an in-memory data store for caching and session management. The data store must provide high availability and durability.\n\nWhich AWS service or resource will meet these requirements?',
             'options' => [
                 'Amazon Aurora',
@@ -1364,7 +1388,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 103,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 104\n\nWhat is the primary use case for Amazon GuardDuty?',
             'options' => [
                 'Prevention of DDoS attacks',
@@ -1377,7 +1401,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 104,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 105\n\nWhich AWS service gives a company the ability to use a private, dedicated connection between a VPC and an on-premises data center?',
             'options' => [
                 'AWS Direct Connect',
@@ -1390,7 +1414,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 105,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 106\n\nWhich capabilities are in the governance perspective of the AWS Cloud Adoption Framework (AWS CAF)? (Choose two.)',
             'options' => [
                 'Benefits management',
@@ -1404,7 +1428,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 106,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 107\n\nA company must provide a list of its IAM users to an external auditor. The list must include the status of the users\' credentials and access keys.\n\nWhat is the MOST operationally efficient way to provide this information?',
             'options' => [
                 'Create an IAM user account for the auditor. Grant the auditor administrator permissions.',
@@ -1417,7 +1441,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 107,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 108\n\nA company needs to consolidate the billing for multiple AWS accounts. The company needs to use one account to pay on behalf of all the other accounts.\n\nWhich AWS service or tool should the company use to meet this requirement?',
             'options' => [
                 'AWS Trusted Advisor',
@@ -1430,7 +1454,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 108,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 109\n\nWhich cloud concept is demonstrated by using AWS Cost Explorer?',
             'options' => [
                 'Rightsizing',
@@ -1443,7 +1467,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 109,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => 'Question 110\n\nWhich pillar of the AWS Well-Architected Framework includes a design principle about measuring the overall efficiency of workloads in terms of business value?',
             'options' => [
                 'Operational excellence',
@@ -1456,7 +1480,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 110,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 111\n\nA company wants to securely store Amazon RDS database credentials and automatically rotate user passwords periodically.\n\nWhich AWS service or capability will meet these requirements?",
             'options' => [
                 'Amazon S3',
@@ -1469,7 +1493,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 111,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 112\n\nA company runs critical workloads on AWS. The company needs a response from AWS technical support within 15 minutes if a critical system goes down.\n\nWhich AWS Support plan offers this response time?",
             'options' => [
                 'AWS Basic Support',
@@ -1482,7 +1506,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 112,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 113\n\nWhich AWS offering provides functionality to set up cloud-based customer service contact centers?",
             'options' => [
                 'Amazon Pinpoint',
@@ -1495,7 +1519,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 113,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 114\n\nWhich of the following can be components of a VPC in the AWS Cloud? (Choose two.)",
             'options' => [
                 'Amazon API Gateway',
@@ -1509,7 +1533,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 114,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 115\n\nFor which task does AWS Trusted Advisor provide guidance?",
             'options' => [
                 'Auditing of AWS account activity',
@@ -1522,7 +1546,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 115,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 116\n\nA company hosts its website on Amazon EC2 instances. The company needs to ensure that the website reaches a global audience and provides minimum latency to users.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'Amazon Route 53',
@@ -1535,7 +1559,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 116,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 117\n\nA company needs to provide customer service by using voice calls and web chat features.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'Amazon Aurora',
@@ -1548,7 +1572,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 117,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 118\n\nA company has a web application that has users all over the world. The company is moving the application to AWS to improve speed for the users. The company needs an AWS service that delivers the application content through data centers around the world.\n\nWhich AWS service or feature will meet these requirements?",
             'options' => [
                 'Amazon Connect',
@@ -1561,7 +1585,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 118,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 119\n\nWhich AWS Cloud Adoption Framework (AWS CAF) perspective focuses on organizing an inventory of data products in a data catalog?",
             'options' => [
                 'Operations',
@@ -1574,7 +1598,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 119,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 120\n\nWhich advantage of cloud computing allows users to scale resources up and down based on the amount of load that an application supports?",
             'options' => [
                 'Go global in minutes',
@@ -1587,7 +1611,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 120,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 121\n\nA company needs to set up alerts that occur when the actual or forecasted costs of AWS services exceed a defined threshold.\n\nWhich AWS service or tool should the company use to meet this requirement?",
             'options' => [
                 'AWS Cost Explorer',
@@ -1600,7 +1624,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 121,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 122\n\nA company needs to create a portfolio that provides central management of approved IT services.\n\nWhich AWS service offers this functionality?",
             'options' => [
                 'AWS Service Catalog',
@@ -1613,7 +1637,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 122,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 123\n\nWhich of the following are customer responsibilities under the AWS shared responsibility model? (Choose two.)",
             'options' => [
                 'Physical security of AWS facilities',
@@ -1627,7 +1651,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 123,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 124\n\nA company needs to receive rightsizing recommendations that help identify cost-saving opportunities for Amazon EC2 instances.\n\nWhich AWS service or tool will provide these recommendations?",
             'options' => [
                 'AWS Config',
@@ -1640,7 +1664,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 124,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 125\n\nA company wants to improve employee productivity by providing a way for employees to search for questions and retrieve specific answers. The company wants to use a single intelligent search interface.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Connect',
@@ -1653,7 +1677,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 125,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 126\n\nA company wants to organize its users so that the company can grant permissions to the users as a group.\n\nWhich AWS service or tool can the company use to meet this requirement?",
             'options' => [
                 'Security groups',
@@ -1666,7 +1690,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 126,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 127\n\nA company needs centralized storage to manage the configuration data and passwords for its applications.\n\nWhich AWS service or capability will meet these requirements?",
             'options' => [
                 'AWS CodeArtifact',
@@ -1679,7 +1703,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 127,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 128\n\nA company is releasing a business-critical application. Before the release, the company needs strategic planning assistance from AWS. During the release, the company needs AWS infrastructure event management and real-time support.\n\nWhat should the company do to meet these requirements?",
             'options' => [
                 'Access AWS Trusted Advisor',
@@ -1692,7 +1716,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 128,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 129\n\nA company is deploying a mobile app on AWS. Thousands of users will access the app.\n\nWhich AWS service should the company use to create a directory to manage sign-in for the users?",
             'options' => [
                 'AWS Directory Service',
@@ -1705,7 +1729,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 129,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 130\n\nA company wants to discover, prepare, move, and integrate data from multiple sources for data analytics and machine learning.\n\nWhich AWS serverless data integration service should the company use to meet these requirements?",
             'options' => [
                 'AWS Glue',
@@ -1718,7 +1742,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 130,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 131\n\nA security engineer wants a single-tenant AWS solution to create, control, and manage their own cryptographic keys to meet regulatory compliance requirements for data security.\n\nWhich AWS service should the engineer use?",
             'options' => [
                 'AWS Key Management Service (AWS KMS)',
@@ -1731,7 +1755,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 131,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 132\n\nA company needs to identify unused access that has been granted to users in its AWS accounts.\n\nWhich AWS service or feature will provide this information?",
             'options' => [
                 'AWS CloudTrail',
@@ -1744,7 +1768,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 132,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 133\n\nA company needs a secure, encrypted connection between its data center workload and the AWS Cloud. The connection needs to use the public internet.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Direct Connect',
@@ -1757,7 +1781,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 133,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 134\n\nA company that operates on-premises servers decides to start a new line of business. The company determines that additional servers are required for the new workloads.\n\nWhich advantage of cloud computing can help the company to provision additional infrastructure as quickly as possible?",
             'options' => [
                 'Benefit from massive economies of scale',
@@ -1770,7 +1794,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 134,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 135\n\nA company needs to identify the last time that a specific user accessed the AWS Management Console.\n\nWhich AWS service will provide this information?",
             'options' => [
                 'Amazon Cognito',
@@ -1783,7 +1807,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 135,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 136\n\nWhich AWS network services or features allow CIDR block notation when providing an IP address range? (Choose two.)",
             'options' => [
                 'Security groups',
@@ -1797,7 +1821,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 136,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 137\n\nA company wants to use machine learning capabilities to analyze log data from its Amazon EC2 instances and efficiently conduct security investigations.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Inspector',
@@ -1810,7 +1834,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 137,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 138\n\nWhich AWS service is a browser-based, pre-authenticated command line interface that can be launched directly from the AWS Management Console?",
             'options' => [
                 'AWS CloudShell',
@@ -1823,7 +1847,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 138,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 139\n\nA developer needs to maintain a development environment infrastructure and a production environment infrastructure in a repeatable fashion.\n\nWhich AWS service should the developer use to meet these requirements?",
             'options' => [
                 'AWS Ground Station',
@@ -1836,7 +1860,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 139,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 140\n\nWhich task is the customer's responsibility, according to the AWS shared responsibility model?",
             'options' => [
                 'Patch a guest operating system that is deployed on an Amazon EC2 instance.',
@@ -1849,7 +1873,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 140,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 141\n\nA company is moving its development and test environments to AWS to increase agility and reduce cost. Because these are not production workloads and the servers are not fully utilized, occasional unavailability is acceptable.\n\nWhat is the MOST cost-effective Amazon EC2 pricing model that will meet these requirements?",
             'options' => [
                 'Reserved Instances',
@@ -1862,7 +1886,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 141,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 142\n\nWhich AWS service gives users the ability to simplify costs and take advantage of quantity discounts with a single bill?",
             'options' => [
                 'Service Quotas',
@@ -1875,7 +1899,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 142,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 143\n\nWhich AWS service or feature requires an internet service provider (ISP) and a colocation facility to be implemented?",
             'options' => [
                 'AWS VPN',
@@ -1888,7 +1912,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 143,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 144\n\nWhat is the scope of a VPC within the AWS network?",
             'options' => [
                 'A VPC can span all Availability Zones globally.',
@@ -1901,7 +1925,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 144,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 145\n\nWhich of the following are design principles for reliability in the AWS Cloud? (Choose two.)",
             'options' => [
                 'Build architectures with tightly coupled resources.',
@@ -1915,7 +1939,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 145,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 146\n\nA company wants to run its application by using containers on AWS.\n\nWhich AWS services or tools will provide container orchestration? (Choose two.)",
             'options' => [
                 'Amazon Elastic Container Service (Amazon ECS)',
@@ -1929,7 +1953,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 146,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 147\n\nWhich AWS service gives users on-demand, self-service access to AWS compliance control reports?",
             'options' => [
                 'AWS Config',
@@ -1942,7 +1966,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 147,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 148\n\nA company needs a managed NFS file system that the company can use with its AWS compute resources.\n\nWhich AWS service or feature will meet these requirements?",
             'options' => [
                 'Amazon Elastic Block Store (Amazon EBS)',
@@ -1955,7 +1979,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 148,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 149\n\nWhich AWS service provides encryption of data at rest for Amazon Elastic Block Store (Amazon EBS)?",
             'options' => [
                 'Amazon Cognito',
@@ -1968,7 +1992,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 149,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 150\n\nA cloud practitioner wants a repeatable way to deploy identical AWS resources by using infrastructure templates.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS CloudFormation',
@@ -1981,7 +2005,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 150,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 151\n\nWhich programming languages does AWS Cloud Development Kit (AWS CDK) currently support? (Choose two.)",
             'options' => [
                 'Python',
@@ -1995,7 +2019,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 151,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 152\n\nWhich AWS service requires the customer to be fully responsible for applying operating system patches?",
             'options' => [
                 'Amazon DynamoDB',
@@ -2008,7 +2032,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 152,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 153\n\nA company needs to run an application on Amazon EC2 instances without interruption.\n\nWhich EC2 instance purchasing option will meet this requirement MOST cost-effectively?",
             'options' => [
                 'Standard Reserved Instances',
@@ -2021,7 +2045,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 153,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 154\n\nA company wants to deploy a non-containerized Java-based web application on AWS. The company wants to use a managed service to quickly deploy the application. The company wants the service to automatically provision capacity, load balance, scale, and monitor application health.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Elastic Container Service (Amazon ECS)',
@@ -2034,7 +2058,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 154,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 155\n\nA company wants to migrate its containerized workload from an on-premises data center to a managed container service in the AWS Cloud.\n\nWhich AWS services should the company use? (Choose two.)",
             'options' => [
                 'Amazon EC2',
@@ -2048,7 +2072,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 155,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 156\n\nA company is using AWS Identity and Access Management (IAM).\n\nWho can manage the access keys of the AWS account root user?",
             'options' => [
                 'IAM users in the same account that have been granted permission',
@@ -2061,7 +2085,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 156,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 157\n\nA company has data lakes designed for high performance computing (HPC) workloads.\n\nWhich Amazon EC2 instance type should the company use to meet these requirements?",
             'options' => [
                 'General purpose instances',
@@ -2074,7 +2098,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 157,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 158\n\nA company stores data in an Amazon S3 bucket.\n\nWhich task is the responsibility of AWS?",
             'options' => [
                 'Configure an S3 Lifecycle policy.',
@@ -2087,7 +2111,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 158,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 159\n\nA company wants to avoid unnecessary charges and run workloads at the lowest price point.\n\nWhich pillar of the AWS Well-Architected Framework includes these goals?",
             'options' => [
                 'Security',
@@ -2100,7 +2124,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 159,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 160\n\nA company wants to securely access an Amazon S3 bucket from an Amazon EC2 instance without accessing the internet.\n\nWhat should the company use to accomplish this goal?",
             'options' => [
                 'VPN connection',
@@ -2113,7 +2137,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 160,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 161\n\nA company is migrating its public website to AWS. The company wants to host the domain name for the website on AWS.\n\nWhich AWS service should the company use to meet this requirement?",
             'options' => [
                 'AWS Lambda',
@@ -2126,7 +2150,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 161,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 162\n\nA company needs to perform a one-time migration of 50 TB of data from on-premises storage to AWS.\n\nWhich AWS service will meet this requirement with the LEAST operational overhead?",
             'options' => [
                 'Amazon S3',
@@ -2139,7 +2163,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 162,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 163\n\nWhich AWS Cloud Adoption Framework (AWS CAF) capability belongs to the business perspective?",
             'options' => [
                 'Program and project management',
@@ -2152,7 +2176,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 163,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 164\n\nA company wants to track the monthly cost and usage of all Amazon EC2 instances in a specific AWS environment.\n\nWhich AWS service or tool will meet these requirements?",
             'options' => [
                 'AWS Cost Anomaly Detection',
@@ -2165,7 +2189,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 164,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 165\n\nWhich Reserved Instance (RI) provides the HIGHEST average cost savings compared to an On-Demand Instance?",
             'options' => [
                 '1-year, No Upfront, Standard RI',
@@ -2178,7 +2202,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 165,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 166\n\nWhich AWS service provides recommendations to help users reduce the cost of Amazon EC2 instances?",
             'options' => [
                 'AWS AppConfig',
@@ -2191,7 +2215,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 166,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 167\n\nA company needs to use Amazon S3 to store audio files that are each 5 megabytes in size. The company will rarely access the files, but the company must be able to retrieve the files immediately.\n\nWhich S3 storage class will meet these requirements MOST cost-effectively?",
             'options' => [
                 'S3 Standard',
@@ -2204,7 +2228,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 167,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 168\n\nA company has a MariaDB database on premises. The company wants to move the data to the AWS Cloud.\n\nWhich AWS service will host this database with the LEAST amount of operational overhead?",
             'options' => [
                 'Amazon RDS',
@@ -2217,7 +2241,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 168,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 169\n\nWhich AWS service is designed to help users handle large amounts of data in a data warehouse environment?",
             'options' => [
                 'Amazon RDS',
@@ -2230,7 +2254,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 169,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 170\n\nWhich AWS service monitors AWS accounts for security threats?",
             'options' => [
                 'Amazon GuardDuty',
@@ -2243,7 +2267,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 170,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 171\n\nA company wants to use an AWS networking solution that can act as a centralized gateway between multiple VPCs and on-premises networks.\n\nWhich AWS service or feature will meet this requirement?",
             'options' => [
                 'Gateway VPC endpoint',
@@ -2256,7 +2280,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 171,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 172\n\nA company plans to migrate on-premises Internet Small Computer Systems Interface (iSCSI) storage to AWS. The company needs low-latency access to the stored data. The company also must minimize infrastructure changes to workloads that use the storage.\n\nWhich AWS storage solution will meet these requirements?",
             'options' => [
                 'Amazon Elastic Block Store (Amazon EBS)',
@@ -2269,7 +2293,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 172,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 173\n\nWhich of the following are pillars of the AWS Well-Architected Framework? (Choose two.)",
             'options' => [
                 'Resource scalability',
@@ -2283,7 +2307,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 173,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 174\n\nA company needs to use an offline transfer strategy to move petabytes of databases, backups, and data records from on premises to the AWS Cloud.\n\nWhich solution will meet this requirement with the MOST operational efficiency?",
             'options' => [
                 'AWS Snowball Edge compute-optimized devices',
@@ -2296,7 +2320,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 174,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 175\n\nA company wants to manage access and permissions for its third-party software as a service (SaaS) applications. The company wants to use a portal where end users can access assigned AWS accounts and AWS Cloud applications.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'Amazon Cognito',
@@ -2309,7 +2333,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 175,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 176\n\nA company wants to manage its cloud resources by using infrastructure as code (IaC) templates. The company needs to meet compliance requirements.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'AWS Artifact',
@@ -2322,7 +2346,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 176,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 177\n\nA company has an application workload that is mostly consistent. However, the workload requires access to additional capacity during unpredictable peaks in demand. The workload must run for 1 year and cannot be interrupted.\n\nWhich purchasing option will meet these requirements MOST cost-effectively?",
             'options' => [
                 'Use Spot Instances for the entire workload.',
@@ -2335,7 +2359,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 177,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 178\n\nA company needs to use an AWS service to invoke an AWS Lambda function when an Amazon EC2 instance enters the stopping state.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'Amazon EventBridge',
@@ -2348,7 +2372,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 178,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 179\n\nWhich of the following are advantages of moving to the AWS Cloud? (Choose two.)",
             'options' => [
                 'Users can implement all AWS services in seconds.',
@@ -2362,7 +2386,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 179,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 180\n\nA company wants to build graph queries for real-time fraud pattern detection.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'Amazon Neptune',
@@ -2375,7 +2399,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 180,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 181\n\nA company has a workload that will run continuously for 1 year. The workload cannot tolerate service interruptions.\n\nWhich Amazon EC2 purchasing option will be MOST cost-effective?",
             'options' => [
                 'All Upfront Reserved Instances',
@@ -2388,7 +2412,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 181,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 182\n\nA company plans to launch an ecommerce website that contains many images for a product catalog. The company wants to keep the cost of running the website within a specific budget.\n\nWhich AWS service or tool should the company use to monitor the ongoing costs of the website?",
             'options' => [
                 'AWS Cost Explorer',
@@ -2401,7 +2425,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 182,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 183\n\nA company is designing an identity access management solution for an application. The company wants users to be able to use their social media, email, or online shopping accounts to access the application.\n\nWhich AWS service provides this functionality?",
             'options' => [
                 'AWS IAM Identity Center',
@@ -2413,7 +2437,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon Cognito provides user authentication and identity management for applications. It supports federated identities so users can sign in with existing social media, email, or online shopping accounts such as Google, Facebook, and Amazon.',
             'sort_order' => 183,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 184\n\nA company has deployed several public applications behind Application Load Balancers. The company wants to improve the performance of the applications.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Global Accelerator',
@@ -2425,7 +2449,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Global Accelerator improves the performance and availability of public applications by routing user traffic through the AWS global network. It can use Application Load Balancers as endpoints and direct users to the optimal endpoint with lower latency.',
             'sort_order' => 184,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 185\n\nA company has a compliance requirement to record and evaluate configuration changes, as well as perform remediation actions on AWS resources.\n\nWhich AWS service should the company use?",
             'options' => [
                 'AWS Config',
@@ -2438,7 +2462,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 185,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 186\n\nA company needs to check for IAM access keys that have not been rotated recently.\n\nWhich AWS service should the company use to meet this requirement?",
             'options' => [
                 'AWS Shield',
@@ -2451,7 +2475,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 186,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 187\n\nWhich AWS service or feature can a company use to determine which business unit is using specific AWS resources?",
             'options' => [
                 'Cost allocation tags',
@@ -2464,7 +2488,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 187,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 188\n\nA company wants to store its files in the AWS Cloud. Users need to be able to download these files directly using a public URL.\n\nWhich AWS service or feature will meet this requirement?",
             'options' => [
                 'Amazon Redshift',
@@ -2477,7 +2501,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 188,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 189\n\nA company needs a firewall that will control network connections to and from a single Amazon EC2 instance. This firewall will not control network connections to and from other instances that are in the same subnet.\n\nWhich AWS service or feature can the company use to meet these requirements?",
             'options' => [
                 'Network ACL',
@@ -2490,7 +2514,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 189,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 190\n\nA company needs to run some of its workloads on premises to comply with regulatory guidelines. The company wants to use the AWS Cloud to run workloads that are not required to be on premises. The company also wants to be able to use the same API calls for the on-premises workloads and the cloud workloads.\n\nWhich AWS service or feature should the company use to meet these requirements?",
             'options' => [
                 'Dedicated Hosts',
@@ -2503,7 +2527,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 190,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 191\n\nA company wants to run its application's code without having to provision and manage servers.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'AWS Glue',
@@ -2516,7 +2540,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 191,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 192\n\nA company is running Amazon EC2 instances in a private subnet in a VPC.\n\nWhich AWS service or feature can provide the EC2 instances with network connections to the internet?",
             'options' => [
                 'Gateway endpoint',
@@ -2529,7 +2553,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 192,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 193\n\nWhich statements accurately describe the relationships among components of AWS global infrastructure? (Choose two.)",
             'options' => [
                 'There are more AWS Regions than Availability Zones.',
@@ -2543,7 +2567,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 193,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 194\n\nWhich AWS service or tool can a company use to set up consolidated billing?",
             'options' => [
                 'AWS Billing and Cost Management console',
@@ -2556,7 +2580,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 194,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 195\n\nA company wants to deploy its critical application on AWS and maintain high availability.\n\nHow should the company deploy the application to meet these requirements?",
             'options' => [
                 'In a single Availability Zone',
@@ -2569,7 +2593,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 195,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 196\n\nWhich AWS service keeps track of SSL/TLS certificates, creates new certificates, and processes renewals?",
             'options' => [
                 'AWS Identity and Access Management (IAM)',
@@ -2582,7 +2606,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 196,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 197\n\nA company is planning to move data backups to the AWS Cloud. The company needs to replace on-premises storage with storage that is cloud-based but locally cached.\n\nWhich AWS service meets these requirements?",
             'options' => [
                 'AWS Storage Gateway',
@@ -2595,7 +2619,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 197,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 198\n\nA company needs to run a workload for several batch image rendering applications. It is acceptable for the workload to experience downtime.\n\nWhich Amazon EC2 pricing model would be MOST cost-effective in this situation?",
             'options' => [
                 'On-Demand Instances',
@@ -2608,7 +2632,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 198,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 199\n\nA company seeks cost savings in exchange for a commitment to use a specific amount of an AWS service or category of AWS services for 1 year or 3 years.\n\nWhich AWS pricing model or offering will meet these requirements?",
             'options' => [
                 'Pay-as-you-go pricing',
@@ -2621,7 +2645,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 199,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 200\n\nA company wants to purchase Amazon EC2 instances before using the EC2 instances for a workload. The company will commit to use the EC2 instances at a particular price over a specific period of time.\n\nWhich AWS pricing model will meet these requirements MOST cost-effectively?",
             'options' => [
                 'On-Demand Instances',
@@ -2634,7 +2658,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 200,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 201\n\nA company has a centralized group of users with large file storage requirements that have exceeded the space available on premises. The company wants to extend its file storage capabilities for this group while retaining the performance benefit of sharing content locally.\n\nWhat is the MOST operationally efficient AWS solution for this scenario?",
             'options' => [
                 'Create an Amazon S3 bucket for each user. Mount each bucket by using an S3 file system mounting utility.',
@@ -2647,7 +2671,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 201,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 202\n\nWhich feature of Amazon RDS provides the ability to automatically create a primary database instance and to synchronously replicate data to an instance in another Availability Zone?",
             'options' => [
                 'Read replicas',
@@ -2660,7 +2684,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 202,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 203\n\nA company must archive its documents by using a write-once, read-many (WORM) model to meet legal and compliance obligations.\n\nWhich feature of Amazon S3 can the company use to meet this requirement?",
             'options' => [
                 'S3 Versioning',
@@ -2673,7 +2697,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 203,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 204\n\nA company has deployed a web application to Amazon EC2 instances. The EC2 instances have low usage.\n\nWhich AWS service or feature should the company use to rightsize the EC2 instances?",
             'options' => [
                 'AWS Config',
@@ -2686,7 +2710,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 204,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 205\n\nA company runs workloads on AWS to provide real-time gaming and augmented virtual reality platforms to users. The company wants to ensure that the users can run apps with single-digit millisecond latencies on their mobile devices.\n\nWhich AWS solution can the company use for deployment to meet these requirements?",
             'options' => [
                 'Provisioned IOPS',
@@ -2699,7 +2723,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 205,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 206\n\nTo assist companies with Payment Card Industry Data Security Standard (PCI DSS) compliance in the cloud, AWS provides:",
             'options' => [
                 'Physical inspections of data centers by appointment.',
@@ -2712,7 +2736,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 206,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 207\n\nWhich AWS service can report how AWS resource configurations have changed over time?",
             'options' => [
                 'AWS CloudTrail',
@@ -2725,7 +2749,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 207,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 208\n\nA company is running an application on AWS. The company wants to protect the application\'s resources from DDoS attacks. The company also wants to receive a service credit if a DDoS attack increases the utilization of the protected resources.\n\nWhich AWS solution will meet these requirements?",
             'options' => [
                 'Amazon GuardDuty',
@@ -2738,7 +2762,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 208,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 209\n\nWhich AWS service can generate information that can be used by external auditors?",
             'options' => [
                 'Amazon Cognito',
@@ -2751,7 +2775,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 209,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 210\n\nWhich Amazon EC2 Reserved Instances term commitment will give users the MOST cost savings?",
             'options' => [
                 '1 year',
@@ -2764,7 +2788,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 210,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 211\n\nA company wants an integrated development environment (IDE) to deploy a machine learning (ML) model.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'AWS CodeBuild',
@@ -2777,7 +2801,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 211,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 212\n\nA company needs to put its AWS resources into groups and then determine the cost for each group.\n\nWhich AWS service or feature can the company use to group the resources?",
             'options' => [
                 'Cost allocation tags',
@@ -2790,7 +2814,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 212,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 213\n\nA company wants to register a new domain name for the upcoming launch of a web application.\n\nWhich AWS service can the company use to register a new domain name?",
             'options' => [
                 'Amazon Route 53',
@@ -2803,7 +2827,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 213,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 214\n\nIn which ways does the AWS Cloud offer lower total cost of ownership (TCO) of computing resources than on-premises data centers? (Choose two.)",
             'options' => [
                 'AWS replaces upfront capital expenditures with pay-as-you-go costs.',
@@ -2817,7 +2841,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 214,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 215\n\nA company needs to store data in an Amazon S3 bucket. The company will rarely access the data and can recreate the data if necessary.\n\nWhich S3 storage class will meet the requirements for this data MOST cost-effectively?",
             'options' => [
                 'S3 Express One Zone',
@@ -2830,7 +2854,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 215,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 216\n\nA company has migrated its workload to the AWS Cloud. The company wants to optimize existing Amazon EC2 resources.\n\nWhich AWS services or tools provide this functionality? (Choose two.)",
             'options' => [
                 'AWS Elastic Beanstalk',
@@ -2844,7 +2868,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 216,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 217\n\nA company uses AWS Organizations. The company wants to apply security best practices from the AWS Well-Architected Framework to all of its AWS accounts.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Macie',
@@ -2857,7 +2881,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 217,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 218\n\nA company wants its Amazon EC2 instances to be in different locations but share the same geographic area. The company also wants to use multiple power grids and independent networking connectivity for the EC2 instances.\n\nWhich solution meets these requirements?",
             'options' => [
                 'Use EC2 instances in multiple edge locations in the same AWS Region.',
@@ -2870,7 +2894,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 218,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 219\n\nA company wants to define a central data protection policy that works across AWS services for compute, storage, and database resources.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'AWS Batch',
@@ -2883,7 +2907,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 219,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 220\n\nA food delivery company needs to block users in certain countries from accessing its website.\n\nWhich AWS service should the company use to meet this requirement?",
             'options' => [
                 'AWS WAF',
@@ -2896,7 +2920,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 220,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 221\n\nWhich AWS service provides a fully managed graph database for highly connected datasets?",
             'options' => [
                 'Amazon DynamoDB',
@@ -2909,7 +2933,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 221,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 222\n\nWhich statement is an AWS Cloud best practice that focuses on the elasticity and agility of cloud computing?",
             'options' => [
                 'Provision capacity based on past usage and theoretical peaks.',
@@ -2922,7 +2946,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 222,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 223\n\nWhich AWS service provides the ability to host a NoSQL database in the AWS Cloud?",
             'options' => [
                 'Amazon Aurora',
@@ -2935,7 +2959,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 223,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 224\n\nA company\'s application uses Amazon EC2 instances, AWS Lambda functions, and AWS Fargate tasks that are deployed in multiple AWS Regions. The company needs to optimize cost across Regions by using a single purchasing option.\n\nWhich purchasing option will meet these requirements MOST cost-effectively?",
             'options' => [
                 'Compute Savings Plans',
@@ -2948,7 +2972,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 224,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 225\n\nA company manages global applications that require static IP addresses.\n\nWhich AWS service would enable the company to improve the availability and performance of its applications?",
             'options' => [
                 'Amazon CloudFront',
@@ -2961,7 +2985,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 225,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 226\n\nA company needs an AWS Support plan that provides programmatic case management through the AWS Support API.\n\nWhich support plan will meet this requirement MOST cost-effectively?",
             'options' => [
                 'AWS Business Support',
@@ -2974,7 +2998,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 226,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 227\n\nWhich option is the responsibility of AWS, according to the AWS shared responsibility model?",
             'options' => [
                 'Management of guest operating systems',
@@ -2987,7 +3011,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 227,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 228\n\nA company needs to collect utilization metrics from Amazon EC2 instances and Amazon DynamoDB tables.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'AWS CloudTrail',
@@ -3000,7 +3024,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 228,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 229\n\nAn independent software vendor wants to deliver and share its custom Amazon Machine Images (AMIs) to prospective customers.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Marketplace',
@@ -3013,7 +3037,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 229,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 230\n\nA company needs an AWS-managed threat protection service for the perimeter of its application hosted on AWS.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'Amazon Detective',
@@ -3026,7 +3050,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 230,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 231\n\nA company is planning to migrate a monolithic application to AWS. The company wants to modernize the application by splitting it into microservices. The company will deploy the microservices on AWS.\n\nWhich migration strategy should the company use?",
             'options' => [
                 'Rehost',
@@ -3039,7 +3063,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 231,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 232\n\nA company wants to migrate its server-based applications to the AWS Cloud. The company wants to determine the total cost of ownership for its compute resources that will be hosted on the AWS Cloud.\n\nWhich combination of AWS services or tools will meet these requirements? (Choose two.)",
             'options' => [
                 'AWS Pricing Calculator',
@@ -3053,7 +3077,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 232,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 233\n\nWhich feature of Amazon S3 can restore accidentally deleted or overwritten objects?",
             'options' => [
                 'S3 Access Points',
@@ -3066,7 +3090,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 233,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 234\n\nWhich AWS service or feature provides a firewall at the subnet level within a VPC?",
             'options' => [
                 'Security group',
@@ -3079,7 +3103,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 234,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 235\n\nA cloud engineer needs to download AWS security and compliance documents for an upcoming audit.\n\nWhich AWS service can provide the documents?",
             'options' => [
                 'AWS Trusted Advisor',
@@ -3092,7 +3116,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 235,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 236\n\nWhich AWS service provides central management, governance, and sharing of AWS CloudFormation templates with member accounts of an organization in AWS Organizations?",
             'options' => [
                 'AWS CodePipeline',
@@ -3105,7 +3129,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 236,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 237\n\nA university receives a grant to conduct research by using AWS services. The research team needs to make sure the grant money lasts for the entire school year. The team has decided on a monthly allocation that adds up to the total grant amount.\n\nWhich AWS service or feature will notify the team if spending exceeds the planned amount?",
             'options' => [
                 'AWS Budgets',
@@ -3118,7 +3142,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 237,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 238\n\nWhich AWS service should a cloud engineer use to view API calls to AWS services?",
             'options' => [
                 'Amazon CloudWatch',
@@ -3131,7 +3155,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 238,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 239\n\nA company needs to categorize and track AWS usage cost based on business categories.\n\nWhich AWS service or feature should the company use to meet these requirements?",
             'options' => [
                 'Cost allocation tags',
@@ -3144,7 +3168,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 239,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 240\n\nA company is building a business intelligence solution that uses Amazon Redshift. The company wants to use an AWS service to create interactive dashboards and not pay any upfront costs for it.\n\nWhich service should the company use?",
             'options' => [
                 'Amazon CloudWatch',
@@ -3157,7 +3181,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 240,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 241\n\nIn the AWS shared responsibility model, which tasks are the responsibility of AWS? (Choose two.)",
             'options' => [
                 'Patch an Amazon EC2 instance operating system.',
@@ -3171,7 +3195,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 241,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 242\n\nA company needs to schedule the rotation of database credentials in the AWS Cloud.\n\nWhich AWS service should the company use to perform this task?",
             'options' => [
                 'AWS Identity and Access Management (IAM)',
@@ -3184,7 +3208,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 242,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 243\n\nA social media company wants to track relationships between users. The company wants to use a fully managed graph database.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon RDS',
@@ -3197,7 +3221,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 243,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 244\n\nWhat does Amazon CloudFront provide?",
             'options' => [
                 'Automatic scaling for all resources to power an application from a single unified interface',
@@ -3210,7 +3234,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 244,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 245\n\nWhich of the following can the AWS Pricing Calculator do?",
             'options' => [
                 'Project monthly AWS costs.',
@@ -3223,7 +3247,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 245,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 246\n\nA company deployed an application in multiple AWS Regions around the world. The company wants to improve the application\'s performance and availability.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Global Accelerator',
@@ -3236,7 +3260,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 246,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 247\n\nWhich AWS service can manage permissions for AWS resources by using policies?",
             'options' => [
                 'Amazon Inspector',
@@ -3249,7 +3273,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 247,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 248\n\nA company is launching a mobile app in the AWS Cloud. The company wants the app\'s users to sign in through social media identity providers (IdPs).\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'AWS Lambda',
@@ -3262,7 +3286,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 248,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 249\n\nWhich AWS service supports a company\'s ability to treat infrastructure as code?",
             'options' => [
                 'AWS CodeDeploy',
@@ -3275,7 +3299,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 249,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 250\n\nA company is running a workload in the AWS Cloud.\n\nWhich AWS best practice ensures the MOST cost-effective architecture for the workload?",
             'options' => [
                 'Loose coupling',
@@ -3289,7 +3313,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 251\n\nA company is planning to migrate to the AWS Cloud. The company is conducting organizational transformation and wants to become more responsive to customer inquiries and feedback.\n\nWhich task should the company perform to meet these requirements, according to the AWS Cloud Adoption Framework (AWS CAF)? (Choose two.)",
             'options' => [
                 'Realign teams to focus on products and value streams.',
@@ -3307,7 +3331,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 252\n\nA company needs access to checks and recommendations that help the company follow AWS best practices for cost optimization, security, fault tolerance, performance, and service quotas.\n\nWhich combination of an AWS service and AWS Support plan on the AWS account will meet these requirements?",
             'options' => [
                 'AWS Trusted Advisor with AWS Developer Support',
@@ -3321,7 +3345,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 253\n\nA company plans to migrate to the AWS Cloud. The company wants to gather information about its on-premises data center.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'AWS Application Discovery Service',
@@ -3335,7 +3359,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 254\n\nWhich AWS service provides users with AWS issued reports, certifications, accreditations, and third-party attestations?",
             'options' => [
                 'AWS Artifact',
@@ -3349,7 +3373,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 255\n\nA company uses AWS and has a VPC that includes two public subnets. The company needs to allow and deny specific inbound and outbound traffic for each public subnet.\n\nWhich AWS service or tool can the company use to meet this requirement?",
             'options' => [
                 'Network ACL',
@@ -3363,7 +3387,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 256\n\nA company wants to explore and analyze data in Amazon S3 by using a programming language.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Kendra',
@@ -3377,7 +3401,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 257\n\nA company wants to monitor and block malicious HTTP and HTTPS requests that its Amazon CloudFront distributions receive.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'Amazon GuardDuty',
@@ -3391,7 +3415,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 258\n\nA company needs to use AWS technology to deploy a static website.\n\nWhich solution meets this requirement with the LEAST amount of operational overhead?",
             'options' => [
                 'Deploy the website on Amazon EC2.',
@@ -3405,7 +3429,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 259\n\nWhich AWS service is always available free of charge to users?",
             'options' => [
                 'Amazon Athena',
@@ -3419,7 +3443,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 260\n\nWhich AWS Cloud Adoption Framework (AWS CAF) capabilities are in the business perspective? (Choose two.)",
             'options' => [
                 'Data engineering',
@@ -3437,7 +3461,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 261\n\nA company is preparing for an audit and wants documentation that AWS complies with the Payment Card Industry Data Security Standard (PCI DSS).\n\nWhere can the company find this documentation?",
             'options' => [
                 'AWS Artifact',
@@ -3451,7 +3475,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 262\n\nA company wants to log in securely to Linux Amazon EC2 instances.\n\nHow can the company accomplish this goal?",
             'options' => [
                 'Use SSH keys.',
@@ -3465,7 +3489,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 263\n\nWhat is the total volume of data that can be stored in Amazon S3?",
             'options' => [
                 '10 PB',
@@ -3479,7 +3503,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 264\n\nA company needs to host an application in a specific geographic area to comply with regulations.\n\nWhich feature of the AWS global infrastructure will help the company meet this requirement?",
             'options' => [
                 'Scalability',
@@ -3493,7 +3517,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 265\n\nWhich AWS service makes it easier to monitor and troubleshoot application logs and cloud resources?",
             'options' => [
                 'Amazon EC2',
@@ -3507,7 +3531,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 266\n\nA company needs an AWS design solution for a distributed system. The system's components need to be set up so that one system component cannot negatively impact another component.\n\nWhich AWS architectural best practice will meet this requirement?",
             'options' => [
                 'Use request throttling',
@@ -3521,7 +3545,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 267\n\nWhat is the MINIMUM AWS Support plan that is required to access Support Automation Workflows that are maintained by AWS Support?",
             'options' => [
                 'AWS Enterprise Support',
@@ -3535,7 +3559,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 268\n\nA company is learning about its responsibilities that are related to the management of Amazon EC2 instances.\n\nWhich tasks for EC2 instances are the company's responsibility, according to the AWS shared responsibility model? (Choose two.)",
             'options' => [
                 'Install and patch the machine hypervisor.',
@@ -3553,7 +3577,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 269\n\nA company is moving its data warehouse to AWS. The infrastructure on AWS must support the storage of terabytes of data and must process complex analytic queries.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Redshift',
@@ -3567,7 +3591,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 270\n\nA company is using Amazon EC2 instances to test an application. The company needs to run uninterrupted tests for 1 month.\n\nWhich EC2 instance purchasing option will meet these requirements MOST cost-effectively?",
             'options' => [
                 'On-Demand Instances',
@@ -3581,7 +3605,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 271\n\nA company has developed a new in-house application. The company does not have a way to determine or predict the usage demand that the application will create.\n\nWhich AWS Cloud computing benefit is the company seeking?",
             'options' => [
                 'Easy to use',
@@ -3595,7 +3619,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 272\n\nWhich task is the responsibility of the customer, according to the AWS shared responsibility model?",
             'options' => [
                 'Maintain the security of the hardware that runs Amazon EC2 instances.',
@@ -3609,7 +3633,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 273\n\nA company wants to update its online data processing application by implementing container-based services that run for 4 hours at a time. The company does not want to provision or manage server instances.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Lambda',
@@ -3623,7 +3647,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 274\n\nA company wants to run an application on Amazon EC2 instances. The application has short-term, irregular workloads that cannot be interrupted.\n\nWhich will be the MOST cost-effective pricing model for this workload?",
             'options' => [
                 'On-Demand Instances',
@@ -3637,7 +3661,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 275\n\nAccording to the AWS shared responsibility model, which of the following are AWS responsibilities? (Choose two.)",
             'options' => [
                 'Network infrastructure and virtualization of infrastructure',
@@ -3655,7 +3679,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 276\n\nWhich AWS services can a company use to deploy a database on AWS? (Choose two.)",
             'options' => [
                 'Elastic Load Balancing (ELB)',
@@ -3673,7 +3697,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 277\n\nA company has moved all its infrastructure to the AWS Cloud. To plan ahead for each quarter, the finance team wants to track the cost and usage data of all resources from previous months. The finance team wants to automatically generate reports that contain the data.\n\nWhich AWS service or feature should the finance team use to meet these requirements?",
             'options' => [
                 'Amazon Detective',
@@ -3687,7 +3711,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 278\n\nA company needs to establish a connection between two VPCs. The VPCs are located in two different AWS Regions. The company wants to use the existing infrastructure of the VPCs for this connection.\n\nWhich AWS service or feature can be used to establish this connection?",
             'options' => [
                 'AWS Client VPN',
@@ -3701,7 +3725,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 279\n\nA company wants an AWS service that can automate software deployment in Amazon EC2 instances and on-premises instances.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'AWS CodeCommit',
@@ -3715,7 +3739,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 280\n\nWhich of the following is a way to use Amazon EC2 Auto Scaling groups to scale capacity in the AWS Cloud?",
             'options' => [
                 'Scale the number of EC2 instances in or out automatically, based on demand.',
@@ -3729,7 +3753,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 281\n\nWhich design principles should a company apply to AWS Cloud workloads to maximize sustainability and minimize environmental impact? (Choose two.)",
             'options' => [
                 'Maximize utilization of Amazon EC2 instances.',
@@ -3747,7 +3771,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 282\n\nA company wants to consolidate its call centers to improve the customer voice and chat experience with call center agents.\n\nWhich AWS service or tool will meet these requirements?",
             'options' => [
                 'Amazon Simple Notification Service (Amazon SNS)',
@@ -3761,7 +3785,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 283\n\nWhich AWS service offers object storage?",
             'options' => [
                 'Amazon RDS',
@@ -3775,7 +3799,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 284\n\nA company's cloud environment includes Amazon EC2 instances and Application Load Balancers. The company wants to improve protections for its cloud resources against DDoS attacks. The company also wants to have real-time visibility into any DDoS attacks.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Shield Standard',
@@ -3789,7 +3813,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 285\n\nWhich AWS Cloud Adoption Framework (AWS CAF) perspective helps a company achieve confidentiality and integrity of its data?",
             'options' => [
                 'Business',
@@ -3803,7 +3827,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 286\n\nA company needs the ability to acquire resources when the resources are needed. The company also needs the ability to release the resources when the resources are no longer needed.\n\nWhich AWS concept represents the company's goals?",
             'options' => [
                 'Scalability',
@@ -3817,7 +3841,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 287\n\nWhich AWS service or resource can distribute TCP and UDP traffic?",
             'options' => [
                 'Amazon API Gateway',
@@ -3831,7 +3855,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 288\n\nA company needs to create an encrypted network connection between two offices in different countries. The connection must be over the public internet.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'AWS Direct Connect',
@@ -3845,7 +3869,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 289\n\nWhich AWS Well-Architected Framework concept represents a system's ability to remain functional when the system encounters operational problems?",
             'options' => [
                 'Consistency',
@@ -3859,7 +3883,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 290\n\nA company needs to deploy an application with high availability and fault tolerance.\n\nHow should the company deploy the application to meet these requirements?",
             'options' => [
                 'In a single Availability Zone in an AWS Region',
@@ -3873,7 +3897,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 291\n\nA company has a goal to run and monitor systems to deliver business value while continually improving support processes and procedures.\n\nWhich pillar of the AWS Well-Architected Framework does this goal meet?",
             'options' => [
                 'Reliability',
@@ -3887,7 +3911,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 292\n\nA company wants to perform sentiment analysis on customer service email messages that it receives. The company wants to identify whether the customer service engagement was positive or negative.\n\nWhich AWS service should the company use to perform this analysis?",
             'options' => [
                 'Amazon Textract',
@@ -3901,7 +3925,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 293\n\nWhich tasks are responsibilities of the customer, according to the AWS shared responsibility model? (Choose two.)",
             'options' => [
                 'Secure the virtualization layer.',
@@ -3919,7 +3943,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 294\n\nWhich AWS service can a company use to manage encryption keys in the cloud?",
             'options' => [
                 'AWS License Manager',
@@ -3933,7 +3957,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 295\n\nWhich AWS service continuously monitors AWS accounts and workloads for malicious or unauthorized actions?",
             'options' => [
                 'Amazon CloudWatch',
@@ -3947,7 +3971,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 296\n\nWhich Amazon Route 53 routing policy can a company use to route traffic to multiple resources in specified proportions?",
             'options' => [
                 'Weighted routing policy',
@@ -3961,7 +3985,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 297\n\nWhich AWS Cloud design principle is a company using when the company implements AWS CloudTrail?",
             'options' => [
                 'Activate traceability.',
@@ -3975,7 +3999,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 299\n\nA company manages AWS accounts in an organization in AWS Organizations. The company needs to limit the access to selected AWS services for these member accounts.\n\nWhich AWS service or feature will meet this requirement?",
             'options' => [
                 'AWS Identity and Access Management (IAM)',
@@ -3989,7 +4013,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 300\n\nA company wants to run CPU-intensive workload across multiple Amazon EC2 instances.\n\nWhich EC2 instance type should the company use to meet this requirement?",
             'options' => [
                 'General purpose instances',
@@ -4003,7 +4027,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 301\n\nWhich AWS service or feature gives users the ability to connect VPCs and on-premises networks to a central hub?",
             'options' => [
                 'Virtual private gateway',
@@ -4017,7 +4041,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 302\n\nA company's application is running on Amazon EC2 instances. The company is planning a partial migration to a serverless architecture in the next year and wants to pay for resources up front.\n\nWhich AWS purchasing option will optimize the company's costs?",
             'options' => [
                 'Convertible Reserved Instances',
@@ -4031,7 +4055,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 303\n\nWhich task is the responsibility of the customer, according to the AWS shared responsibility model?",
             'options' => [
                 'Patch the Amazon DynamoDB operating system.',
@@ -4045,7 +4069,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 298\n\nWhich of the following is a customer responsibility according to the AWS shared responsibility model?",
             'options' => [
                 'Apply security patches for Amazon S3 infrastructure devices.',
@@ -4059,7 +4083,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 304\n\nWhich capabilities are in the platform perspective of the AWS Cloud Adoption Framework (AWS CAF)? (Choose two.)",
             'options' => [
                 'Data protection',
@@ -4077,7 +4101,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 305\n\nWhich AWS Support plans provide access to an AWS technical account manager (TAM)? (Choose two.)",
             'options' => [
                 'AWS Basic Support',
@@ -4095,7 +4119,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 306\n\nA company needs to check for IAM access keys that have not been rotated recently.\n\nWhich AWS service should the company use to meet this requirement?",
             'options' => [
                 'AWS WAF',
@@ -4109,7 +4133,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 307\n\nWhich AWS service can create a private network connection from on premises to the AWS Cloud?",
             'options' => [
                 'AWS Config',
@@ -4123,7 +4147,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 308\n\nWhich benefits does a company receive with AWS Business Support? (Choose two.)",
             'options' => [
                 'Dedicated AWS technical account manager (TAM)',
@@ -4141,7 +4165,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 309\n\nA company wants to enhance security by launching a third-party ISP intrusion detection system from its AWS account.\n\nWhich AWS service or resource should the company use to meet this requirement?",
             'options' => [
                 'AWS Security Hub',
@@ -4155,7 +4179,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 310\n\nA company wants to use Amazon EC2 instances for a stable production workload that will run for 1 year.\n\nWhich instance purchasing option meets these requirements MOST cost-effectively?",
             'options' => [
                 'Dedicated Hosts',
@@ -4169,7 +4193,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 311\n\nWhat is the MOST secure way to store passwords on AWS?",
             'options' => [
                 'Store passwords in an Amazon S3 bucket.',
@@ -4183,7 +4207,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 312\n\nWhich AWS Cloud Adoption Framework (AWS CAF) perspective includes the risk management capability?",
             'options' => [
                 'Governance',
@@ -4197,7 +4221,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 313\n\nA company wants to connect its supported AWS services and VPCs. The company does not want to expose its internal traffic to the public internet.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Inspector',
@@ -4211,7 +4235,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 314\n\nA company is migrating to the AWS Cloud instead of running its infrastructure on premises.\n\nWhich of the following are advantages of this migration? (Choose two.)",
             'options' => [
                 'Elimination of the need to perform security auditing',
@@ -4229,7 +4253,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 315\n\nWhich of the following are economic benefits of using the AWS Cloud? (Choose two.)",
             'options' => [
                 'Consumption-based pricing',
@@ -4247,7 +4271,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 316\n\nA company needs to provide users with a list of company-generated products built on AWS services. The company also needs to control access to these products by provisioning a personalized portal for specific users.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Lightsail',
@@ -4261,7 +4285,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 317\n\nA company wants to deploy a web application as a containerized application. The company wants to use a managed service that can automatically create container images from source code and deploy the containerized application.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Elastic Beanstalk',
@@ -4275,7 +4299,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 318\n\nA company is designing workloads in the AWS Cloud. The company wants the workloads to perform their intended function correctly and consistently throughout their lifecycle.\n\nWhich pillar of the AWS Well-Architected Framework does this goal represent?",
             'options' => [
                 'Operational excellence',
@@ -4289,7 +4313,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 319\n\nA company needs to centrally manage workforce identity access and permissions across AWS accounts and applications. Which AWS service provides this functionality?",
             'options' => [
                 'Amazon Cognito',
@@ -4303,7 +4327,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 320\n\nWhich AWS service or feature can a company use to apply security rules to a subnet for Amazon EC2 instances?",
             'options' => [
                 'AWS WAF',
@@ -4317,7 +4341,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 321\n\nA company's project team needs to simultaneously mount a file system on multiple Amazon EC2 Linux instances. The file system also will be shared across multiple Availability Zones.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Elastic File System (Amazon EFS)',
@@ -4331,7 +4355,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 322\n\nA company has enabled billing alerts in its AWS account. The company needs to receive a notification through Amazon Simple Notification Service (Amazon SNS) whenever its monthly bill exceeds a defined amount.\n\nWhich AWS service or tool should the company use to meet this requirement?",
             'options' => [
                 'Amazon CloudWatch',
@@ -4345,7 +4369,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 323\n\nWhich benefit of the AWS Cloud helps companies achieve lower usage costs because of the aggregate usage of all AWS users?",
             'options' => [
                 'No need to guess capacity',
@@ -4359,7 +4383,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 324\n\nA company needs to build applications that deliver low latency to end-user devices that use a 5G mobile network.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Wavelength',
@@ -4373,7 +4397,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 325\n\nA company simulates workflows to review and validate that all processes are effective and that staff are familiar with the processes.\n\nWhich design principle of the AWS Well-Architected Framework is the company following with this practice?",
             'options' => [
                 'Perform operations as code.',
@@ -4387,7 +4411,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 326\n\nA company is deploying a set of Amazon EC2 instances into a VPC. The company needs to create a list of IP addresses that try to connect to the EC2 instances.\n\nWhich AWS service or feature will provide this information?",
             'options' => [
                 'AWS CloudTrail logs',
@@ -4401,7 +4425,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 327\n\nA company needs to purchase Amazon EC2 instances to support an application that will run continuously for more than 1 year.\n\nWhich EC2 instance purchasing option meets these requirements MOST cost-effectively?",
             'options' => [
                 'Dedicated Instances',
@@ -4415,7 +4439,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 328\n\nA company wants to migrate 70 TB of data from its on-premises data center to AWS. The data is a mix of structured and unstructured data. The company wants to use a one-time migration strategy that is secure and cost-effective.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon Elastic File System (Amazon EFS)',
@@ -4429,7 +4453,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 329\n\nA company's IT administrator needs to configure the AWS CLI for programmatic access to AWS services for the company's employees.\n\nWhich combination of credential components must the IT administrator use to meet this requirement? (Choose two.)",
             'options' => [
                 'A public key',
@@ -4447,7 +4471,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 330\n\nA company wants its AWS usage to be more sustainable. The company wants to track, measure, review, and forecast polluting emissions that result from its AWS applications.\n\nWhich AWS service or tool can the company use to meet these requirements?",
             'options' => [
                 'AWS Health Dashboard',
@@ -4461,7 +4485,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 331\n\nWhich of the following actions are controlled with AWS Identity and Access Management (IAM)? (Choose two.)",
             'options' => [
                 'Control access to AWS service APIs and to other specific resources.',
@@ -4479,7 +4503,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 332\n\nA company wants to deploy an application that stores data in a relational database. The company wants database tasks, such as automated backups and database snapshots, to be managed by AWS.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon DocumentDB',
@@ -4493,7 +4517,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 333\n\nA company needs a graph database service that is scalable and highly available.\n\nWhich AWS service meets these requirements?",
             'options' => [
                 'Amazon Aurora',
@@ -4507,7 +4531,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 334\n\nWhich AWS services can a company use to transfer on-premises data to the AWS Cloud? (Choose two.)"
 ,
             'options' => [
@@ -4526,7 +4550,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 335\n\nA company wants to use a centralized AWS service to enforce compliance with the organizational business standards. The company wants to use an AWS service that can govern and control who can deploy, manage, and decommission AWS resources.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon CloudWatch',
@@ -4540,7 +4564,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 336\n\nA company has multiple AWS accounts. The company needs to receive a consolidated bill from AWS and must centrally manage security and compliance.\n\nWhich AWS service or feature should the company use to meet these requirements?",
             'options' => [
                 'AWS Cost and Usage Report',
@@ -4554,7 +4578,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 337\n\nA company needs a portable solution to collect data and run computations.\n\nWhich AWS service provides the MOST compact solution to meet these requirements?",
             'options' => [
                 'AWS Snowcone',
@@ -4568,7 +4592,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 338\n\nWhich AWS service can a company use to build conversational chatbots for customer service?",
             'options' => [
                 'Amazon Lex',
@@ -4582,7 +4606,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 339\n\nWhich AWS service or tool inspects a user's AWS environment and makes recommendations for cost savings and system performance improvements?",
             'options' => [
                 'Cost Explorer',
@@ -4596,7 +4620,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 340\n\nA company wants to migrate its on-premises application to the AWS Cloud. The company is legally obligated to retain certain data in its on-premises data center.\n\nWhich AWS service or feature will support this requirement?",
             'options' => [
                 'AWS Wavelength',
@@ -4610,7 +4634,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 341\n\nWhich design principle is included in the operational excellence pillar of the AWS Well-Architected Framework?",
             'options' => [
                 'Create annotated documentation.',
@@ -4624,7 +4648,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 342\n\nA developer who has no AWS Cloud experience wants to use AWS technology to build a web application.\n\nWhich AWS service should the developer use to start building the application?",
             'options' => [
                 'Amazon SageMaker',
@@ -4638,7 +4662,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 343\n\nA team of researchers is going to collect data at remote locations around the world. Many locations do not have internet connectivity. The team needs to capture the data in the field, and transfer it to the AWS Cloud later.\n\nWhich AWS service will support these requirements?",
             'options' => [
                 'AWS Outposts',
@@ -4652,7 +4676,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 344\n\nWhich AWS service or tool gives a company the ability to release application changes in an automated way?",
             'options' => [
                 'Amazon AppFlow',
@@ -4666,7 +4690,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 345\n\nWhich AWS service can manage a telephony infrastructure with a cloud contact center?",
             'options' => [
                 'AWS Direct Connect',
@@ -4680,7 +4704,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 346\n\nWhich AWS service or tool provides recommendations to help users get rightsized Amazon EC2 instances based on historical workload usage data?",
             'options' => [
                 'AWS Pricing Calculator',
@@ -4694,7 +4718,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 347\n\nWhich AWS services are serverless? (Choose two.)",
             'options' => [
                 'AWS Fargate',
@@ -4712,7 +4736,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 348\n\nWhich AWS service uses speech-to-text conversion to help users create meeting notes?",
             'options' => [
                 'Amazon Polly',
@@ -4726,7 +4750,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 349\n\nWhich AWS service or feature improves network performance by sending traffic through the AWS worldwide network infrastructure?",
             'options' => [
                 'Route table',
@@ -4740,7 +4764,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 350\n\nA company has a website on AWS. The company wants to deliver the website to a worldwide audience and provide low-latency response times for global users.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS CloudFormation',
@@ -4754,7 +4778,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 351\n\nA company is running a key-value NoSQL workload on Amazon EC2 instances. The company needs the workload to have scalability, failover protection, and backup capabilities.\n\nWhat is the MOST operationally efficient way to meet these requirements?",
             'options' => [
                 'Add additional EC2 instances to the database cluster.',
@@ -4768,7 +4792,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 352\n\nWhich actions represent best practices for using AWS IAM? (Choose two.)",
             'options' => [
                 'Configure a strong password policy.',
@@ -4786,7 +4810,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 353\n\nA company has a client that uses an Amazon RDS database. The client requests information about operating system-level upgrades on the AWS resources that host the RDS database. The company employs a third-party provider to monitor the RDS database.\n\nWho is responsible for upgrading the operating systems for Amazon RDS under the AWS shared responsibility model?",
             'options' => [
                 'The client',
@@ -4800,7 +4824,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 354\n\nWhich AWS Support plan provides customers with annual consultative and architectural guidance?",
             'options' => [
                 'AWS Developer Support',
@@ -4814,7 +4838,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 355\n\nA company uses Amazon EC2 instances in its AWS account for several workloads. The company needs to perform an analysis to understand the cost of each workload.\n\nWhat is the MOST operationally efficient way to meet this requirement?",
             'options' => [
                 'Move the EC2 instances for each workload into separate accounts.',
@@ -4828,7 +4852,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 356\n\nWhich AWS team or offering helps users accelerate cloud adoption through paid engagements in any of several specialty practice areas?",
             'options' => [
                 'AWS Enterprise Support',
@@ -4842,7 +4866,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 357\n\nA company uses Amazon WorkSpaces.\n\nWhich task is the responsibility of AWS, according to the AWS shared responsibility model?",
             'options' => [
                 'Set up multi-factor authentication (MFA) for each WorkSpaces user account.',
@@ -4856,7 +4880,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 358\n\nWhich AWS service or feature gives users the ability to access AWS resources from any location by using an encrypted connection?",
             'options' => [
                 'Amazon CloudFront',
@@ -4870,7 +4894,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 359\n\nA company wants to visualize and manage AWS Cloud costs and usage for a specific period of time.\n\nWhich AWS service or feature will meet these requirements?",
             'options' => [
                 'Cost Explorer',
@@ -4884,7 +4908,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 360\n\nA company needs to have the ability to set up infrastructure for new applications in minutes.\n\nWhich advantage of cloud computing will help the company meet this requirement?",
             'options' => [
                 'Trade fixed expense for variable expense',
@@ -4898,7 +4922,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 361\n\nWhich AWS service or resource can a company use to deploy AWS WAF rules?",
             'options' => [
                 'Amazon EC2',
@@ -4912,7 +4936,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 362\n\nWhich component must be attached to a VPC to enable inbound internet access?",
             'options' => [
                 'NAT gateway',
@@ -4926,7 +4950,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 363\n\nWhich AWS service is used to temporarily provide federated security credentials to access AWS resources?",
             'options' => [
                 'Amazon GuardDuty',
@@ -4940,7 +4964,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 364\n\nA company is using an Amazon RDS database.\n\nWhich task is the responsibility of AWS, according to the AWS shared responsibility model?",
             'options' => [
                 'Configure IAM users.',
@@ -4954,7 +4978,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 365\n\nWhich AWS service should a user use to change an AWS account root user password?",
             'options' => [
                 'AWS IAM Identity Center',
@@ -4968,7 +4992,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 366\n\nA company wants to migrate to the AWS Cloud. The company needs the ability to acquire resources when the resources are necessary. The company also needs the ability to release those resources when the resources are no longer necessary.\n\nWhich architecture concept of the AWS Cloud meets these requirements?",
             'options' => [
                 'Elasticity',
@@ -4982,7 +5006,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 367\n\nWhich of the following is a pillar of the AWS Well-Architected Framework?",
             'options' => [
                 'Redundancy',
@@ -4996,7 +5020,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 368\n\nA company migrated to the AWS Cloud. Now the company pays for services on an as-needed basis.\n\nWhich advantage of cloud computing is the company benefiting from?",
             'options' => [
                 'Stop spending money running and maintaining data centers',
@@ -5010,7 +5034,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 369\n\nA company needs AWS to automate monitoring, patch management, and backup services on the company's behalf.\n\nWhich AWS service or framework provides this functionality?",
             'options' => [
                 'AWS Cloud Adoption Framework (AWS CAF)',
@@ -5024,7 +5048,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 370\n\nA company wants to develop an accessibility application that will convert text into audible speech.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'Amazon MQ',
@@ -5038,7 +5062,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 371\n\nWhich design principles are included in the reliability pillar of the AWS Well-Architected Framework? (Choose two.)",
             'options' => [
                 'Automatically recover from failure.',
@@ -5056,7 +5080,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 372\n\nA company needs to perform an audit of recent AWS account activity. The audit will investigate who initiated an event and what actions were performed.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'AWS Config',
@@ -5070,7 +5094,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 373\n\nWhich design principle aligns with the performance efficiency pillar of the AWS Well-Architected Framework?",
             'options' => [
                 'Using serverless architectures',
@@ -5084,7 +5108,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 374\n\nA company wants to run containers on AWS by using Amazon Elastic Container Service (Amazon ECS). The company does not want to manage the underlying infrastructure.\n\nWhich AWS service can the company use to meet these requirements?",
             'options' => [
                 'Amazon S3',
@@ -5098,7 +5122,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 375\n\nA company wants a list of all users in its AWS account, the status of all of the users' access keys, and if multi-factor authentication (MFA) has been configured.\n\nWhich AWS service or feature will meet these requirements?",
             'options' => [
                 'AWS Key Management Service (AWS KMS)',
@@ -5112,7 +5136,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 376\n\nA company that is planning to migrate to the AWS Cloud is based in an isolated area that has limited internet connectivity. The company needs to perform local data processing on premises. The company needs a solution that can operate without a stable internet connection.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon S3',
@@ -5126,7 +5150,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 377\n\nWhich capabilities are in the operations perspective of the AWS Cloud Adoption Framework (AWS CAF)? (Choose two.)",
             'options' => [
                 'Observability',
@@ -5144,7 +5168,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 378\n\nWhich capabilities are in the people perspective of the AWS Cloud Adoption Framework (AWS CAF)? (Choose two.)",
             'options' => [
                 'Configuration management',
@@ -5162,7 +5186,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 379\n\nWhich AWS service or feature allows users to securely store encrypted credentials and retrieve these credentials when required?",
             'options' => [
                 'AWS Encryption SDK',
@@ -5176,7 +5200,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 380\n\nA company wants to migrate an on-premises call center to the AWS Cloud.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'AWS Direct Connect',
@@ -5190,7 +5214,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 381\n\nA company wants to add a conversational chatbot to its website.\n\nWhich AWS service can the company use to meet this requirement?",
             'options' => [
                 'Amazon Textract',
@@ -5204,7 +5228,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 382\n\nA company has services that run in the AWS Cloud and in an on-premises data center. The company wants to set up a dedicated, high-throughput connection between AWS and the data center.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon VPC',
@@ -5218,7 +5242,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 383\n\nWhich AWS service tracks API calls and user activity?",
             'options' => [
                 'AWS Organizations',
@@ -5232,7 +5256,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 384\n\nA company runs MySQL database workloads on self-managed servers in an on-premises data center. The company wants to migrate the database workloads to an AWS managed service.\n\nWhich migration strategy should the company use?",
             'options' => [
                 'Rehost',
@@ -5246,7 +5270,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 385\n\nWhich AWS service or feature should a company use between two microservices to ensure that messages are sent and received in exact order?",
             'options' => [
                 'Amazon Simple Email Service (Amazon SES)',
@@ -5260,7 +5284,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 386\n\nWhich group shares responsibility with AWS for security and compliance of AWS accounts and resources?",
             'options' => [
                 'Third-party vendors',
@@ -5274,7 +5298,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 387\n\nA company needs to collect and assess on-premises server and application inventory data before moving its infrastructure to AWS.\n\nWhich AWS service provides this functionality?",
             'options' => [
                 'Amazon AppFlow',
@@ -5288,7 +5312,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 388\n\nA company wants to deploy some of its resources in the AWS Cloud. To meet regulatory requirements, the data must remain local and on premises. There must be low latency between AWS and the company resources.\n\nWhich AWS service or feature can be used to meet these requirements?",
             'options' => [
                 'AWS Local Zones',
@@ -5302,7 +5326,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 389\n\nWhich architecture design principle describes the need to isolate failures between dependent components in the AWS Cloud?",
             'options' => [
                 'Use a monolithic design.',
@@ -5316,7 +5340,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 390\n\nWhich guidelines are best practices for using AWS Identity and Access Management (IAM)? (Choose two.)",
             'options' => [
                 'Share access keys.',
@@ -5334,7 +5358,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 391\n\nA company needs to establish a dedicated network connection from on premises to AWS. The connection must provide consistent, low-latency network performance.\n\nWhich AWS service should the company use to meet this requirement?",
             'options' => [
                 'AWS Direct Connect',
@@ -5348,7 +5372,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 392\n\nA company has many developers who need programmatic access to AWS services. The company must provide the access in compliance with AWS security best practices.\n\nWhich solution will meet these requirements?",
             'options' => [
                 'Require multi-factor authentication (MFA) for the AWS account root user and all IAM users. Rotate access keys.',
@@ -5362,7 +5386,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 393\n\nWhich AWS service can migrate Amazon EC2 instances from one AWS Region to another?",
             'options' => [
                 'AWS Application Migration Service',
@@ -5376,7 +5400,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 394\n\nWhich AWS service or feature identifies whether an Amazon S3 bucket or an IAM role has been shared with an external entity?",
             'options' => [
                 'AWS Service Catalog',
@@ -5390,7 +5414,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 395\n\nA company with multiple accounts and teams wants to set up a new multi-account AWS environment.\n\nWhich AWS service supports this requirement?",
             'options' => [
                 'AWS CloudFormation',
@@ -5404,7 +5428,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 396\n\nA company wants a solution that will automatically adjust the number of Amazon EC2 instances that are being used based on the current load.\n\nWhich AWS offering will meet these requirements?",
             'options' => [
                 'Dedicated Hosts',
@@ -5418,7 +5442,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 397\n\nA company wants to provide one of its employees with access to Amazon RDS. The company also wants to limit the interaction to only the AWS CLI and AWS software development kits (SDKs).\n\nWhich combination of actions should the company take to meet these requirements while following the principles of least privilege? (Choose two.)",
             'options' => [
                 'Create an IAM user and provide AWS Management Console access only.',
@@ -5436,7 +5460,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 398\n\nA company needs to set up user authentication for a new application. Users must be able to sign in directly with a username and password, or through a third-party provider.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'AWS IAM Identity Center',
@@ -5450,7 +5474,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 399\n\nWhich AWS service or tool does AWS Control Tower use to create resources?",
             'options' => [
                 'AWS CloudFormation',
@@ -5464,7 +5488,7 @@ class ExamPracticeSeeder extends Seeder
         ]);
 
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 400\n\nWhich of the following are ways to improve security on AWS? (Choose two.)",
             'options' => [
                 'Using AWS Artifact',
@@ -5480,7 +5504,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Enabling multi-factor authentication (MFA) adds an extra layer of security. AWS Trusted Advisor security checks help identify security risks and provide recommendations based on AWS best practices.',
             'sort_order' => 400,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 401\n\nA company needs to set up dedicated network connectivity between its on-premises data center and the AWS Cloud. The network cannot use the public internet.\n\nWhich AWS service or feature will meet these requirements?",
             'options' => [
                 'AWS Transit Gateway',
@@ -5492,7 +5516,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Direct Connect provides a dedicated private connection between an on-premises data center and AWS without using the public internet. It offers more consistent performance and lower latency than internet-based connections.',
             'sort_order' => 401,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 402\n\nA company is deploying a web application on Amazon EC2 instances.\n\nWhich task is the responsibility of AWS, according to the AWS shared responsibility model?",
             'options' => [
                 'Configure IAM permissions.',
@@ -5504,7 +5528,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS is responsible for the security of the cloud, including the physical hardware that runs EC2 instances. Customers are responsible for IAM, security groups, and the guest operating system.',
             'sort_order' => 402,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 403\n\nA company's gaming application has been gaining popularity. There has been high demand for the gaming application in countries where the company does not currently deploy the application.\n\nWhich advantage of the AWS Cloud can help the company to deploy the application to more countries around the world?",
             'options' => [
                 'Benefit from massive economies of scale',
@@ -5516,7 +5540,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS enables companies to quickly deploy applications in multiple Regions around the world, making it easy to serve customers in new countries with low latency.',
             'sort_order' => 403,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 404\n\nA company wants to provide low latency to its users around the world.\n\nWhich feature of the AWS Cloud meets this requirement?",
             'options' => [
                 'Global infrastructure',
@@ -5528,7 +5552,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Global Infrastructure provides Regions and Edge Locations worldwide, allowing applications to be deployed closer to users for lower latency.',
             'sort_order' => 404,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 405\n\nA company plans to migrate its application from on premises to the AWS Cloud. The company needs to gather usage and configuration data for the application components.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Database Migration Service (AWS DMS)',
@@ -5540,7 +5564,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Application Discovery Service collects usage, configuration, and dependency data from on-premises applications to help plan AWS migrations.',
             'sort_order' => 405,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 406\n\nWhich AWS service uses edge locations to cache content?",
             'options' => [
                 'Amazon Kinesis',
@@ -5552,7 +5576,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon CloudFront uses AWS Edge Locations to cache content closer to users, reducing latency and improving content delivery speed.',
             'sort_order' => 406,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 407\n\nA company needs to manage multiple AWS accounts as a single unit. The company must consolidate billing for all the accounts.\n\nWhich AWS service should the company use to meet these requirements?",
             'options' => [
                 'AWS Organizations',
@@ -5564,7 +5588,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Organizations lets you manage multiple AWS accounts as one organization and provides consolidated billing across all accounts.',
             'sort_order' => 407,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 408\n\nA company's compliance officer wants to review the AWS Service Organization Control (SOC) reports.\n\nWhich AWS service or feature should the compliance officer use to complete this task?",
             'options' => [
                 'AWS Artifact',
@@ -5576,7 +5600,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Artifact provides on-demand access to AWS compliance reports, including SOC reports and other security and compliance documents.',
             'sort_order' => 408,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 409\n\nA company has an application that produces unstructured data continuously. The company needs to store the data so that the data is durable and easy to query.\n\nWhich AWS service can the company use to meet these requirements?",
             'options' => [
                 'Amazon RDS',
@@ -5588,7 +5612,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon DynamoDB is a fully managed NoSQL database that stores unstructured data with high durability and provides fast, easy queries.',
             'sort_order' => 409,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 410\n\nIn which situations should a company create an IAM user instead of an IAM role?",
             'options' => [
                 'When an application that runs on Amazon EC2 instances requires access to other AWS services',
@@ -5602,7 +5626,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 410,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 411\n\nA company needs a serverless data integration service to discover, prepare, and combine data for analytics.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon EMR',
@@ -5615,7 +5639,7 @@ class ExamPracticeSeeder extends Seeder
             'sort_order' => 411,
         ]);
 
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 412\n\nWhich AWS service provides on-premises applications with low-latency access to data that is stored in the AWS Cloud?",
             'options' => [
                 'Amazon CloudFront',
@@ -5627,7 +5651,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Storage Gateway provides on-premises applications with low-latency access to data stored in AWS by using local caching while integrating with cloud storage.',
             'sort_order' => 412,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 413\n\nWhich AWS service should a company use to organize, characterize, and search large numbers of images?",
             'options' => [
                 'Amazon Transcribe',
@@ -5639,7 +5663,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon Rekognition uses machine learning to analyze, organize, label, and search large collections of images and videos.',
             'sort_order' => 413,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 414\n\nWhat is the recommended use case for Amazon EC2 On-Demand Instances?",
             'options' => [
                 'A steady-state workload that requires a particular EC2 instance configuration for a long period of time',
@@ -5651,7 +5675,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon EC2 On-Demand Instances are ideal for unpredictable workloads because they require no long-term commitment and you pay only for the compute capacity you use.',
             'sort_order' => 414,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 415\n\nA user is moving a workload from a local data center to an architecture that is distributed between the local data center and the AWS Cloud.\n\nWhich type of migration is this?",
             'options' => [
                 'On-premises to cloud native',
@@ -5663,7 +5687,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'An on-premises to hybrid migration keeps workloads running in both the local data center and the AWS Cloud.',
             'sort_order' => 415,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 416\n\nA company plans to deploy its application globally. The company wants to cache content at edge locations and deliver the content to users with the lowest possible latency.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Global Accelerator',
@@ -5675,7 +5699,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon CloudFront caches content at AWS Edge Locations and delivers it to users with low latency worldwide.',
             'sort_order' => 416,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 417\n\nWhich of the following are AWS best practice recommendations for the use of AWS Identity and Access Management (IAM)? (Choose two.)",
             'options' => [
                 'Use the AWS account root user for daily access.',
@@ -5691,7 +5715,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Regularly rotate credentials and enable MFA to improve account security and follow IAM best practices.',
             'sort_order' => 417,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 418\n\nA company wants to automatically set up and govern a multi-account AWS environment.\n\nWhich AWS service provides this functionality?",
             'options' => [
                 'AWS IAM Identity Center',
@@ -5703,7 +5727,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Control Tower automates the setup and governance of a secure multi-account AWS environment using landing zones and guardrails.',
             'sort_order' => 418,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 419\n\nA company runs its production workload in the AWS Cloud. The company needs to choose one of the AWS Support Plans.\n\nWhich of the AWS Support Plans will meet these requirements at the LOWEST cost?",
             'options' => [
                 'Developer',
@@ -5715,7 +5739,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Business Support is the lowest-cost AWS Support plan recommended for production workloads. It provides 24/7 technical support and faster response times.',
             'sort_order' => 419,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 420\n\nWhich AWS Cloud Adoption Framework (AWS CAF) perspective focuses on real-time insights and answers questions about strategy?",
             'options' => [
                 'Operations',
@@ -5727,7 +5751,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'The Business perspective focuses on business outcomes, strategy, and real-time insights to help organizations achieve their business goals.',
             'sort_order' => 420,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 421\n\nA company needs to identify personally identifiable information (PII), such as credit card numbers, from data that is stored in Amazon S3.\n\nWhich AWS service should the company use to meet this requirement?",
             'options' => [
                 'Amazon Inspector',
@@ -5739,7 +5763,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon Macie uses machine learning to discover and identify sensitive data, including PII, in Amazon S3 buckets.',
             'sort_order' => 421,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 422\n\nA company needs a solution that provides recommended steps for migration to the AWS Cloud.\n\nWhich AWS service or tool will meet this requirement?",
             'options' => [
                 'AWS CloudFormation',
@@ -5751,7 +5775,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Cloud Readiness Assessment evaluates an organization\'s readiness for cloud migration and provides recommended migration steps and best practices.',
             'sort_order' => 422,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 423\n\nA company wants to build an application that uses AWS Lambda to run Python code.\n\nUnder the AWS shared responsibility model, which tasks will be the company's responsibility? (Choose two.)",
             'options' => [
                 'Management of the underlying infrastructure.',
@@ -5767,7 +5791,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'With AWS Lambda, customers are responsible for writing the application code and configuring IAM permissions. AWS manages the infrastructure, operating system, and runtime.',
             'sort_order' => 423,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 424\n\nWhich part of the AWS Global Infrastructure does Amazon CloudFront use to cache copies of content for rapid delivery to global users?",
             'options' => [
                 'Edge locations',
@@ -5779,7 +5803,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon CloudFront caches content at AWS Edge Locations to deliver it quickly to users with low latency.',
             'sort_order' => 424,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 425\n\nWhich AWS offering can be natively associated with AWS WAF?",
             'options' => [
                 'Application Load Balancer',
@@ -5791,7 +5815,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS WAF can be directly associated with an Application Load Balancer (ALB) to protect web applications from common web attacks.',
             'sort_order' => 425,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 426\n\nA company needs to apply security rules to specific Amazon EC2 instances.\n\nWhich AWS service or feature provides this functionality?",
             'options' => [
                 'AWS WAF',
@@ -5803,7 +5827,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Security groups act as virtual firewalls for EC2 instances, controlling inbound and outbound traffic for specific instances.',
             'sort_order' => 426,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 427\n\nWhich AWS service supports MySQL database engines?",
             'options' => [
                 'Amazon DynamoDB',
@@ -5815,7 +5839,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon RDS supports MySQL and other relational database engines as a fully managed database service.',
             'sort_order' => 427,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 428\n\nA company is planning to migrate applications to the AWS Cloud. During a system audit, the company finds that its content management system (CMS) application is incompatible with cloud environments.\n\nWhich migration strategies will help the company to migrate the CMS application with the LEAST effort? (Choose two.)",
             'options' => [
                 'Retire',
@@ -5831,7 +5855,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Rehost (lift and shift) and Repurchase (replace with a SaaS solution) require the least migration effort for an incompatible CMS application.',
             'sort_order' => 428,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 429\n\nA company needs to mount a file share across multiple Amazon EC2 instances as a mapped drive by using the SMB protocol.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon FSx for Windows File Server',
@@ -5843,7 +5867,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon FSx for Windows File Server provides a fully managed Windows file system that supports the SMB protocol for shared file access across EC2 instances.',
             'sort_order' => 429,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 430\n\nWhich option is an advantage of AWS Cloud computing that minimizes variable costs?",
             'options' => [
                 'High availability',
@@ -5855,7 +5879,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS achieves economies of scale, helping reduce variable costs by sharing infrastructure across many customers.',
             'sort_order' => 430,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 431\n\nA company deploys its application on Amazon EC2 instances. The application occasionally experiences sudden increases in demand. The company wants to ensure that its application can respond to changes in demand at the lowest possible cost.\n\nWhich AWS service or concept will meet these requirements?",
             'options' => [
                 'AWS Auto Scaling',
@@ -5867,7 +5891,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Auto Scaling automatically adds or removes EC2 instances based on demand, ensuring good performance while minimizing costs.',
             'sort_order' => 431,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 432\n\nA company needs to label its AWS resources so that the company can categorize and track costs.\n\nWhat should the company do to meet this requirement?",
             'options' => [
                 'Use cost allocation tags.',
@@ -5879,7 +5903,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Cost allocation tags let you label AWS resources with key-value pairs, making it easy to categorize, allocate, and track costs by project, department, environment, or other categories.',
             'sort_order' => 432,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 433\n\nWhich AWS service enables users to create copies of resources across AWS Regions?",
             'options' => [
                 'Amazon ElastiCache',
@@ -5891,7 +5915,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS CloudFormation uses templates to deploy the same infrastructure in multiple AWS Regions, allowing you to create consistent copies of resources across Regions.',
             'sort_order' => 433,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 434\n\nA company is migrating a relational database server to the AWS Cloud. The company wants to minimize administrative overhead of database maintenance tasks.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'Amazon DynamoDB',
@@ -5903,7 +5927,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon RDS is a fully managed relational database service that automates backups, patching, monitoring, and scaling, reducing database administration tasks.',
             'sort_order' => 434,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 435\n\nWhich AWS service allows for file sharing between multiple Amazon EC2 instances?",
             'options' => [
                 'AWS Direct Connect',
@@ -5915,7 +5939,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon EFS is a fully managed shared file system that can be mounted by multiple EC2 instances at the same time, enabling scalable file sharing.',
             'sort_order' => 435,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 436\n\nA company wants to use the AWS Cloud to provide secure access to desktop applications that are running in a fully managed environment.\n\nWhich AWS service should the company use to meet this requirement?",
             'options' => [
                 'Amazon S3',
@@ -5927,7 +5951,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon AppStream 2.0 is a fully managed application streaming service that securely delivers desktop applications to users without requiring local installation.',
             'sort_order' => 436,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 437\n\nWhich benefit is always free of charge with AWS, regardless of a user's AWS Support plan?",
             'options' => [
                 'AWS Developer Support',
@@ -5939,7 +5963,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Developer Forums are free for all AWS users, regardless of their AWS Support plan. Users can ask questions and get help from the AWS community.',
             'sort_order' => 437,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 438\n\nWhich AWS resource can help a company reduce its costs in exchange for a usage commitment when using Amazon EC2 instances?",
             'options' => [
                 'Compute Savings Plans',
@@ -5951,7 +5975,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Compute Savings Plans provide discounted EC2 pricing in exchange for a 1-year or 3-year usage commitment, helping reduce compute costs while offering flexibility across instance types and Regions.',
             'sort_order' => 438,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 439\n\nA company's application is gaining popularity. The company needs to set up a phone number to manage the increasing volume of calls that the company's support staff receives.\n\nWhich AWS service should the company use to meet this requirement?",
             'options' => [
                 'Amazon Connect',
@@ -5963,7 +5987,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon Connect is a cloud-based contact center service that lets companies set up phone numbers and manage inbound and outbound customer calls with automatic scaling.',
             'sort_order' => 439,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 440\n\nA company runs a web application on Amazon EC2 instances. The application has consistent usage and is expected to run indefinitely.\n\nWhich EC2 instance purchasing option will meet these requirements MOST cost-effectively?",
             'options' => [
                 '1-year All Upfront Reserved Instances',
@@ -5975,7 +5999,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => '3-year All Upfront Reserved Instances provide the highest discount for long-term, steady workloads by committing to a 3-year term and paying upfront, making them the most cost-effective option.',
             'sort_order' => 440,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 441\n\nWhich AWS tool or feature acts as a VPC firewall at the subnet level?",
             'options' => [
                 'Security group',
@@ -5987,7 +6011,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'A Network ACL (NACL) acts as a stateless firewall at the subnet level, controlling inbound and outbound traffic for all resources in the subnet.',
             'sort_order' => 441,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 442\n\nWhich AWS service or resource can identify and provide reports on IAM resources in one AWS account that is shared with another AWS account?",
             'options' => [
                 'IAM credential report',
@@ -5999,7 +6023,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS IAM Access Analyzer identifies IAM resources that are shared with external AWS accounts and provides reports to help review and manage cross-account access.',
             'sort_order' => 442,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 443\n\nA company needs to connect multiple VPCs and on-premises networks through a single network connection to the AWS Cloud.\n\nWhich solution meets this requirement?",
             'options' => [
                 'AWS Transit Gateway',
@@ -6011,7 +6035,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Transit Gateway is a central network hub that connects multiple VPCs and on-premises networks through a single gateway, simplifying network management and reducing the need for multiple VPC peering connections.',
             'sort_order' => 443,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 444\n\nAn online retail company wants to migrate its on-premises workload to AWS. The company needs to automatically handle a seasonal workload increase in a cost-effective manner.\n\nWhich AWS Cloud features will help the company meet this requirement? (Choose two.)",
             'options' => [
                 'Cross-Region workload deployment',
@@ -6024,7 +6048,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Pay-as-you-go pricing lets the company pay only for the resources it uses, reducing costs during seasonal demand. Auto Scaling policies automatically add or remove resources based on workload, ensuring performance while minimizing costs.',
             'sort_order' => 444,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 445\n\nAn ecommerce company plans to move its data center workload to the AWS Cloud to support highly dynamic usage patterns.\n\nWhich benefits make the AWS Cloud cost-effective for the migration of this type of workload? (Choose two.)",
             'options' => [
                 'Reliability',
@@ -6037,7 +6061,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Elasticity allows resources to automatically scale up or down based on demand. Pay-as-you-go pricing means the company pays only for the resources it uses, reducing costs for dynamic workloads.',
             'sort_order' => 445,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 446\n\nWhich AWS service or feature gives users the ability to provision AWS infrastructure programmatically?",
             'options' => [
                 'AWS Cloud Development Kit (AWS CDK)',
@@ -6049,7 +6073,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS CDK lets developers define and provision AWS infrastructure using programming languages such as Python, TypeScript, Java, and C#, enabling Infrastructure as Code (IaC).',
             'sort_order' => 446,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 447\n\nA company plans to perform a one-time migration of a large dataset with millions of files from its on-premises data center to the AWS Cloud.\n\nWhich AWS service should the company use for the migration?",
             'options' => [
                 'AWS Database Migration Service (AWS DMS)',
@@ -6061,7 +6085,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS DataSync is designed to transfer large amounts of data between on-premises storage and AWS quickly, securely, and efficiently, making it ideal for one-time migrations of millions of files.',
             'sort_order' => 447,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 448\n\nWhich AWS Cloud benefit describes the ability to acquire resources as they are needed and release resources when they are no longer needed?",
             'options' => [
                 'Economies of scale',
@@ -6073,7 +6097,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Elasticity is the ability to automatically scale resources up when demand increases and scale them down when demand decreases, ensuring efficient resource usage and cost savings.',
             'sort_order' => 448,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 449\n\nWhich option is a pillar of the AWS Well-Architected Framework?",
             'options' => [
                 'Patch management',
@@ -6085,7 +6109,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Cost Optimization is one of the pillars of the AWS Well-Architected Framework. It focuses on reducing costs while maintaining performance and business requirements.',
             'sort_order' => 449,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 450\n\nA cloud practitioner is responsible for the program and project management of cloud initiatives.\n\nWhich AWS Cloud Adoption Framework (AWS CAF) perspective includes this capability?",
             'options' => [
                 'Operations',
@@ -6097,7 +6121,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'The Business perspective of the AWS Cloud Adoption Framework (AWS CAF) includes program and project management, helping align cloud initiatives with business goals and ensuring successful cloud adoption.',
             'sort_order' => 450,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 451\n\nA company wants to manage sign-in security for workforce users. The company needs to create workforce users and centrally manage their access across all the company's AWS accounts and applications.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Audit Manager',
@@ -6109,7 +6133,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS IAM Identity Center enables organizations to create and manage workforce users centrally and provides single sign-on (SSO) access to multiple AWS accounts and applications.',
             'sort_order' => 451,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 452\n\nA company uses Amazon Aurora as its database service. The company wants to encrypt its databases and database backups.\n\nWhich party manages the encryption of the database clusters and database snapshots, according to the AWS shared responsibility model?",
             'options' => [
                 'AWS',
@@ -6121,7 +6145,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Under the AWS Shared Responsibility Model, the customer (the company) is responsible for enabling and managing encryption settings and AWS KMS keys for Amazon Aurora databases and snapshots, while AWS is responsible for securing the underlying infrastructure.',
             'sort_order' => 452,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 453\n\nA company wants to use automated video analysis to identify employees that are accessing its offices.\n\nWhich AWS service will meet this requirement?",
             'options' => [
                 'Amazon Rekognition',
@@ -6133,7 +6157,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon Rekognition provides AI-powered image and video analysis, including facial recognition and person detection, making it suitable for identifying employees from video footage.',
             'sort_order' => 453,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 454\n\nA company wants to migrate a database from an on-premises environment to Amazon RDS.\n\nAfter the migration is complete, which management task will the company still be responsible for?",
             'options' => [
                 'Hardware lifecycle management',
@@ -6145,7 +6169,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'With Amazon RDS, AWS manages the underlying infrastructure, including hardware, server maintenance, and power, networking, and cooling. The customer remains responsible for optimizing the application and database performance, such as query tuning and schema design.',
             'sort_order' => 454,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 455\n\nWhat is the LEAST expensive AWS Support plan that contains a full set of AWS Trusted Advisor best practice checks?",
             'options' => [
                 'AWS Enterprise Support',
@@ -6157,7 +6181,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Business Support is the lowest-cost support plan that provides access to the full set of AWS Trusted Advisor best practice checks. Basic and Developer Support include only a limited set of checks.',
             'sort_order' => 455,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 456\n\nWhich actions are the responsibility of AWS under the AWS shared responsibility model? (Choose two.)",
             'options' => [
                 'Scanning AWS service endpoints for vulnerabilities',
@@ -6170,7 +6194,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Scanning AWS service endpoints for vulnerabilities is AWS\'s responsibility as part of securing the cloud infrastructure. Encrypting traffic on the AWS backbone is also AWS\'s responsibility to ensure secure communication between AWS facilities. Customers are responsible for enabling S3 encryption, configuring security groups, and enforcing application access controls.',
             'sort_order' => 456,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 457\n\nWhich AWS design principle emphasizes the reduction of interdependencies between components of an application?",
             'options' => [
                 'Scalability',
@@ -6182,7 +6206,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Loose coupling minimizes dependencies between application components, making systems more scalable, resilient, and easier to update or replace without affecting other components.',
             'sort_order' => 457,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 458\n\nA company needs to deploy a mix of AWS compute and storage solutions at its on-premises data center.\n\nWhich AWS offering should the company use to meet this requirement?",
             'options' => [
                 'AWS Local Zones',
@@ -6194,7 +6218,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Outposts extends AWS infrastructure and services to on-premises data centers, allowing customers to run AWS compute and storage services locally with a consistent hybrid cloud experience.',
             'sort_order' => 458,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 459\n\nA company wants to run a graph query that provides credit card users' names, addresses, and transactions. The company wants the graph to show if the names, addresses, and transactions indicate possible fraud.\n\nWhich AWS database service will meet these requirements?",
             'options' => [
                 'Amazon DocumentDB (with MongoDB compatibility)',
@@ -6206,7 +6230,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon Neptune is a fully managed graph database service that is designed to analyze relationships between connected data, making it ideal for fraud detection, social networks, and recommendation engines.',
             'sort_order' => 459,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 460\n\nA developer needs to interact with AWS by using the AWS CLI.\n\nWhich security feature or AWS service must be provisioned in the developer's account to meet this requirement?",
             'options' => [
                 'User name and password',
@@ -6218,7 +6242,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'The AWS CLI uses an AWS access key (Access Key ID and Secret Access Key) to authenticate API requests. An IAM user or role must have access keys configured to use the AWS CLI.',
             'sort_order' => 460,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 461\n\nWhat is a benefit of using an Elastic Load Balancing (ELB) load balancer with applications running in the AWS Cloud?",
             'options' => [
                 'An ELB will automatically scale resources to meet capacity needs.',
@@ -6230,7 +6254,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Elastic Load Balancing (ELB) distributes incoming traffic across multiple compute resources, such as EC2 instances, improving application availability, fault tolerance, and performance.',
             'sort_order' => 461,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 462\n\nWhich AWS service uses AWS Compute Optimizer to provide sizing recommendations based on workload metrics?",
             'options' => [
                 'Amazon EC2',
@@ -6242,7 +6266,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Compute Optimizer analyzes Amazon EC2 workload metrics and provides instance sizing recommendations to improve performance and reduce costs.',
             'sort_order' => 462,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 463\n\nA company has an application that is accessed by users in different countries.\n\nWhich AWS service or tool will improve the application's availability and performance by routing traffic to the closest healthy endpoints?",
             'options' => [
                 'AWS Direct Connect',
@@ -6254,7 +6278,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Global Accelerator routes user traffic to the nearest healthy application endpoint over the AWS global network, improving application availability, performance, and reducing latency for users worldwide.',
             'sort_order' => 463,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 464\n\nAn ecommerce company has been monitoring usage of its online store that is hosted on a fleet of Amazon EC2 instances. Surges in traffic occur every weekend day at the same time and last for approximately 4 hours.\n\nWhich AWS service should the company use to ensure that there are enough instances to meet the surges in demand?",
             'options' => [
                 'AWS Lambda',
@@ -6266,7 +6290,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon EC2 Auto Scaling automatically adjusts the number of EC2 instances based on demand. For predictable traffic spikes, such as every weekend, it can use scheduled scaling to add instances before peak traffic and remove them afterward, ensuring performance while minimizing costs.',
             'sort_order' => 464,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 465\n\nA company wants to securely rehost databases to AWS with minimal downtime.\n\nWhich AWS service will meet these requirements?",
             'options' => [
                 'AWS Database Migration Service (AWS DMS)',
@@ -6278,7 +6302,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Database Migration Service (AWS DMS) securely migrates databases to AWS with minimal downtime by continuously replicating data during the migration process. It supports both homogeneous and heterogeneous database migrations.',
             'sort_order' => 465,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 466\n\nWhich option is a responsibility of AWS under the AWS shared responsibility model?",
             'options' => [
                 'Application data security',
@@ -6290,7 +6314,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Under the AWS Shared Responsibility Model, AWS is responsible for patching and maintaining the underlying infrastructure of managed services. Customers are responsible for application security, application patching on EC2, and identity and access management.',
             'sort_order' => 466,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 467\n\nWhich combination of AWS services can be used to move a commercial relational database to an Amazon-managed open-source database? (Choose two.)",
             'options' => [
                 'AWS Database Migration Service (AWS DMS)',
@@ -6303,7 +6327,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Schema Conversion Tool (AWS SCT) converts database schemas and code from commercial databases to open-source database engines. AWS Database Migration Service (AWS DMS) migrates the data with minimal downtime after the schema has been converted.',
             'sort_order' => 467,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 468\n\nA company wants to control the protection of its AWS resources. The company wants to block SQL injection attacks and cross-site scripting.\n\nWhich AWS service or feature meets these requirements?",
             'options' => [
                 'Amazon GuardDuty',
@@ -6315,7 +6339,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS WAF (Web Application Firewall) protects web applications from common web attacks such as SQL injection (SQLi) and cross-site scripting (XSS) by filtering and blocking malicious HTTP requests.',
             'sort_order' => 468,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 469\n\nA company is planning to use Amazon EC2 instances as web servers. Customers from around the world will use the web servers. Most customers will use the web servers only during certain hours of the day.\n\nHow should the company deploy the EC2 instances to achieve the LOWEST operational cost?",
             'options' => [
                 'In multiple Availability Zones',
@@ -6327,7 +6351,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'An Auto Scaling group automatically adds EC2 instances during peak usage and removes them during off-peak hours, ensuring enough capacity while minimizing operational costs.',
             'sort_order' => 469,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 470\n\nA company needs to create graphs that show historical and current costs for the company's AWS account.\n\nWhich AWS service or tool provides this functionality?",
             'options' => [
                 'AWS Config',
@@ -6339,7 +6363,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Cost Explorer provides interactive charts and graphs to visualize, analyze, and track both historical and current AWS costs and usage, helping users understand spending trends and optimize costs.',
             'sort_order' => 470,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 471\n\nWhat are some advantages of using Amazon EC2 instances to host applications in the AWS Cloud instead of on premises? (Choose two.)",
             'options' => [
                 'EC2 includes operating system patch management.',
@@ -6352,7 +6376,7 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'Amazon EC2 integrates seamlessly with other AWS services like Amazon VPC for networking, AWS CloudTrail for auditing API calls, and AWS IAM for access control. Amazon EC2 also offers a flexible pay-as-you-go pricing model, allowing customers to pay only for the compute capacity they use.',
             'sort_order' => 471,
         ]);
-        $set->questions()->create([
+        $set1->questions()->create([
             'question' => "Question 472\n\nWhich AWS service helps protect against DDoS attacks?",
             'options' => [
                 'AWS Shield',
@@ -6364,6 +6388,32 @@ class ExamPracticeSeeder extends Seeder
             'explanation' => 'AWS Shield is a managed Distributed Denial of Service (DDoS) protection service that helps protect AWS applications from DDoS attacks. It provides automatic protection for applications running on AWS, helping mitigate attacks to ensure availability and minimize disruption. AWS offers Shield Standard (included at no additional cost) and Shield Advanced (for enhanced DDoS protection).',
             'sort_order' => 472,
         ]);
+
+        $allQuestions = $set1->questions()->orderBy('sort_order')->get()->values();
+
+        collect([
+            [$set1, 0, 200],
+            [$set2, 200, 200],
+            [$set3, 400, null],
+        ])->each(function (array $partition) use ($allQuestions): void {
+            [$targetSet, $offset, $limit] = $partition;
+
+            $questions = $limit === null
+                ? $allQuestions->slice($offset)->values()
+                : $allQuestions->slice($offset, $limit)->values();
+
+            $questions->each(function ($question, int $index) use ($targetSet): void {
+                $question->update([
+                    'exam_practice_set_id' => $targetSet->id,
+                    'sort_order' => $index + 1,
+                ]);
+            });
+
+            $targetSet->update([
+                'question_count' => $questions->count(),
+            ]);
+        });
+
     }
 
 }

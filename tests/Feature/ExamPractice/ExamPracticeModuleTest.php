@@ -5,6 +5,7 @@ namespace Tests\Feature\ExamPractice;
 use App\Models\ExamPracticeAttempt;
 use App\Models\ExamPracticeQuestion;
 use App\Models\ExamPracticeSet;
+use App\Models\StudyHistory;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -145,6 +146,49 @@ class ExamPracticeModuleTest extends TestCase
         $response->assertRedirect();
         $follow = $this->actingAs($user)->get($response->headers->get('Location'));
         $follow->assertOk()->assertSee('"score":1', false)->assertSee('"percentage":100', false);
+    }
+
+    public function test_take_page_restores_saved_exam_practice_progress(): void
+    {
+        $user = User::factory()->create(['is_approved' => true]);
+        $set = ExamPracticeSet::create([
+            'title' => 'AWS Cloud Practitioner Set 1',
+            'slug' => 'aws-cloud-practitioner-set-1',
+            'description' => 'Starter practice set',
+            'exam_code' => 'CLF-C02',
+            'question_count' => 1,
+            'is_published' => true,
+        ]);
+        $question = ExamPracticeQuestion::create([
+            'exam_practice_set_id' => $set->id,
+            'question' => 'Which AWS service classifies images uploaded to a website?',
+            'options' => ['Amazon Rekognition', 'Amazon Transcribe', 'AWS Glue', 'Amazon Inspector'],
+            'correct_answer' => 'Amazon Rekognition',
+            'explanation' => 'Amazon Rekognition analyzes images and videos.',
+            'sort_order' => 1,
+        ]);
+
+        StudyHistory::create([
+            'user_id' => $user->id,
+            'entry_key' => 'quiz:http://localhost/exam-practice/'.$set->slug,
+            'href' => 'http://localhost/exam-practice/'.$set->slug.'/take',
+            'title' => $set->title,
+            'subtitle' => $set->exam_code,
+            'progress_label' => '1 / 1',
+            'state' => [
+                'answers' => [$question->id => 'Amazon Rekognition'],
+                'checkedQuestionStates' => [$question->id => true],
+                'revealedQuestions' => [$question->id => false],
+                'currentQuestionIndex' => 0,
+            ],
+            'is_resume' => true,
+            'last_accessed_at' => now(),
+        ]);
+
+        $response = $this->actingAs($user)->get('/exam-practice/'.$set->slug.'/take');
+
+        $response->assertOk();
+        $response->assertSee('"studyState":{"answers":{"'.$question->id.'":"Amazon Rekognition"}', false);
     }
 
     public function test_exam_practice_submission_requires_answers_for_all_questions(): void

@@ -45,9 +45,25 @@
 </template>
 
 <script setup>
-defineProps({
+import { onMounted } from 'vue';
+import { trackStudyHistory } from '../studyHistory';
+
+const props = defineProps({
     result: { type: Object, required: true },
     routes: { type: Object, required: true },
+});
+
+onMounted(() => {
+    trackStudyHistory({
+        id: `exam-practice-result:${props.routes.detail}`,
+        href: window.location.href,
+        title: props.result.setTitle,
+        subtitle: 'Exam Practice Result',
+        progressLabel: `${props.result.score} / ${props.result.total}`,
+        state: {
+            percentage: props.result.percentage,
+        },
+    });
 });
 
 function formatAnswer(answer) {

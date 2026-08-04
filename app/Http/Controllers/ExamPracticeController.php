@@ -6,6 +6,7 @@ use App\Http\Requests\ExamPracticeSubmitRequest;
 use App\Models\ExamPracticeAttempt;
 use App\Models\ExamPracticeQuestion;
 use App\Models\ExamPracticeSet;
+use App\Support\StudyHistoryKey;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -80,7 +81,7 @@ class ExamPracticeController extends Controller
         ]);
     }
 
-    public function take(ExamPracticeSet $set)
+    public function take(Request $request, ExamPracticeSet $set)
     {
         abort_unless($set->is_published, 404);
         $set->load(['questions' => fn ($query) => $query->orderBy('sort_order')]);
@@ -107,6 +108,9 @@ class ExamPracticeController extends Controller
                 ],
                 'errors' => session('errors')?->getBag('default')->toArray() ?? [],
                 'oldAnswers' => old('answers', []),
+                'studyState' => $request->user()->studyHistoryEntries()
+                    ->where('entry_key', StudyHistoryKey::quiz(route('exam-practice.show', $set)))
+                    ->first()?->state ?? [],
                 'routes' => [
                     'detail' => route('exam-practice.show', $set),
                 ],
