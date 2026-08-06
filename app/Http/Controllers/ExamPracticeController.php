@@ -109,6 +109,7 @@ class ExamPracticeController extends Controller
                 'errors' => session('errors')?->getBag('default')->toArray() ?? [],
                 'oldAnswers' => old('answers', []),
                 'studyState' => $request->user()->studyHistoryEntries()
+                    ->where('is_resume', true)
                     ->where('entry_key', StudyHistoryKey::quiz(route('exam-practice.show', $set)))
                     ->first()?->state ?? [],
                 'routes' => [
@@ -214,3 +215,4 @@ class ExamPracticeController extends Controller
         return $selected === $correct;
     }
 }
+

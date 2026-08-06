@@ -40,9 +40,14 @@
                     <p class="text-[13px] font-medium text-slate-700 sm:text-sm">
                         Question {{ currentQuestionIndex + 1 }} / {{ set.questions.length }}
                     </p>
-                    <div class="flex items-center gap-2 text-[11px] font-medium text-slate-500 sm:block sm:text-sm">
-                        <span>{{ answeredCount }} / {{ set.questions.length }} answered</span>
-                        <span class="sm:hidden">{{ progressPercent }}%</span>
+                    <div class="flex items-center gap-3">
+                        <button type="button" class="app-btn-secondary px-3 py-1.5 text-xs sm:px-3 sm:py-1.5 sm:text-xs" @click="resetProgress">
+                            Reset progress
+                        </button>
+                        <div class="flex items-center gap-2 text-[11px] font-medium text-slate-500 sm:block sm:text-sm">
+                            <span>{{ answeredCount }} / {{ set.questions.length }} answered</span>
+                            <span class="sm:hidden">{{ progressPercent }}%</span>
+                        </div>
                     </div>
                 </div>
                 <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100 sm:mt-3 sm:h-2">
@@ -373,6 +378,25 @@ function handleQuestionSelect(event) {
     goToQuestion(Number(event.target.value));
 }
 
+function resetProgress() {
+    if (!window.confirm('Reset your progress for this set and start again from Question 1?')) {
+        return;
+    }
+
+    selectedAnswers.value = {};
+    checkedQuestionStates.value = {};
+    revealedQuestions.value = {};
+    currentQuestionIndex.value = 0;
+
+    clearStudyResume({
+        id: resumeId.value,
+        href: window.location.href,
+        title: props.set.title,
+        subtitle: props.set.exam_code || 'Exam Practice',
+        progressLabel: `0 / ${props.set.questions.length}`,
+        state: {},
+    });
+}
 function handleSubmit() {
     clearStudyResume({
         id: resumeId.value,
